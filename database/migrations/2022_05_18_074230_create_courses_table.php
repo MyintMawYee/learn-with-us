@@ -15,12 +15,12 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('course_cover_path');
+            $table->string('name', 255)->unique();
+            $table->string('course_cover_path')->nullable();
             $table->string('video_path');
             $table->foreignId('category_id')->constrained('categories');
             $table->text('short_descrip');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('instructor');
             $table->integer('price');
             $table->timestamps();

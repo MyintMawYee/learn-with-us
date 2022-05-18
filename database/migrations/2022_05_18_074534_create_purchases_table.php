@@ -18,7 +18,7 @@ class CreatePurchasesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('course_id')->constrained('courses');
             $table->timestamps();
-            $table->softDeletes('deleted_at', 0);
+            $table->softDeletes('deleted_at', 0)->nullable();
         });
     }
 
