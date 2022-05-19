@@ -28,34 +28,55 @@ class CategoryService implements CategoryServiceInterface
 	}
 
 	/**
-	 * To save Category
-	 * @param Request $request request with inputs
-	 * @return Object $post saved category
-	 */
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 	public function saveCategory(Request $request)
 	{
 		return $this->categoryDao->saveCategory($request);
 	}
 
-	//To delete Category
+	/**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 	public function delete($id)
 	{
 		return $this->categoryDao->delete($id);
 	}
 
-	//To update Category
+	/**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 	public function updateCategory(Request $request, $id)
 	{
 		return $this->categoryDao->updateCategory($request, $id);
 	}
 
-	//To show Category related id
+	/**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 	public function showCategory($id)
 	{
 		return $this->categoryDao->showCategory($id);
 	}
 
-	//To show all category
+	/**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 	public function allCategory()
 	{
 		return $this->categoryDao->allCategory();

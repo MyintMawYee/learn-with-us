@@ -16,9 +16,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class CategoryDao implements CategoryDaoInterface
 {
     /**
-     * To save Category
-     * @param Request $request request with inputs
-     * @return Object $post saved category
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function saveCategory(Request $request)
     {
@@ -28,7 +29,11 @@ class CategoryDao implements CategoryDaoInterface
         return response()->json([$category, 'msg' => 'Category has been created successfully'], 200);
     }
 
-    //To show all category
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function allCategory()
     {
         $categories = Category::all();
@@ -36,14 +41,24 @@ class CategoryDao implements CategoryDaoInterface
         return response()->json($categories, 200);
     }
 
-    //To show data related id
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function showCategory($id)
     {
         $category = Category::findOrFail($id);
         return response()->json($category, 200);
     }
 
-    //To delete Category
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function delete($id)
     {
         $category = Category::findOrFail($id);
@@ -51,7 +66,13 @@ class CategoryDao implements CategoryDaoInterface
         return response()->json(['msg' => 'Category has been deleted successfully'],200);
     }
 
-    //To update Category
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function updateCategory(Request $request, $id)
     {
         $category = Category::findOrFail($id);
