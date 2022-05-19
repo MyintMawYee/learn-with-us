@@ -2,8 +2,9 @@
 namespace App\Services\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
-use App\Contracts\Services\User\UserSericeInterface;
-class UserService implements UserSericeInterface {
+use App\Contracts\Services\User\UserServiceInterface;
+
+class UserService implements UserServiceInterface {
   private $userDao;
   public function __construct(UserDaoInterface $userDaoInterface)
   {

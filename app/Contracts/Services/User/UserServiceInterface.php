@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Services\User;
 
-interface UserSericeInterface {
+interface UserServiceInterface {
   public function register($validated);
   public function login($validated);
 }
