@@ -17,6 +17,7 @@ class CategoryService implements CategoryServiceInterface
 	 * category dao
 	 */
 	private $categoryDao;
+	
 	/**
 	 * Class Constructor
 	 * @param CategoryDaoInterface

@@ -26,7 +26,7 @@ class CategoryDao implements CategoryDaoInterface
         $category = Category::create([
             'name' => $request->name,
         ]);
-        return response()->json([$category, 'msg' => 'Category has been created successfully'], 200);
+        return response()->json([$category, 'message' => 'Category has been created successfully'], 200);
     }
 
     /**
@@ -63,7 +63,7 @@ class CategoryDao implements CategoryDaoInterface
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return response()->json(['msg' => 'Category has been deleted successfully'],200);
+        return response()->json(['message' => 'Category has been deleted successfully'], 200);
     }
 
     /**
@@ -79,6 +79,6 @@ class CategoryDao implements CategoryDaoInterface
         $category->update([
             'name' => $request->name,
         ]);
-        return response()->json(['msg' => 'Category has been updated Successfully'], 200);
+        return response()->json(['message' => 'Category has been updated Successfully'], 200);
     }
 }

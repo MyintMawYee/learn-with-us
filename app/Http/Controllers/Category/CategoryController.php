@@ -23,6 +23,7 @@ class CategoryController extends Controller
     {
         $this->categoryInterface = $categoryServiceInterface;
     }
+
     /**
      * Display a listing of the resource.
      *
