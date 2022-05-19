@@ -6,19 +6,26 @@ use App\Contracts\Services\User\UserServiceInterface;
 
 class UserService implements UserServiceInterface {
   private $userDao;
+
+  /**
+   * Summary of __construct
+   * @param UserDaoInterface $userDaoInterface
+   */
+  
   public function __construct(UserDaoInterface $userDaoInterface)
   {
     $this->userDao = $userDaoInterface;
   }
 
-  public function register($validated)
-  {
-    
-  }
+  /**
+   * Summary of login
+   * @param mixed $validated
+   * @return array|bool
+   */
 
   public function login($validated)
   {
-    
+    return $this->userDao->login($validated);
   }
 
 }

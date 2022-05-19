@@ -5,10 +5,13 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserDao implements UserDaoInterface {
-  public function register($validated)
-  {
-    
-  }
+  
+  /**
+   * Summary of login
+   * @param mixed $validated
+   * @return array|bool
+   */
+
   public function login($validated)
   {
     if (!Auth::attempt($validated)) {

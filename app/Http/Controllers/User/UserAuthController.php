@@ -11,19 +11,39 @@ use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends Controller
 {
+    /**
+     * Summary of 
+     * @var mixed
+     */
+
     private $userService;
+    /**
+     * Summary of __construct
+     * @param UserServiceInterface $userServiceInterface
+     */
+    
     public function __construct(UserServiceInterface $userServiceInterface)
     {
         $this->userService = $userServiceInterface;
     }
+
+    /**
+     * Summary of userLogin
+     * @param UserLoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function userLogin(UserLoginRequest $request) {
         $credentials = $request->validated();
         $data = $this->userService->login($credentials);
         if (!$data) {
-            return response()->json(['message' => 'login failed']);
+            return response()->json([
+                'message' => 'login failed'
+            ]);
         }
-        return response()->json(['message' => 'login successful', 'data' => $data],200);
+        return response()->json([
+            'message' => 'login successful', 'data' => $data
+        ],200);
     }
-
 
 }

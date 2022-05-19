@@ -23,6 +23,7 @@ class UserLoginRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules()
     {
         return [
@@ -31,6 +32,12 @@ class UserLoginRequest extends FormRequest
         ];
     }
 
+     /**
+      * Summary of failedValidation
+      * @param Validator $validator
+      * @return void
+      */
+
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
@@ -38,6 +45,11 @@ class UserLoginRequest extends FormRequest
             'data'      => $validator->errors()
         ]));
     }
+    
+    /**
+     * Summary of messages
+     * @return array<string>
+     */
     
     public function messages()
     {

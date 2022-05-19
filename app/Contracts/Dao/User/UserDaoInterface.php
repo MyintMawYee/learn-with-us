@@ -1,6 +1,12 @@
 <?php
 namespace App\Contracts\Dao\User;
 interface UserDaoInterface {
-  public function register($validated);
+
+  /**
+   * Summary of login
+   * @param mixed $validated
+   * @return array|bool
+   */
+  
   public function login($validated);
 }
