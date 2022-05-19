@@ -9,4 +9,5 @@ interface UserDaoInterface {
    */
   
   public function login($validated);
+  public function register($validated);
 }

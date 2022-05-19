@@ -4,8 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Contracts\Services\User\UserServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserLoginRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserRegisterRequest; 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,27 +25,18 @@ class UserAuthController extends Controller
     {
         $this->userService = $userServiceInterface;
     }
-
-    /**
-     * Summary of userLogin
-     * @param UserLoginRequest $request
+     /**
+     * Summary of userRegister
+     * @param UserRegisterRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-
-    public function userLogin(UserLoginRequest $request) {
-        $credentials = $request->validated();
-        $data = $this->userService->login($credentials);
-        if (!$data) {
-            return response()->json([
-                'result' => 0,
-                'message' => 'Login failed'
-            ],401);
+    public function userRegister(UserRegisterRequest $request) {
+        $validated = $request->validated();
+        $status = $this->userService->register($validated);
+        if (!$status) {
+            return response()->json(['message' => 'register failed.']);
         }
-        return response()->json([
-            'result' => 1,
-            'message' => 'Login successful',
-            'data' => $data
-        ],200);
+        return response()->json(['message' => 'register successful'],200);
+    
     }
-
 }

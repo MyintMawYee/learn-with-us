@@ -11,4 +11,7 @@ interface UserServiceInterface {
    */
   
   public function login($validated);
+  public function register($validated);
 }
+
+  
