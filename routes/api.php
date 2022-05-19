@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Category\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Route::post('/login', [UserAuthController::class, 'userLogin']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::apiResource('categories', Category\CategoryController::class);
