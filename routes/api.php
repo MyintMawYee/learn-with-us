@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Category\CategoryController;
@@ -14,6 +15,9 @@ use App\Http\Controllers\Category\CategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/register', [UserAuthController::class, 'userRegister']);
+Route::post('/login', [UserAuthController::class, 'userLogin']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
