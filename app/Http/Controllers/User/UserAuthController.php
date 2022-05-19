@@ -38,11 +38,14 @@ class UserAuthController extends Controller
         $data = $this->userService->login($credentials);
         if (!$data) {
             return response()->json([
-                'message' => 'login failed'
-            ]);
+                'result' => 0,
+                'message' => 'Login failed'
+            ],401);
         }
         return response()->json([
-            'message' => 'login successful', 'data' => $data
+            'result' => 1,
+            'message' => 'Login successful',
+            'data' => $data
         ],200);
     }
 

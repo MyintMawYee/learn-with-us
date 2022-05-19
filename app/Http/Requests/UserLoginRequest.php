@@ -28,7 +28,7 @@ class UserLoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
         ];
     }
 
@@ -41,22 +41,26 @@ class UserLoginRequest extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
+            'result' => 0,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ]));
+        ],));
     }
     
     /**
      * Summary of messages
      * @return array<string>
      */
-    
+
     public function messages()
     {
         return [          
             'email.required' => 'Email is required',
             'email.email' => 'Email must be valid.',
             'password.required' => 'Password is required.',
+            'password.min' => 'Your password must be mininum 8 characters long.',
+            'password.regex' => 'Your password should contain at-least 1 Uppercase, 1 Lowercase, 1 Numberic and 1 Special character',
+            'password.min'
         ];
     }
 
