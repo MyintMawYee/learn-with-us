@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Service class for post.
+ * Service class for category.
  */
 class CategoryService implements CategoryServiceInterface
 {
 	/**
-	 * post dao
+	 * category dao
 	 */
 	private $categoryDao;
 	/**
 	 * Class Constructor
-	 * @param PostDaoInterface
+	 * @param CategoryDaoInterface
 	 * @return
 	 */
 	public function __construct(CategoryDaoInterface $categoryDao)
@@ -30,7 +30,7 @@ class CategoryService implements CategoryServiceInterface
 	/**
 	 * To save Category
 	 * @param Request $request request with inputs
-	 * @return Object $post saved post
+	 * @return Object $post saved category
 	 */
 	public function saveCategory(Request $request)
 	{

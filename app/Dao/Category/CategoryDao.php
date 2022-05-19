@@ -11,14 +11,14 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
- * Data accessing object for post
+ * Data accessing object for category
  */
 class CategoryDao implements CategoryDaoInterface
 {
     /**
      * To save Category
      * @param Request $request request with inputs
-     * @return Object $post saved post
+     * @return Object $post saved category
      */
     public function saveCategory(Request $request)
     {

@@ -5,14 +5,14 @@ namespace App\Contracts\Services\Category;
 use Illuminate\Http\Request;
 
 /**
-* Interface for post service
+* Interface for category service
 */
 interface CategoryServiceInterface
 {
 	/**
 	* To save Category
 	* @param Request $request request with inputs
-	* @return Object $post saved post
+	* @return Object $post saved category
 	*/
 	public function saveCategory(Request $request);
 

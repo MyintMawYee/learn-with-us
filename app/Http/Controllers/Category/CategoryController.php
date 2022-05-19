@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 
 class CategoryController extends Controller
-{ 
+{
     /**
      * Category interface
      */
@@ -23,11 +23,6 @@ class CategoryController extends Controller
     {
         $this->categoryInterface = $categoryServiceInterface;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     /**
      * Display a listing of the resource.
      *

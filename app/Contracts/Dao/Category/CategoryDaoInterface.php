@@ -5,7 +5,7 @@ namespace App\Contracts\Dao\Category;
 use Illuminate\Http\Request;
 
 /**
- * Interface for Data Accessing Object of Post
+ * Interface for Data Accessing Object of Category
  */
 interface CategoryDaoInterface
 {
