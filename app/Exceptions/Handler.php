@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -52,19 +53,21 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-     /**
-      * Summary of unauthenticated
-      * @param mixed $request
-      * @param AuthenticationException $exception
-      * @return \Illuminate\Http\JsonResponse
-      */
+    /**
+     * Summary of unauthenticated
+     * @param mixed $request
+     * @param AuthenticationException $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return response()->json([
-            'result' => 0,
-            'message' => $exception->getMessage()
-        ], 401);
-
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        } else {
+            return response()->json([
+                'result' => 0,
+                'message' => "Unauthenticated",
+            ], 401);
+        }
     }
-
 }
