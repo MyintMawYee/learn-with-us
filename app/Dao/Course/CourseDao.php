@@ -11,7 +11,6 @@ class CourseDao implements CourseDaoInterface {
    * @param mixed $validated
    * @return bool
    */
-  
   public function create($validated)
   {
     $course = new Course();
@@ -32,4 +31,5 @@ class CourseDao implements CourseDaoInterface {
     $status = $course->save();
     return $status;
   }
+
 }

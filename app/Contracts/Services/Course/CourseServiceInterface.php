@@ -7,6 +7,5 @@ interface CourseServiceInterface {
    * @param mixed $validated
    * @return void
    */
-  
   public function create($validated);
 }

@@ -16,7 +16,6 @@ class CourseController extends Controller
      * Summary of __construct
      * @param CourseServiceInterface $courseServiceInterface
      */
-    
     public function __construct(CourseServiceInterface $courseServiceInterface)
     {
         $this->courseService = $courseServiceInterface;
@@ -27,7 +26,6 @@ class CourseController extends Controller
       * @param CourseSubmitRequest $request
       * @return \Illuminate\Http\JsonResponse
       */
-
     public function createCourse(CourseSubmitRequest $request) {
         $validated = $request->validated();
         $status = $this->courseService->create($validated);

@@ -11,7 +11,6 @@ class CourseService implements CourseServiceInterface {
     * Summary of __construct
     * @param CourseDaoInterface $courseDaoInterface
     */
-
   public function __construct(CourseDaoInterface $courseDaoInterface)
   {
     $this->courseService = $courseDaoInterface;
@@ -22,7 +21,6 @@ class CourseService implements CourseServiceInterface {
    * @param mixed $validated
    * @return bool
    */
-
   public function create($validated)
   {
     return $this->courseService->create($validated);

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register', [UserAuthController::class, 'userRegister']);
-Route::post('/login', [UserAuthController::class, 'userLogin']);
-Route::post('/course/create', [CourseController::class, 'createCourse']);
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [UserAuthController::class , 'userLogin'])->name('login');
+
+Route::middleware('auth:api')->group(function(){
+    Route::post('/course/create', [CourseController::class, 'createCourse']);
 });
+
