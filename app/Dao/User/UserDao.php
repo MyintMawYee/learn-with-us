@@ -11,7 +11,6 @@ class UserDao implements UserDaoInterface {
    * @param mixed $validated
    * @return array|bool
    */
-
   public function login($validated)
   {
     if (!Auth::attempt($validated)) {
@@ -24,5 +23,19 @@ class UserDao implements UserDaoInterface {
     $data['disable'] = $user->disable;
     return $data;
     
+  }
+
+   /**
+   * Summary of register
+   * @param mixed $validated
+   */
+  public function register($validated)
+  {
+      $user = new User;
+      $user->name = $validated['name'];
+      $user->email = $validated['email'];
+      $user->password = bcrypt($validated['password']);
+      $status = $user->save();
+      return $status;  
   }
 }

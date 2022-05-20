@@ -28,4 +28,13 @@ class UserService implements UserServiceInterface {
     return $this->userDao->login($validated);
   }
 
+  /**
+   * Summary of register
+   * @param mixed $validated
+   */
+
+  public function register($validated)
+  {
+    return $this->userDao->register($validated);
+  }
 }
