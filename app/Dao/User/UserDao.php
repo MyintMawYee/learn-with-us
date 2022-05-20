@@ -25,4 +25,18 @@ class UserDao implements UserDaoInterface {
     return $data;
     
   }
+
+   /**
+   * Summary of register
+   * @param mixed $validated
+   */
+  public function register($validated)
+  {
+      $user = new User;
+      $user->name = $validated['name'];
+      $user->email = $validated['email'];
+      $user->password = bcrypt($validated['password']);
+      $status = $user->save();
+      return $status;  
+  }
 }
