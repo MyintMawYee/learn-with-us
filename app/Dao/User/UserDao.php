@@ -11,7 +11,6 @@ class UserDao implements UserDaoInterface {
    * @param mixed $validated
    * @return array|bool
    */
-
   public function login($validated)
   {
     if (!Auth::attempt($validated)) {

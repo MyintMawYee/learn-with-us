@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\User\UserAuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Course\CourseController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Category\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +18,7 @@ use App\Http\Controllers\Category\CategoryController;
 Route::post('/register', [UserAuthController::class, 'userRegister']);
 Route::post('/login', [UserAuthController::class, 'userLogin']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::post('/course/create', [CourseController::class, 'createCourse']);
+    Route::apiResource('categories', \Category\CategoryController::class);
 });
-Route::apiResource('categories', Category\CategoryController::class);
