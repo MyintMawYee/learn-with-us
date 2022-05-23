@@ -33,7 +33,7 @@ class UserAuthController extends Controller
      * @param UserLoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userLogin(UserLoginRequest $request) {
+    public function loginUser(UserLoginRequest $request) {
         $credentials = $request->validated();
         $data = $this->userService->login($credentials);
         if (!$data) {
@@ -54,7 +54,7 @@ class UserAuthController extends Controller
      * @param UserRegisterRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userRegister(UserRegisterRequest $request) {
+    public function registerUser(UserRegisterRequest $request) {
         $validated = $request->validated();
         $status = $this->userService->register($validated);
         if (!$status) {
@@ -62,4 +62,5 @@ class UserAuthController extends Controller
         }
         return response()->json(['message' => 'register successful'],200);
     }
+    
 }
