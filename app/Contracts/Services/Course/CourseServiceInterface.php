@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Contracts\Services\Course;
-
 interface CourseServiceInterface
 {
     /**
@@ -10,6 +9,21 @@ interface CourseServiceInterface
      * @return void
      */
     public function create($validated);
+
+    /**
+     * Summary of edit
+     * @param mixed $id
+     * @return void
+     */
+    public function edit($id);
+
+    /**
+     * Summary of update
+     * @param mixed $validated
+     * @param mixed $id
+     * @return void
+     */
+    public function update($validated, $id);
 
     /**
      * Display a listing of the resource.

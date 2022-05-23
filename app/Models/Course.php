@@ -10,4 +10,8 @@ class Course extends Model
         'name', 'course_cover_path', 'video_path', 'category_id', 
         'short_descrip', 'description', 'instructor', 'price'
     ];
+
+    public function video() {
+        return $this->hasMany(CourseVideo::class , "course_id", "id");
+    }
 }
