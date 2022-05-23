@@ -4,11 +4,8 @@ namespace App\Dao\Category;
 
 
 use App\Contracts\Dao\Category\CategoryDaoInterface;
-use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /**
  * Data accessing object for category
