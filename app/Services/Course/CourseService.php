@@ -22,6 +22,12 @@ class CourseService implements CourseServiceInterface
         $this->courseVideoService = $courseVideoDaoInterface;
     }
 
+    /**
+     * Summary of loopVideo
+     * @param mixed $pPath
+     * @param mixed $id
+     * @return void
+     */
     private function loopVideo($pPath,$id) {
         foreach ($pPath as $courseVd) {
             $path = $courseVd->getClientOriginalName();
@@ -164,5 +170,25 @@ class CourseService implements CourseServiceInterface
             return "ID." . $id . " is not found";
         }
     }
-    
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getAll()
+	{
+		return $this->courseService->getAll();
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function deleteCourse($id)
+	{
+		return $this->courseService->deleteCourse($id);
+	}
 }

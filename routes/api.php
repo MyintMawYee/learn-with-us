@@ -20,6 +20,8 @@ Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/course/create', [CourseController::class, 'createCourse']);
+    Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
+    Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
     Route::apiResource('categories', \Category\CategoryController::class);
     Route::get('/course/edit/{id}', [CourseController::class, 'editCourse']);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);

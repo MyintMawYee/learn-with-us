@@ -4,12 +4,9 @@ namespace App\Dao\Course;
 
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
-use App\Models\CourseVideo;
-use Illuminate\Support\Facades\Storage;
 
 class CourseDao implements CourseDaoInterface
 {
-
     /**
      * Summary of create
      * @param mixed $validated
@@ -32,7 +29,7 @@ class CourseDao implements CourseDaoInterface
     /**
      * Summary of edit
      * @param mixed $id
-     * @return mixed
+     * @return Object
      */
     public function edit($id)
     {
@@ -59,5 +56,29 @@ class CourseDao implements CourseDaoInterface
         $object->save();
         return $object;
     }
-    
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAll()
+    {
+        $courses = Course::all();
+        return $courses;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteCourse($id)
+    {
+        $course = Course::findOrfail($id);
+        $course->delete();
+        return $course;
+    }
+
 }

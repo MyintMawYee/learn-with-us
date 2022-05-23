@@ -62,4 +62,5 @@ class UserAuthController extends Controller
         }
         return response()->json(['message' => 'register successful'],200);
     }
+    
 }

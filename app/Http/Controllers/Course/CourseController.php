@@ -9,7 +9,6 @@ use App\Http\Requests\CourseSubmitRequest;
 class CourseController extends Controller
 {
     private $courseService;
-
     /**
      * Summary of __construct
      * @param CourseServiceInterface $courseServiceInterface
@@ -71,4 +70,34 @@ class CourseController extends Controller
         ]);
     }
     
+    /**
+     * Display a listing of the Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllCourse()
+    {
+        $courses = $this->courseService->getAll();
+        return response()->json($courses, 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteCourse($id)
+    {
+        $course = $this->courseService->deleteCourse($id);
+        $img_path = trim($course->course_cover_path, "/");
+        unlink($img_path);
+        $video_path = trim($course->video_path, "/");
+        unlink($video_path);
+        return response()->json([
+            'result' => 1,
+            'message' => 'Course has been deleted successfully'
+        ], 200);
+    }
+
 }
