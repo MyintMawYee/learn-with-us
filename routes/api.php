@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [UserAuthController::class, 'registerUser']);
-Route::post('/login', [UserAuthController::class, 'loginUser']);
+Route::post('/user/register', [UserAuthController::class, 'registerUser']);
+Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/create-course', [CourseController::class, 'createCourse']);
+    Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::apiResource('categories', \Category\CategoryController::class);
-    Route::get('/edit-course/{id}', [CourseController::class, 'editCourse']);
-    Route::put('/update-course/{id}', [CourseController::class, 'updateCourse']);
+    Route::get('/course/edit/{id}', [CourseController::class, 'editCourse']);
+    Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
 });

@@ -8,13 +8,13 @@ interface CourseDaoInterface
     /**
      * Summary of create
      * @param mixed $validated
-     * @return void
+     * @return Object
      */
     public function create($validated);
 
     /**
      * Summary of edit
-     * @return void
+     * @return Object
      */
     public function edit($id);
 
@@ -24,6 +24,6 @@ interface CourseDaoInterface
      * @param mixed $id
      * @return void
      */
-    public function update($validated, $id);
+    public function update($object, $validated);
 
 }
