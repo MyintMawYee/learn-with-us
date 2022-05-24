@@ -28,7 +28,8 @@ class CourseService implements CourseServiceInterface
      * @param mixed $id
      * @return void
      */
-    private function loopVideo($pPath,$id) {
+    private function loopVideo($pPath, $id)
+    {
         foreach ($pPath as $courseVd) {
             $path = $courseVd->getClientOriginalName();
             if (!Storage::disk('public')->exists("coursevideo/" . $path)) {
@@ -37,7 +38,7 @@ class CourseService implements CourseServiceInterface
                     file_get_contents($courseVd)
                 );
             }
-            $this->courseVideoService->createVideo($id,$path);
+            $this->courseVideoService->createVideo($id, $path);
         }
         return;
     }
@@ -52,16 +53,15 @@ class CourseService implements CourseServiceInterface
         $courseImage = $validated['course_cover_path']->getClientOriginalName();
         if (Storage::disk('public')->exists("courseimg/" . $courseImage)) {
             $random = rand(0, 9999);
-            $cover = $random.$courseImage;
+            $cover = $random . $courseImage;
             $storageCover = Storage::disk('public')->put(
-                "courseimg/" .$cover,
+                "courseimg/" . $cover,
                 file_get_contents($validated['course_cover_path'])
             );
             if ($storageCover) {
                 $validated['course_cover_path'] = $cover;
             }
-        }
-        else {
+        } else {
             Storage::disk('public')->put(
                 "courseimg/" . $courseImage,
                 file_get_contents($validated['course_cover_path'])
@@ -70,10 +70,10 @@ class CourseService implements CourseServiceInterface
         }
         $addedCourse = $this->courseService->create($validated);
         if (!$addedCourse) {
-            Storage::disk('public')->delete("courseimg/".$validated['course_cover_path']);
+            Storage::disk('public')->delete("courseimg/" . $validated['course_cover_path']);
             return "Sorry, course couldn't add.";
         }
-        $this->loopVideo($validated["video_path"],$addedCourse->id);
+        $this->loopVideo($validated["video_path"], $addedCourse->id);
         return "Course has been created successfully.";
     }
 
@@ -130,14 +130,13 @@ class CourseService implements CourseServiceInterface
                 if ($currentCover != $incomeCover) {
                     $random = rand(0, 9999);
                     $cover = $random . $incomeCover;
-                    Storage::disk('public')->delete("courseimg/".$currentCover);
+                    Storage::disk('public')->delete("courseimg/" . $currentCover);
                     Storage::disk('public')->put(
-                        "courseimg/" .$cover,
+                        "courseimg/" . $cover,
                         file_get_contents($validated['course_cover_path'])
                     );
                     $validated['course_cover_path'] = $cover;
-                }
-                else {
+                } else {
                     $validated['course_cover_path'] = $currentCover;
                 }
             } else {
@@ -149,7 +148,7 @@ class CourseService implements CourseServiceInterface
                 }
                 $validated['course_cover_path'] = $incomeCover;
             }
-            $updated = $this->courseService->update($currentCourse,$validated);
+            $updated = $this->courseService->update($currentCourse, $validated);
             if ($updated) {
                 foreach ($currentCourse->video as $cVideo) {
                     $existPath = $cVideo->path;
@@ -162,33 +161,43 @@ class CourseService implements CourseServiceInterface
                             ->delete("coursevideo/" . $existPath);
                     }
                 }
-                $this->loopVideo($validated["video_path"],$currentCourse->id);
+                $this->loopVideo($validated["video_path"], $currentCourse->id);
                 return "Course has been updated successfully.";
             }
-        }
-        else {
+        } else {
             return "ID." . $id . " is not found";
         }
     }
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function getAll()
-	{
-		return $this->courseService->getAll();
-	}
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAll()
+    {
+        return $this->courseService->getAll();
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function deleteCourse($id)
-	{
-		return $this->courseService->deleteCourse($id);
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteCourse($id)
+    {
+        return $this->courseService->deleteCourse($id);
+    }
+
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param)
+    {
+        return $this->courseService->searchCourse($param);
+    }
 }

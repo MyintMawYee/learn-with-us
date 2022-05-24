@@ -69,7 +69,7 @@ class CourseController extends Controller
             'message' => $update,
         ]);
     }
-    
+
     /**
      * Display a listing of the Courses
      *
@@ -100,4 +100,26 @@ class CourseController extends Controller
         ], 200);
     }
 
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  string  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param)
+    {
+        $courses = $this->courseService->searchCourse($param);
+        if ($courses) {
+            return response()->json([
+                $courses,
+                'result' => 1,
+                'message' => 'Search data are found'
+            ], 200);
+        } else {
+            return response()->json([
+                'result' => 0,
+                'message' => 'Search not found!'
+            ]);
+        }
+    }
 }
