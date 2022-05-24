@@ -3,6 +3,7 @@ namespace App\Services\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Contracts\Services\User\UserServiceInterface;
+use Illuminate\Http\Request;
 
 class UserService implements UserServiceInterface {
   private $userDao;
@@ -37,4 +38,15 @@ class UserService implements UserServiceInterface {
   {
     return $this->userDao->register($validated);
   }
+
+  /**
+   * Summary of logout
+   * @param Request $request
+   * @return string
+   */
+  public function logout(Request $request)
+  {
+    return $this->userDao->logout($request);
+  }
+  
 }
