@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\Course\CourseController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/course/edit/{id}', [CourseController::class, 'editCourse']);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
 });
+
+Route::get('/user/list',[UserController::class, 'index']);
+
+Auth::routes();
+//Auth::routes(['register' => false]);
