@@ -18,8 +18,8 @@ use App\Http\Controllers\User\UserController;
 
 Route::post('/user/register', [UserAuthController::class, 'registerUser']);
 Route::post('/user/login', [UserAuthController::class, 'loginUser']);
-
 Route::middleware('auth:api')->group(function () {
+    Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);

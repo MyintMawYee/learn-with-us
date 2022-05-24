@@ -62,5 +62,24 @@ class UserAuthController extends Controller
         }
         return response()->json(['message' => 'register successful'],200);
     }
-    
+
+    /**
+     * Summary of logoutUser
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logoutUser(Request $request) {
+        $status = $this->userService->logout($request);
+        if (!$status) {
+            return response()->json([
+                "result" => 0,
+                "message" => "Logout failed",
+            ]);
+        }
+        return response()->json([
+            "result" => 1,
+            "message" => "You have been logout successfully.",
+        ]);
+    }
+
 }
