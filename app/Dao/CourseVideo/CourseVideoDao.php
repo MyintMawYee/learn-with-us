@@ -21,4 +21,13 @@ class CourseVideoDao implements CourseVideoDaoInterface
         return $courseVideo;
     }
 
+    public function exitVideo($id,$path) {
+        $existVideo = CourseVideo::where([
+            "id" => $id,
+            "path" => $path
+        ]);
+        
+        return $existVideo;
+    }
+
 }
