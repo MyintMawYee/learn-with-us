@@ -4,6 +4,8 @@ namespace App\Dao\Course;
 
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
+use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -12,16 +14,16 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create($validated)
+    public function create(Request $request)
     {
         $course = Course::create([
-            'name' => $validated['name'],
-            'course_cover_path' => $validated['course_cover_path'],
-            'category_id' => $validated['category_id'],
-            'short_descrip' => $validated['short_descrip'],
-            'description' => $validated['description'],
-            'instructor' => $validated['instructor'],
-            'price' => $validated['price']
+            'name' => $request->name,
+            'course_cover_path' => $request->course_cover_path,
+            'category_id' => $request->category_id,
+            'short_descrip' => $request->short_descrip,
+            'description' => $request->description,
+            'instructor' => $request->instructor,
+            'price' => $request->price
         ]);
         return $course;
     }
@@ -43,15 +45,15 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object, $validated)
+    public function update($object,Request $request)
     {
-        $object->name = $validated['name'];
-        $object->course_cover_path = $validated["course_cover_path"];
-        $object->category_id = $validated['category_id'];
-        $object->short_descrip = $validated['short_descrip'];
-        $object->description = $validated['description'];
-        $object->instructor = $validated['instructor'];
-        $object->price = $validated['price'];
+        $object->name = $request->name;
+        $object->course_cover_path = $request->course_cover_path;
+        $object->category_id = $request->category_id;
+        $object->short_descrip = $request->short_descrip;
+        $object->description = $request->description;
+        $object->instructor = $request->instructor;
+        $object->price = $request->price;
         $object->video()->delete();
         $object->save();
         return $object;
@@ -64,7 +66,7 @@ class CourseDao implements CourseDaoInterface
      */
     public function getAll()
     {
-        $courses = Course::all();
+        $courses = Course::with('category', 'video')->get();
         return $courses;
     }
 
@@ -81,4 +83,23 @@ class CourseDao implements CourseDaoInterface
         return $course;
     }
 
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param)
+    {
+        $categories = Category::all();
+
+        $search_data = "%" . $param . "%";
+
+        $courses = Course::where('instructor', 'like', $search_data)
+            ->orWhere('price', 'like', $search_data)
+            ->orWhereHas('category', function ($category) use ($search_data) {
+                $category->where('name', 'like', $search_data);
+            })->get();
+        return $courses;
+    }
 }
