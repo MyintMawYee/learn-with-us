@@ -69,4 +69,20 @@ class UserController extends Controller
             echo json_encode('failed');
         }
     }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $users = User::select('*')->where('id', '=', $id)->get();
+        return response()->json([
+            'result' => 1,
+            'message' => $users,
+            'data' => $users
+        ]);
+    }
 }
