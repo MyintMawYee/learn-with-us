@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Services\Course\CourseServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseSubmitRequest;
+use App\Http\Requests\CourseUpdateRequest;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -28,7 +29,7 @@ class CourseController extends Controller
     public function createCourse(CourseSubmitRequest $request)
     {
         $validated = $request->validated();
-        $data = $this->courseService->tmpFileStore($validated);
+        $data = $this->courseService->createCheck($validated);
         return response()->json([
             "result" => 0,
             "message" => "Validation Succeess",
@@ -42,10 +43,10 @@ class CourseController extends Controller
      * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateCourse(CourseSubmitRequest $request,$id)
+    public function updateCourse(CourseUpdateRequest $request,$id)
     {
         $validated = $request->validated();
-        $data = $this->courseService->tmpFileStore($validated);
+        $data = $this->courseService->updateCheck($validated,$id);
         return response()->json([
             "result" => 0,
             "message" => "Validation Succeess",

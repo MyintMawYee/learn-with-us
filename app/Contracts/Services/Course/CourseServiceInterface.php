@@ -48,6 +48,14 @@ interface CourseServiceInterface
      * @param mixed $validated
      * @return void
      */
-    public function tmpFileStore($validated);
+    public function createCheck($validated);
 
+    /**
+     * Summary of updateCheck
+     * @param mixed $validated
+     * @param mixed $id
+     * @return void
+     */
+    public function updateCheck($validated,$id);
+    
 }
