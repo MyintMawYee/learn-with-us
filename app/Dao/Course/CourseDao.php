@@ -5,6 +5,7 @@ namespace App\Dao\Course;
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -65,7 +66,7 @@ class CourseDao implements CourseDaoInterface
      */
     public function getAll()
     {
-        $courses = Course::all();
+        $courses = Course::with('category', 'video')->get();
         return $courses;
     }
 
@@ -82,4 +83,23 @@ class CourseDao implements CourseDaoInterface
         return $course;
     }
 
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param)
+    {
+        $categories = Category::all();
+
+        $search_data = "%" . $param . "%";
+
+        $courses = Course::where('instructor', 'like', $search_data)
+            ->orWhere('price', 'like', $search_data)
+            ->orWhereHas('category', function ($category) use ($search_data) {
+                $category->where('name', 'like', $search_data);
+            })->get();
+        return $courses;
+    }
 }

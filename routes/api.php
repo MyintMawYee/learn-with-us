@@ -29,6 +29,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
     Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
+    Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
 });
 
 Route::get('/user/list',[UserController::class, 'index']);

@@ -17,7 +17,7 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('course_cover_path')->nullable();
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->text('short_descrip');
             $table->longText('description')->nullable();
             $table->string('instructor');
