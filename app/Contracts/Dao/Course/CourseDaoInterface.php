@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Contracts\Dao\Course;
+
 interface CourseDaoInterface
 {
     /**
@@ -38,4 +39,12 @@ interface CourseDaoInterface
      * @return \Illuminate\Http\Response
      */
     public function deleteCourse($id);
+
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param);
 }

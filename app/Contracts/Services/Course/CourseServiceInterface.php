@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Contracts\Services\Course;
+
 interface CourseServiceInterface
 {
     /**
@@ -39,4 +40,12 @@ interface CourseServiceInterface
      * @return \Illuminate\Http\Response
      */
     public function deleteCourse($id);
+
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param);
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Services\Course\CourseServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseSubmitRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -69,7 +70,7 @@ class CourseController extends Controller
             'message' => $update,
         ]);
     }
-    
+
     /**
      * Display a listing of the Courses
      *
@@ -90,14 +91,27 @@ class CourseController extends Controller
     public function deleteCourse($id)
     {
         $course = $this->courseService->deleteCourse($id);
-        $img_path = trim($course->course_cover_path, "/");
-        unlink($img_path);
-        $video_path = trim($course->video_path, "/");
-        unlink($video_path);
+        Storage::disk('public')->delete("courseimg/" . $course->course_cover_path);
+        Storage::disk('public')->delete("coursevideo/" . $course->video_path);
         return response()->json([
-            'result' => 1,
+            'result' => 0,
             'message' => 'Course has been deleted successfully'
         ], 200);
     }
 
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  string  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param)
+    {
+        $courses = $this->courseService->searchCourse($param);
+        return response()->json([
+            'result' => 1,
+            'message' => "Search is completely finished",
+            'data' => $courses
+        ]);
+    }
 }

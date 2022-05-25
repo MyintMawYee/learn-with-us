@@ -26,6 +26,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('categories', \Category\CategoryController::class);
     Route::get('/course/edit/{id}', [CourseController::class, 'editCourse']);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
+    Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
 });
 
 Route::get('/user/list',[UserController::class, 'index']);
