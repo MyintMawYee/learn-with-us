@@ -2,6 +2,7 @@
 namespace App\Dao\User;
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserDao implements UserDaoInterface {
@@ -38,4 +39,16 @@ class UserDao implements UserDaoInterface {
       $status = $user->save();
       return $status;  
   }
+
+  /**
+   * Summary of logout
+   * @param Request $request
+   * @return bool
+   */
+  public function logout(Request $request)
+  {
+    $logout = $request->user()->token()->revoke();
+    return $logout;
+  }
+  
 }

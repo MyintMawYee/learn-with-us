@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Contracts\Services\User;
-
+use Illuminate\Http\Request;
 interface UserServiceInterface {
 
   /**
@@ -17,4 +17,12 @@ interface UserServiceInterface {
    * @param mixed $validated
   */
   public function register($validated);
+
+  /**
+   * Summary of logout
+   * @param Request $request
+   * @return void
+   */
+  public function logout(Request $request);
+  
 }
