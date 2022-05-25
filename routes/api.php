@@ -24,6 +24,7 @@ Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::get('/user/list',[UserController::class, 'index']);
+    Route::get('/user/disable/{id}', [UserController::class, 'disable_user']);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::apiResource('categories', \Category\CategoryController::class);
