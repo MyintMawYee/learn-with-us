@@ -5,7 +5,7 @@ namespace App\Services\Course;
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Contracts\Dao\CourseVideo\CourseVideoDaoInterface;
 use App\Contracts\Services\Course\CourseServiceInterface;
-use App\Models\CourseVideo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CourseService implements CourseServiceInterface
@@ -30,13 +30,12 @@ class CourseService implements CourseServiceInterface
      */
     private function loopVideo($pPath,$id) {
         foreach ($pPath as $courseVd) {
-            $path = $courseVd->getClientOriginalName();
-            if (!Storage::disk('public')->exists("coursevideo/" . $path)) {
+            $path = rand(0, 99) . $courseVd;
                 Storage::disk('public')->put(
                     "coursevideo/" . $path,
-                    file_get_contents($courseVd)
+                    "tmp_video/" . $courseVd
                 );
-            }
+            Storage::disk('public')->delete("tmp_video/".$courseVd);
             $this->courseVideoService->createVideo($id,$path);
         }
         return;
@@ -47,33 +46,21 @@ class CourseService implements CourseServiceInterface
      * @param mixed $validated
      * @return string
      */
-    public function create($validated)
+    public function create(Request $request)
     {
-        $courseImage = $validated['course_cover_path']->getClientOriginalName();
-        if (Storage::disk('public')->exists("courseimg/" . $courseImage)) {
-            $random = rand(0, 9999);
-            $cover = $random.$courseImage;
+        $courseImage = rand(0,99).$request->course_cover_path;
             $storageCover = Storage::disk('public')->put(
-                "courseimg/" .$cover,
-                file_get_contents($validated['course_cover_path'])
+                "courseimg/" .$courseImage,
+                "tmp_img/" . $request->course_cover_path
             );
-            if ($storageCover) {
-                $validated['course_cover_path'] = $cover;
-            }
-        }
-        else {
-            Storage::disk('public')->put(
-                "courseimg/" . $courseImage,
-                file_get_contents($validated['course_cover_path'])
-            );
-            $validated['course_cover_path'] = $courseImage;
-        }
-        $addedCourse = $this->courseService->create($validated);
+        Storage::disk('public')->delete("tmp_img/" . $request->course_cover_path);
+        $request->course_cover_path = $courseImage;
+        $addedCourse = $this->courseService->create($request);
         if (!$addedCourse) {
-            Storage::disk('public')->delete("courseimg/".$validated['course_cover_path']);
+            Storage::disk('public')->delete("courseimg/".$courseImage);
             return "Sorry, course couldn't add.";
         }
-        $this->loopVideo($validated["video_path"],$addedCourse->id);
+        $this->loopVideo($request->video_path,$addedCourse->id);
         return "Course has been created successfully.";
     }
 
@@ -120,49 +107,27 @@ class CourseService implements CourseServiceInterface
      * @param mixed $id
      * @return string
      */
-    public function update($validated, $id)
+    public function update(Request $request, $id)
     {
         $currentCourse = $this->courseService->edit($id);
         if ($currentCourse) {
             $currentCover = $currentCourse->course_cover_path;
-            $incomeCover = $validated['course_cover_path']->getClientOriginalName();
-            if (Storage::disk('public')->exists("courseimg/" . $incomeCover)) {
-                if ($currentCover != $incomeCover) {
-                    $random = rand(0, 9999);
-                    $cover = $random . $incomeCover;
-                    Storage::disk('public')->delete("courseimg/".$currentCover);
-                    Storage::disk('public')->put(
-                        "courseimg/" .$cover,
-                        file_get_contents($validated['course_cover_path'])
-                    );
-                    $validated['course_cover_path'] = $cover;
-                }
-                else {
-                    $validated['course_cover_path'] = $currentCover;
-                }
-            } else {
-                if (Storage::disk('public')->delete("courseimg/" . $currentCover)) {
-                    Storage::disk('public')->put(
-                        "courseimg/" . $incomeCover,
-                        file_get_contents($validated['course_cover_path'])
-                    );
-                }
-                $validated['course_cover_path'] = $incomeCover;
-            }
-            $updated = $this->courseService->update($currentCourse,$validated);
+            $incomeCover = $request->course_cover_path;
+            $newCover = rand(0,99).$incomeCover;
+            Storage::disk('public')->put(
+                "courseimg/". $newCover,
+                "tmp_img/" . $incomeCover
+            );
+            Storage::disk('public')->delete("tmp_img/" . $incomeCover);
+            $request->course_cover_path = $newCover;
+            $updated = $this->courseService->update($currentCourse,$request);
             if ($updated) {
+                Storage::disk('public')->delete("courseimg/".$currentCover);
+                $this->loopVideo($request->video_path,$currentCourse->id);
                 foreach ($currentCourse->video as $cVideo) {
                     $existPath = $cVideo->path;
-                    $courseVideo = CourseVideo::where([
-                        ["path", "=", $existPath],
-                        ["course_id", "!=", $id]
-                    ])->get();
-                    if (!$courseVideo) {
-                        Storage::disk('public')
-                            ->delete("coursevideo/" . $existPath);
-                    }
+                    Storage::disk('public')->delete('coursevideo/' . $existPath);
                 }
-                $this->loopVideo($validated["video_path"],$currentCourse->id);
                 return "Course has been updated successfully.";
             }
         }
@@ -188,7 +153,38 @@ class CourseService implements CourseServiceInterface
 	 * @return \Illuminate\Http\Response
 	 */
 	public function deleteCourse($id)
-	{
-		return $this->courseService->deleteCourse($id);
-	}
+    {
+        return $this->courseService->deleteCourse($id);
+    }
+
+    /**
+     * Summary of tmpFileStore
+     * @param mixed $validated
+     * @return array
+     */
+    public function tmpFileStore($validated)
+    {
+        $tmpImg = "http://127.0.0.1:8000/storage/tmp_img/";
+        $tmpVideo = "http://127.0.0.1:8000/storage/tmp_video/";
+        $imgPath = rand(0,99999) . $validated['course_cover_path']->getClientOriginalName();
+        Storage::disk('public')->put("tmp_img/".$imgPath,
+        file_get_contents($validated['course_cover_path']));
+        foreach($validated['video_path'] as $video) {
+            $videoPath = rand(0, 99999) . $video->getClientOriginalName();
+            $vPath["video_path"] = $videoPath;
+            $vPath["video_link"] = $tmpVideo.$videoPath;
+            Storage::disk('public')->put('tmp_video/' . $videoPath, file_get_contents($video));
+        }
+        return [
+            "name" => $validated['name'],
+            "course_cover_path" => $imgPath,
+            "course_cover_link" => $tmpImg.$imgPath,
+            "video" => $vPath,
+            "category_id" => $validated['category_id'],
+            "short_descrip" => $validated["short_descrip"],
+            "description" => $validated['description'],
+            "instructor" => $validated['instructor'],
+            "price" => $validated['price'],
+        ];
+    }
 }

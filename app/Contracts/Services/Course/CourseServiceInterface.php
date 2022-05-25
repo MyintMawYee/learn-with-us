@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Contracts\Services\Course;
+
+use Illuminate\Http\Request;
+
 interface CourseServiceInterface
 {
     /**
@@ -8,7 +11,7 @@ interface CourseServiceInterface
      * @param mixed $validated
      * @return void
      */
-    public function create($validated);
+    public function create(Request $request);
 
     /**
      * Summary of edit
@@ -23,7 +26,7 @@ interface CourseServiceInterface
      * @param mixed $id
      * @return void
      */
-    public function update($validated, $id);
+    public function update(Request $request, $id);
 
     /**
      * Display a listing of the resource.
@@ -39,4 +42,12 @@ interface CourseServiceInterface
      * @return \Illuminate\Http\Response
      */
     public function deleteCourse($id);
+
+    /**
+     * Summary of tmpFileStore
+     * @param mixed $validated
+     * @return void
+     */
+    public function tmpFileStore($validated);
+
 }

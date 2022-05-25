@@ -4,6 +4,7 @@ namespace App\Dao\Course;
 
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
+use Illuminate\Http\Request;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -12,16 +13,16 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create($validated)
+    public function create(Request $request)
     {
         $course = Course::create([
-            'name' => $validated['name'],
-            'course_cover_path' => $validated['course_cover_path'],
-            'category_id' => $validated['category_id'],
-            'short_descrip' => $validated['short_descrip'],
-            'description' => $validated['description'],
-            'instructor' => $validated['instructor'],
-            'price' => $validated['price']
+            'name' => $request->name,
+            'course_cover_path' => $request->course_cover_path,
+            'category_id' => $request->category_id,
+            'short_descrip' => $request->short_descrip,
+            'description' => $request->description,
+            'instructor' => $request->instructor,
+            'price' => $request->price
         ]);
         return $course;
     }
@@ -43,15 +44,15 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object, $validated)
+    public function update($object,Request $request)
     {
-        $object->name = $validated['name'];
-        $object->course_cover_path = $validated["course_cover_path"];
-        $object->category_id = $validated['category_id'];
-        $object->short_descrip = $validated['short_descrip'];
-        $object->description = $validated['description'];
-        $object->instructor = $validated['instructor'];
-        $object->price = $validated['price'];
+        $object->name = $request->name;
+        $object->course_cover_path = $request->course_cover_path;
+        $object->category_id = $request->category_id;
+        $object->short_descrip = $request->short_descrip;
+        $object->description = $request->description;
+        $object->instructor = $request->instructor;
+        $object->price = $request->price;
         $object->video()->delete();
         $object->save();
         return $object;
