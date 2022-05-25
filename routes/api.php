@@ -19,8 +19,12 @@ use Illuminate\Support\Facades\Auth;
 
 Route::post('/user/register', [UserAuthController::class, 'registerUser']);
 Route::post('/user/login', [UserAuthController::class, 'loginUser']);
+Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
+
 Route::middleware('auth:api')->group(function () {
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
+    Route::get('/user/list',[UserController::class, 'index']);
+    Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::apiResource('categories', \Category\CategoryController::class);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
@@ -32,7 +36,3 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
 });
 
-Route::get('/user/list',[UserController::class, 'index']);
-
-Auth::routes();
-//Auth::routes(['register' => false]);
