@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Contracts\Services\User;
+
 use Illuminate\Http\Request;
+
 interface UserServiceInterface {
 
   /**
@@ -24,5 +26,32 @@ interface UserServiceInterface {
    * @return void
    */
   public function logout(Request $request);
-  
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index();
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id);
+
+    /**
+     * Summary of confirmRegister
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function registerConfirm($validated);
+
+    /**
+     * Summary of disable users
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function disable_user($id);
 }

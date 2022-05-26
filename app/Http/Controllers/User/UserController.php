@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users =  $this->userService->User::all();
         return response()->json([
             'result' => 1,
             'message' => $users,
@@ -43,7 +43,8 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registerConfirm(Request $request) {
+    public function registerConfirm(Request $request) 
+    {
         $registration = $this->userService->register($request);
         return response()->json([
             "result" => 1,
@@ -56,8 +57,9 @@ class UserController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function disable_user($id) {
-        $user = User::find($id);
+    public function disable_user($id) 
+    {
+        $user = $this->userService->disable_user($id);
         if($user->disable == 1) {
             $user->disable = 0;
         } else {
@@ -81,7 +83,7 @@ class UserController extends Controller
         $users = User::select('*')->where('id', '=', $id)->get();
         return response()->json([
             'result' => 1,
-            'message' => $users,
+            'message' => 'User Details',
             'data' => $users
         ]);
     }
