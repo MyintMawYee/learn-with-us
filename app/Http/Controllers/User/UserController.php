@@ -50,4 +50,39 @@ class UserController extends Controller
             "message" => $registration
         ]);
      }
+
+     /**
+     * Summary of disable users
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function disable_user($id) {
+        $user = User::find($id);
+        if($user->disable == 1) {
+            $user->disable = 0;
+        } else {
+        $user->disable = 1;
+        }
+        if($user->save()) {
+            echo json_encode('success');
+        } else {
+            echo json_encode('failed');
+        }
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $users = User::select('*')->where('id', '=', $id)->get();
+        return response()->json([
+            'result' => 1,
+            'message' => $users,
+            'data' => $users
+        ]);
+    }
 }
