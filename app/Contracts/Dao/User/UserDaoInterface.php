@@ -37,7 +37,7 @@ interface UserDaoInterface {
      *
      * @return \Illuminate\Http\Response
      */
-  public function index();
+  public function getAllUser();
 
     /**
      * Display the specified resource.
@@ -52,5 +52,5 @@ interface UserDaoInterface {
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function disable_user($id);
+    public function disableUser($id);
 }

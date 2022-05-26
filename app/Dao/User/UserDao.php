@@ -65,9 +65,10 @@ class UserDao implements UserDaoInterface {
      *
      * @return \Illuminate\Http\Response
      */
-  public function index()
+  public function getAllUser()
   {
-      return $this->userService->User::all();
+      $users = User::all();
+      return $users;
   }
 
   /**
@@ -77,7 +78,8 @@ class UserDao implements UserDaoInterface {
      */
   public function show($id)
   {
-      return $this->userService->User::all();
+      $users = User::findOrFail($id);
+      return $users;
   }
 
   /**
@@ -85,8 +87,14 @@ class UserDao implements UserDaoInterface {
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-  public function disable_user($id) 
+  public function disableUser($id) 
   {
-      return User::find($id);
+      $users=User::find($id);
+      if($users->disable == 1) {
+        $users->disable = 0;
+      } else {
+        $users->disable = 1;
+      }
+        return $users->save();
   }
 }

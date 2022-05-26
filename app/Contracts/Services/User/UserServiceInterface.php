@@ -32,7 +32,7 @@ interface UserServiceInterface {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index();
+    public function getAllUser();
 
     /**
      * Display a listing of the resource.
@@ -53,5 +53,5 @@ interface UserServiceInterface {
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function disable_user($id);
+    public function disableUser($id);
 }

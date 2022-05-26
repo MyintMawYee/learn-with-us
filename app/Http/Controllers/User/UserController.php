@@ -28,12 +28,12 @@ class UserController extends Controller
      * @param $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAllUser()
     {
-        $users =  $this->userService->User::all();
+        $users =  $this->userService->getAll();
         return response()->json([
             'result' => 1,
-            'message' => $users,
+            'message' => 'Users lists',
             'data' => $users
         ]);
     }
@@ -57,19 +57,10 @@ class UserController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function disable_user($id) 
+    public function disableUser($id) 
     {
-        $user = $this->userService->disable_user($id);
-        if($user->disable == 1) {
-            $user->disable = 0;
-        } else {
-        $user->disable = 1;
-        }
-        if($user->save()) {
-            echo json_encode('success');
-        } else {
-            echo json_encode('failed');
-        }
+        $users = $this->userService->disableUser($id);
+        return response()->json($users);
     }
 
      /**
@@ -80,7 +71,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $users = User::select('*')->where('id', '=', $id)->get();
+        $users = $this->userService->show($id); 
         return response()->json([
             'result' => 1,
             'message' => 'User Details',

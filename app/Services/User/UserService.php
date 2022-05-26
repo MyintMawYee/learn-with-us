@@ -63,9 +63,9 @@ class UserService implements UserServiceInterface {
      *
      * @return \Illuminate\Http\Response
      */
-  public function index()
+  public function getAllUser()
   {
-      return $this->userDao->User::all();
+      return $this->userDao->getAllUser();
   }
 
      /**
@@ -76,7 +76,18 @@ class UserService implements UserServiceInterface {
      */
   public function show($id)
   {
-      return $this->userDao->User::all();
+    $users= $this->userDao->show($id);
+    if ($users)
+     {
+      return [
+        'result' => 1,
+        'message' => 'User lists'
+      ];
+     }
+     return [
+      'result' => 0,
+      'message' => 'failed'
+    ];
   }
 
     /**
@@ -84,8 +95,19 @@ class UserService implements UserServiceInterface {
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-  public function disable_user($id) 
+  public function disableUser($id) 
   {
-     return $this->userDao->disable_user($id);
+     $users= $this->userDao->disableUser($id);
+     if ($users)
+     {
+      return [
+        'result' => 1,
+        'message' => 'success'
+      ];
+     }
+     return [
+      'result' => 0,
+      'message' => 'failed'
+    ];
+    }
   }
-}
