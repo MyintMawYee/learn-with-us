@@ -27,6 +27,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/course/edit/{id}', [CourseController::class, 'editCourse']);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
+    Route::get('/user/export', [UserController::class, 'export']);
+    Route::post('/user/import', [UserController::class, 'import']);
 });
 
 Route::get('/user/list',[UserController::class, 'index']);
