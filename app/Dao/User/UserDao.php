@@ -53,4 +53,51 @@ class UserDao implements UserDaoInterface
         $logout = $request->user()->token()->revoke();
         return $logout;
     }
+
+    /**
+     * Summary of confirm register
+     * @param mixed $validated
+     */
+    public function registerconfirm($validated)
+    {
+        return $this->userDao->registerconfirm($validated);
+    }
+
+    /**
+     * Summary of show users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllUser()
+    {
+        $users = User::all();
+        return $users;
+    }
+
+    /**
+     * Summary of show users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $users = User::findOrFail($id);
+        return $users;
+    }
+
+    /**
+     * Summary of disable users
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function disableUser($id)
+    {
+        $users = User::find($id);
+        if ($users->disable == 1) {
+            $users->disable = 0;
+        } else {
+            $users->disable = 1;
+        }
+        return $users->save();
+    }
 }

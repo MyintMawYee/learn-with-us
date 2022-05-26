@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\Course\CourseController;
 use Illuminate\Support\Facades\Route;
@@ -26,19 +27,24 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
-    Route::get('/course/edit/{id}', [CourseController::class, 'editCourse']);
+    Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
 });
 
 Route::middleware([IsAdmin::class])->group(function(){
     Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::get('/admin/show/{id}',[UserController::class, 'show']);
     Route::get('/user/show/{id}',[UserController::class, 'show']);
-    Route::post('/course/create/confirm', [CourseController::class , 'createConfirm']);
+    Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
+    Route::get('/user/list',[UserController::class, ' getAllUser']);
+    Route::get('/user/disable/{id}', [UserController::class, 'disableUser']);
+    Route::apiResource('categories', \Category\CategoryController::class);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
     Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
-    Route::get('/user/list',[UserController::class, 'index']);
-    Route::get('/user/disable/{id}', [UserController::class, 'disable_user']);
-    Route::apiResource('categories', \Category\CategoryController::class);
+    Route::post('/comment/create', [CommentController::class, 'createComment']);
+    Route::get('/comment/course/{id}', [CommentController::class, 'getcommentCourse']);
+    Route::delete('/comment/delete/{id}', [CommentController::class, 'deleteCommentID']);
+    Route::get('/comment/get/{id}', [CommentController::class, 'getCommentID']);
+    Route::put('/comment/update/{id}', [CommentController::class, 'updateComment']);
+    Route::get('/course/youmaylike/{id}', [CourseController::class, 'getCoureMayLike']);
 });
-

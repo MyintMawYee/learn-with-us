@@ -56,13 +56,12 @@ class UserRegisterRequest extends FormRequest
     public function messages()
     {
         return [     
-            'name.required' => 'Name is required',     
-            'email.required' => 'Email is required',
-            'email.email' => 'Email must be valid.',
-            'password.required' => 'Password is required.',
-            'password.min' => 'Your password must be mininum 8 characters long.',
-            'password.regex' => 'Your password should contain at-least 1 Uppercase, 1 Lowercase, 1 Numberic and 1 Special character',
-            
+            'name.required' => 'User name cannot  blank',     
+            'email.required' => 'Email cannot  blank',
+            'email.email' => 'Email format is invalid',
+            'password.required' => 'Password cannot blank',
+            'password.min' => 'Password min length is 8 character',
+            'password.regex' => 'Your password should contain at-least 1 Uppercase, 1 Lowercase, 1 Numberic and 1 Special character',  
         ];
     }
 }
