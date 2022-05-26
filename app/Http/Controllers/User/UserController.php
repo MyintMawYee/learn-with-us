@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function getAllUser()
     {
-        $users =  $this->userService->getAll();
+        $users =  $this->userService->getAllUser();
         return response()->json([
             'result' => 1,
             'message' => 'Users lists',
