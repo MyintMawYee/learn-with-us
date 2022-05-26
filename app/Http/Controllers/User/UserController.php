@@ -28,12 +28,12 @@ class UserController extends Controller
      * @param $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAllUser()
     {
-        $users = User::all();
+        $users =  $this->userService->getAllUser();
         return response()->json([
             'result' => 1,
-            'message' => $users,
+            'message' => 'Users lists',
             'data' => $users
         ]);
     }
@@ -43,11 +43,39 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registerConfirm(Request $request) {
+    public function registerConfirm(Request $request) 
+    {
         $registration = $this->userService->register($request);
         return response()->json([
             "result" => 1,
             "message" => $registration
         ]);
      }
+
+     /**
+     * Summary of disable users
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function disableUser($id) 
+    {
+        $users = $this->userService->disableUser($id);
+        return response()->json($users);
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $users = $this->userService->show($id); 
+        return response()->json([
+            'result' => 1,
+            'message' => 'User Details',
+            'data' => $users
+        ]);
+    }
 }

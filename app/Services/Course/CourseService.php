@@ -194,6 +194,12 @@ class CourseService implements CourseServiceInterface
         ];
     }
 
+    /**
+     * Summary of updateCheck
+     * @param mixed $validated
+     * @param mixed $id
+     * @return array
+     */
     public function updateCheck($validated, $id)
     {
         $tmpImg = "http://127.0.0.1:8000/storage/tmp_img/";
@@ -251,4 +257,39 @@ class CourseService implements CourseServiceInterface
     {
         return $this->courseService->searchCourse($param);
     }
+
+    /**
+     * Summary of getCourseMayLike
+     * @param mixed $id
+     * @return array
+     */
+    public function getCourseMayLike($id)
+    {
+        $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
+        $data = $this->courseService->getCourseMayLike($id);
+        if ($data) {
+            foreach($data as $filter) {
+                $finalData["id"] = $filter->id;
+                $finalData['name'] = $filter->name;
+                $finalData['course_cover_path'] = $filter->course_cover_path;
+                $finalData['course_cover_link'] = $imgPath.$filter->course_cover_path;
+                $finalData['category_id'] = $filter->category_id;
+                $finalData["short_descrip"] = $filter->short_descrip;
+                $finalData["decription"] = $filter->description;
+                $finalData["instructor"] = $filter->instructor;
+                $finalData["price"] = $filter->price;
+                $filterData[] = $finalData;
+            }
+            return [
+                "result" => 1,
+                "message" => "Coursed found",
+                "data" => $filterData
+            ];
+        }
+        return [
+            "result" => 0,
+            "message" => "Courses not found by this cateogry_id."
+        ];
+    }
+
 }
