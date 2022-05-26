@@ -102,4 +102,18 @@ class CourseDao implements CourseDaoInterface
             })->get();
         return $courses;
     }
+
+    /**
+     * Summary of getCourseMayLike
+     * @param mixed $id
+     * @return Object
+     */
+    public function getCourseMayLike($id)
+    {
+        return Course::where("category_id", $id)
+        ->inRandomOrder()
+        ->limit(4)
+        ->get();
+    }
+
 }

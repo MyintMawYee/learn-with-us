@@ -49,4 +49,12 @@ interface CourseDaoInterface
      * @return \Illuminate\Http\Response
      */
     public function searchCourse($param);
+
+    /**
+     * Summary of getCourseMayLike
+     * @param mixed $id
+     * @return Object
+     */
+    public function getCourseMayLike($id);
+    
 }

@@ -64,4 +64,12 @@ interface CourseServiceInterface
      * @return \Illuminate\Http\Response
      */
     public function searchCourse($param);
+
+    /**
+     * Summary of getCourseMayLike
+     * @param mixed $id
+     * @return void
+     */
+    public function getCourseMayLike($id);
+    
 }
