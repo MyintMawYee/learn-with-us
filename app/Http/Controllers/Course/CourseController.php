@@ -169,5 +169,16 @@ class CourseController extends Controller
         $free = $this->courseService->getTopCourse();
         return response()->json($free);
     }
+
+    /**
+     * Summary of getCourse
+     * @param mixed $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id) 
+    {
+        $myCourse = $this->courseService->getMyCourse($id);
+        return response()->json($myCourse);
+    }
 }
 

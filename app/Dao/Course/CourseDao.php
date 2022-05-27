@@ -125,4 +125,13 @@ class CourseDao implements CourseDaoInterface
         return $free;
     }
 
+    /**
+     * Summary of show My course
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        
+    }
 }

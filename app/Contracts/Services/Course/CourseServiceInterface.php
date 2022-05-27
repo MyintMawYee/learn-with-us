@@ -77,4 +77,11 @@ interface CourseServiceInterface
      * @return array
      */
     public function getTopCourse();
+
+     /**
+     * Summary of getMyCourse
+     * @param mixed $id
+     * @return void
+     */
+    public function getMyCourse($id);
 }
