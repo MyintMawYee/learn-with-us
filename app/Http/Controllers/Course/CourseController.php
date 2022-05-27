@@ -63,7 +63,7 @@ class CourseController extends Controller
      * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function editCourse($id)
+    public function detailCourse($id)
     {
         $editCourse = $this->courseService->edit($id);
         if (!$editCourse) {
@@ -150,5 +150,16 @@ class CourseController extends Controller
             'data' => $courses
         ]);
     }
+
+    /**
+     * Summary of getCoureMayLike
+     * @param mixed $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getCoureMayLike($id) {
+        $data = $this->courseService->getCourseMayLike($id);
+        return response()->json($data);
+    }
+    
 }
 

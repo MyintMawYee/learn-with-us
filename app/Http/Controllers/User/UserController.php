@@ -5,11 +5,16 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Services\User\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\PasswordChangeRequest;
+=======
+>>>>>>> de28a470a6af13ed5481b0fe57c7cd0d37c80736
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Exports\UsersExport;
+use App\Services\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -31,7 +36,7 @@ class UserController extends Controller
      */
     public function getAllUser()
     {
-        $users =  $this->userService->getAll();
+        $users =  $this->userService->getAllUser();
         return response()->json([
             'result' => 1,
             'message' => 'Users lists',
@@ -80,6 +85,7 @@ class UserController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
      /**
      * Display the specified resource.
      *
@@ -100,5 +106,31 @@ class UserController extends Controller
             'message' => 'Password can be changed successfully',
             'data' => $users
         ],200);
+=======
+    /**
+     * export excel file
+     */
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     * import excel file
+     */
+    public function import(Request $request)
+    {
+        $file = $request->validate([
+            'file' => 'required|mimes:xlsx',
+        ]);
+
+        try {
+            Excel::import(new UsersImport, $request->file('file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return response()->json($failures);
+        }
+>>>>>>> de28a470a6af13ed5481b0fe57c7cd0d37c80736
     }
 }
