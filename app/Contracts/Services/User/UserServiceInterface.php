@@ -61,4 +61,11 @@ interface UserServiceInterface
      * @return \Illuminate\Http\JsonResponse
      */
     public function countUser();
+
+    /**
+     * Summary of changePassword
+     * @param mixed $request
+     * @return array
+     */
+    public function changePassword($request);
 }

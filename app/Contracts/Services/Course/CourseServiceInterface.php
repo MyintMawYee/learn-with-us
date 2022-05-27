@@ -78,4 +78,10 @@ interface CourseServiceInterface
      * @return \Illuminate\Http\Response
      */
     public function countCourse();
+
+    /**
+     * Summary of freeCourse
+     * @return array
+     */
+    public function getTopCourse();
 }

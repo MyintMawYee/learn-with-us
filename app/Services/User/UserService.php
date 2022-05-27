@@ -78,17 +78,7 @@ class UserService implements UserServiceInterface
      */
     public function show($id)
     {
-        $users = $this->userDao->show($id);
-        if ($users) {
-            return [
-                'result' => 1,
-                'message' => 'User lists'
-            ];
-        }
-        return [
-            'result' => 0,
-            'message' => 'failed'
-        ];
+        return $users = $this->userDao->show($id);
     }
 
     /**
@@ -119,5 +109,15 @@ class UserService implements UserServiceInterface
     public function countUser()
     {
         return $this->userDao->countUser();
+    }
+
+    /**
+     * Summary of changePassword
+     * @param $request
+     * @return 
+     */
+    public function changePassword($request)
+    {
+        return $this->userDao->changePassword($request);
     }
 }

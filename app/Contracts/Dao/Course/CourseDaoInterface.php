@@ -62,5 +62,11 @@ interface CourseDaoInterface
      *
      * @return \Illuminate\Http\Response
      */
-    public function countCourse();    
+    public function countCourse();
+
+    /**
+     * Summary of freeCourse
+     * @return Object
+     */
+    public function getTopCourse();
 }

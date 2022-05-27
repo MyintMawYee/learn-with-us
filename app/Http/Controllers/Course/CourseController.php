@@ -164,6 +164,15 @@ class CourseController extends Controller
     }
 
     /**
+     * Summary of freeCourse
+     * @return void
+     */
+    public function getTopCourse() {
+        $free = $this->courseService->getTopCourse();
+        return response()->json($free);
+    }
+
+    /**
      * Count all Courses
      *
      * @return \Illuminate\Http\Response
