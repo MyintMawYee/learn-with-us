@@ -4,9 +4,8 @@ namespace App\Contracts\Dao\User;
 
 use Illuminate\Http\Request;
 
-interface UserDaoInterface
+interface UserDaoInterface 
 {
-
     /**
      * Summary of login
      * @param mixed $validated
@@ -57,7 +56,7 @@ interface UserDaoInterface
     public function disableUser($id);
 
     /**
-     * Summary of show user lists
+     * Summary of counting user
      * @return \Illuminate\Http\JsonResponse
      */
     public function countUser();

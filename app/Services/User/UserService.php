@@ -6,7 +6,7 @@ use App\Contracts\Dao\User\UserDaoInterface;
 use App\Contracts\Services\User\UserServiceInterface;
 use Illuminate\Http\Request;
 
-class UserService implements UserServiceInterface
+class UserService implements UserServiceInterface 
 {
     private $userDao;
 
@@ -14,7 +14,6 @@ class UserService implements UserServiceInterface
      * Summary of __construct
      * @param UserDaoInterface $userDaoInterface
      */
-
     public function __construct(UserDaoInterface $userDaoInterface)
     {
         $this->userDao = $userDaoInterface;
@@ -25,7 +24,6 @@ class UserService implements UserServiceInterface
      * @param mixed $validated
      * @return array|bool
      */
-
     public function login($validated)
     {
         return $this->userDao->login($validated);
@@ -35,7 +33,6 @@ class UserService implements UserServiceInterface
      * Summary of register
      * @param mixed $validated
      */
-
     public function register($validated)
     {
         return $this->userDao->register($validated);
@@ -50,7 +47,7 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->logout($request);
     }
-
+  
     /**
      * Summary of confirm register
      * @param mixed $validated
@@ -59,7 +56,7 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->registerconfirm($validated);
     }
-
+  
     /**
      * Display a listing of the resource.
      *
@@ -78,7 +75,7 @@ class UserService implements UserServiceInterface
      */
     public function show($id)
     {
-        return $users = $this->userDao->show($id);
+        return $users= $this->userDao->show($id);
     }
 
     /**
@@ -86,9 +83,9 @@ class UserService implements UserServiceInterface
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function disableUser($id)
+    public function disableUser($id) 
     {
-        $users = $this->userDao->disableUser($id);
+        $users= $this->userDao->disableUser($id);
         if ($users) {
             return [
                 'result' => 1,
