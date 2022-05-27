@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Contracts\Dao\User;
 
 use Illuminate\Http\Request;
@@ -53,6 +54,12 @@ interface UserDaoInterface
      * @return \Illuminate\Http\JsonResponse
      */
     public function disableUser($id);
+
+    /**
+     * Summary of counting user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function countUser();
 
     /**
      * Summary of changepassword

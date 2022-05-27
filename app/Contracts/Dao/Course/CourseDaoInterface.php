@@ -58,6 +58,13 @@ interface CourseDaoInterface
     public function getCourseMayLike($id);
 
     /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse();
+
+    /**
      * Summary of freeCourse
      * @return Object
      */

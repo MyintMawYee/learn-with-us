@@ -104,12 +104,23 @@ class UserDao implements UserDaoInterface
         return $users->save();
     }
 
-  /**
-   * Summary of changePassword
-   * @param $request
-   */
-  public function changePassword($request)
-  {
-      return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
-  }
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        $users = User::all()->count();
+        return $users;
+    }
+
+    /**
+     * Summary of changePassword
+     * @param $request
+     */
+    public function changePassword($request)
+    {
+        return User::where('id', '=', $request['id'])->update(['password' => Hash::make($request['confirm_password'])]);
+    }
 }

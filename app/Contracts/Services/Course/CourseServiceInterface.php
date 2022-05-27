@@ -71,6 +71,13 @@ interface CourseServiceInterface
      * @return void
      */
     public function getCourseMayLike($id);
+    
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse();
 
     /**
      * Summary of freeCourse
