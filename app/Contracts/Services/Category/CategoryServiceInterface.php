@@ -2,8 +2,6 @@
 
 namespace App\Contracts\Services\Category;
 
-use Illuminate\Http\Request;
-
 /**
  * Interface for category service
  */
@@ -12,10 +10,10 @@ interface CategoryServiceInterface
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveCategory(Request $request);
+    public function saveCategory($request);
 
     /**
      * Display a listing of the resource.
@@ -35,11 +33,11 @@ interface CategoryServiceInterface
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCategory(Request $request, $id);
+    public function updateCategory($request, $id);
 
     /**
      * Display the specified resource.

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class UsersImport implements ToModel, WithHeadingRow, WithValidation
+class UsersImportService implements ToModel, WithHeadingRow, WithValidation
 {
     /**
      * @param array $row

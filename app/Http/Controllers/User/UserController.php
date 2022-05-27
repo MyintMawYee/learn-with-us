@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\PasswordChangeRequest;
 use App\Models\User;
-use App\Services\Exports\UsersExport;
-use App\Services\Imports\UsersImport;
+use App\Services\Exports\UsersExportService;
+use App\Services\Imports\UsersImportService;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\UserImportRequest;
 
 class UserController extends Controller
 {
@@ -122,21 +123,17 @@ class UserController extends Controller
      */
     public function export()
     {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        return Excel::download(new UsersExportService, 'users.xlsx');
     }
 
     /**
      * @return \Illuminate\Support\Collection
      * import excel file
      */
-    public function import(Request $request)
+    public function import(UserImportRequest $request)
     {
-        $file = $request->validate([
-            'file' => 'required|mimes:xlsx',
-        ]);
-
         try {
-            Excel::import(new UsersImport, $request->file('file'));
+            Excel::import(new UsersImportService, $request->file('file'));
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
             return response()->json($failures);
