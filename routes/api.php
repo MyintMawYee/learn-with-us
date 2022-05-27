@@ -38,7 +38,7 @@ Route::middleware([IsAdmin::class])->group(function(){
     Route::post('/user/change/password',[UserController::class, 'changePassword']);
     Route::get('/user/show/{id}',[UserController::class, 'show']);
     Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
-    Route::get('/user/list',[UserController::class, ' getAllUser']);
+    Route::get('/user/list',[UserController::class, 'getAllUser']);
     Route::get('/user/disable/{id}', [UserController::class, 'disableUser']);
     Route::apiResource('categories', \Category\CategoryController::class);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
