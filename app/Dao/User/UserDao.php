@@ -100,4 +100,15 @@ class UserDao implements UserDaoInterface
         }
         return $users->save();
     }
+
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        $users = User::all()->count();
+        return $users;
+    }
 }

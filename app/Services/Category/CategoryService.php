@@ -82,4 +82,24 @@ class CategoryService implements CategoryServiceInterface
 	{
 		return $this->categoryDao->allCategory();
 	}
+
+	/**
+     * Count all Category
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function countCategory()
+    {
+        return $this->categoryDao->countCategory();
+    }
+
+	/**
+     * Count category which buy users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countPurchaseCategory()
+    {
+        return $this->categoryDao->countPurchaseCategory();
+    }
 }

@@ -48,4 +48,18 @@ interface CategoryDaoInterface
      * @return \Illuminate\Http\Response
      */
 	public function showCategory($id);
+
+     /**
+     * Count all Category
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function countCategory();
+
+     /**
+     * Count category which buy users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countPurchaseCategory();
 }

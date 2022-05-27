@@ -44,10 +44,10 @@ class CourseController extends Controller
      * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateCourse(CourseUpdateRequest $request,$id)
+    public function updateCourse(CourseUpdateRequest $request, $id)
     {
         $validated = $request->validated();
-        $data = $this->courseService->updateCheck($validated,$id);
+        $data = $this->courseService->updateCheck($validated, $id);
         return response()->json([
             "result" => 0,
             "message" => "Validation Succeess",
@@ -84,7 +84,8 @@ class CourseController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createConfirm(Request $request) {
+    public function createConfirm(Request $request)
+    {
         $create = $this->courseService->create($request);
         return response()->json([
             "result" => 1,
@@ -156,10 +157,23 @@ class CourseController extends Controller
      * @param mixed $id
      * @return \Illuminate\Http\Response
      */
-    public function getCoureMayLike($id) {
+    public function getCoureMayLike($id)
+    {
         $data = $this->courseService->getCourseMayLike($id);
         return response()->json($data);
     }
-    
-}
 
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse()
+    {
+        $courses = $this->courseService->countCourse();
+        return response()->json([
+            'result' => 1,
+            'data' => $courses
+        ]);
+    }
+}

@@ -72,4 +72,10 @@ interface CourseServiceInterface
      */
     public function getCourseMayLike($id);
     
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse();
 }

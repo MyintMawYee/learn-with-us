@@ -78,4 +78,29 @@ class CategoryDao implements CategoryDaoInterface
         ]);
         return response()->json(['message' => 'Category has been updated Successfully'], 200);
     }
+
+    /**
+     * Count all Category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCategory()
+    {
+        $categories = Category::all()->count();
+        return response()->json([
+            'result' => 1,
+            'count' => $categories
+        ]);
+    }
+
+    /**
+     * Count category which buy users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countPurchaseCategory()
+    {
+        $categories = Category::withCount(['purchaseVideos'])->get();
+        return response()->json($categories, 200);
+    }
 }

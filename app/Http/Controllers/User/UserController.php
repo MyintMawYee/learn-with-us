@@ -78,4 +78,17 @@ class UserController extends Controller
             'data' => $users
         ]);
     }
+
+    /**
+     * Summary of show user lists
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function countUser()
+    {
+        $users =  $this->userService->countUser();
+        return response()->json([
+            'result' => 1,
+            'data' => $users
+        ]);
+    }
 }

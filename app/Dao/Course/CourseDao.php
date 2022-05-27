@@ -45,7 +45,7 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object,Request $request)
+    public function update($object, Request $request)
     {
         $object->name = $request->name;
         $object->course_cover_path = $request->course_cover_path;
@@ -111,9 +111,19 @@ class CourseDao implements CourseDaoInterface
     public function getCourseMayLike($id)
     {
         return Course::where("category_id", $id)
-        ->inRandomOrder()
-        ->limit(4)
-        ->get();
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
     }
 
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse()
+    {
+        $courses = Course::all()->count();
+        return $courses;
+    }
 }
