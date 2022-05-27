@@ -1,6 +1,8 @@
 <?php
 namespace App\Contracts\Dao\User;
+
 use Illuminate\Http\Request;
+
 interface UserDaoInterface {
 
   /**
@@ -24,4 +26,38 @@ interface UserDaoInterface {
    */
   public function logout(Request $request);
 
+   /**
+   * Summary of confirm register
+   * @param mixed $validated
+   */
+  public function registerconfirm($validated);
+
+  /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+  public function getAllUser();
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id);
+
+    /**
+     * Summary of disable users
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function disableUser($id);
+
+    /**
+   * Summary of changepassword
+   * @param $request
+   * @return array
+   */
+  public function changePassword($request);
 }

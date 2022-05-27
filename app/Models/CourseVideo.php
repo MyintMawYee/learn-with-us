@@ -16,5 +16,4 @@ class CourseVideo extends Model
     {
         return $this->hasOne(Course::class, "id", "course_id");
     }
-    
 }

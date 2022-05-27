@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Contracts\Dao\Course\CourseDaoInterface','App\Dao\Course\CourseDao');
         $this->app->bind('App\Contracts\Services\Course\CourseServiceInterface','App\Services\Course\CourseService');
         $this->app->bind('App\Contracts\Dao\CourseVideo\CourseVideoDaoInterface','App\Dao\CourseVideo\CourseVideoDao');
+        $this->app->bind('App\Contracts\Dao\Comment\CommentDaoInterface','App\Dao\Comment\CommentDao');
+        $this->app->bind('App\Contracts\Services\Comment\CommentServiceInterface','App\Services\Comment\CommentService');
     }
 
     /**

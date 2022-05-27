@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Services\Course\CourseServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseSubmitRequest;
+use App\Http\Requests\CourseUpdateRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
     private $courseService;
+
     /**
      * Summary of __construct
      * @param CourseServiceInterface $courseServiceInterface
@@ -26,11 +30,32 @@ class CourseController extends Controller
     public function createCourse(CourseSubmitRequest $request)
     {
         $validated = $request->validated();
-        $status = $this->courseService->create($validated);
+        $data = $this->courseService->createCheck($validated);
         return response()->json([
-            'result' => 0,
-            'message' => $status,
-        ], 401);
+            "result" => 0,
+            "message" => "Validation Succeess",
+            "data" => $data,
+        ]);
+    }
+
+    /**
+     * Summary of updateCourse
+     * @param CourseSubmitRequest $request
+     * @param mixed $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateCourse(CourseUpdateRequest $request,$id)
+    {
+        $validated = $request->validated();
+        $data = $this->courseService->updateCheck($validated,$id);
+        return response()->json([
+            "result" => 0,
+            "message" => "Validation Succeess",
+            "data" => [
+                "id" => $id,
+                "course" => $data
+            ]
+        ]);
     }
 
     /**
@@ -38,7 +63,7 @@ class CourseController extends Controller
      * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function editCourse($id)
+    public function detailCourse($id)
     {
         $editCourse = $this->courseService->edit($id);
         if (!$editCourse) {
@@ -55,21 +80,33 @@ class CourseController extends Controller
     }
 
     /**
+     * Summary of confirmCreate
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createConfirm(Request $request) {
+        $create = $this->courseService->create($request);
+        return response()->json([
+            "result" => 1,
+            "message" => $create,
+        ]);
+    }
+
+    /**
      * Summary of updateCourse
      * @param CourseSubmitRequest $request
      * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateCourse(CourseSubmitRequest $request, $id)
+    public function updateConfirm(Request $request, $id)
     {
-        $validated = $request->validated();
-        $update = $this->courseService->update($validated, $id);
+        $update = $this->courseService->update($request, $id);
         return response()->json([
             'result' => 1,
             'message' => $update,
         ]);
     }
-    
+
     /**
      * Display a listing of the Courses
      *
@@ -90,14 +127,47 @@ class CourseController extends Controller
     public function deleteCourse($id)
     {
         $course = $this->courseService->deleteCourse($id);
-        $img_path = trim($course->course_cover_path, "/");
-        unlink($img_path);
-        $video_path = trim($course->video_path, "/");
-        unlink($video_path);
+        Storage::disk('public')->delete("courseimg/" . $course->course_cover_path);
+        Storage::disk('public')->delete("coursevideo/" . $course->video_path);
         return response()->json([
-            'result' => 1,
+            'result' => 0,
             'message' => 'Course has been deleted successfully'
         ], 200);
     }
 
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  string  $param
+     * @return \Illuminate\Http\Response
+     */
+    public function searchCourse($param)
+    {
+        $courses = $this->courseService->searchCourse($param);
+        return response()->json([
+            'result' => 1,
+            'message' => "Search is completely finished",
+            'data' => $courses
+        ]);
+    }
+
+    /**
+     * Summary of getCoureMayLike
+     * @param mixed $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getCoureMayLike($id) {
+        $data = $this->courseService->getCourseMayLike($id);
+        return response()->json($data);
+    }
+
+    /**
+     * Summary of freeCourse
+     * @return void
+     */
+    public function getTopCourse() {
+        $free = $this->courseService->getTopCourse();
+        return response()->json($free);
+    }
 }
+

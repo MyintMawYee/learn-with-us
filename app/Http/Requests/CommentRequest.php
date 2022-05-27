@@ -3,10 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
-class UserLoginRequest extends FormRequest
+
+class CommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,45 +24,38 @@ class UserLoginRequest extends FormRequest
      *
      * @return array
      */
-
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
+            "content" => "required|max:200",
+            "user_id" => "required",
+            "course_id" => "required"
         ];
     }
 
-     /**
-      * Summary of failedValidation
-      * @param Validator $validator
-      * @return void
-      */
-
+    /**
+     * Summary of failedAuthorization
+     * @param Validator $validator
+     * @return void
+     */
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
             'result' => 0,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ],401));
+        ], 401));
     }
-    
+
     /**
      * Summary of messages
      * @return array<string>
      */
-
     public function messages()
     {
-        return [          
-            'email.required' => 'Email is required',
-            'email.email' => 'Email must be valid.',
-            'password.required' => 'Password is required.',
-            'password.min' => 'Your password must be mininum 8 characters long.',
-            'password.regex' => 'Your password should contain at-least 1 Uppercase, 1 Lowercase, 1 Numberic and 1 Special character',
-            'password.min'
+        return [
+            'content.required' => 'Text is required',
+            'content.max' => 'Your text must not be more than 50 characters.'
         ];
     }
-
 }

@@ -16,7 +16,7 @@ class CreateCourseVideosTable extends Migration
         Schema::create('course_videos', function (Blueprint $table) {
             $table->id();
             $table->string('path');
-            $table->foreignId('course_id')->constrained('courses');
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->timestamps();
         });
     }
