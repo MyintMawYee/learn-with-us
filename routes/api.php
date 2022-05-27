@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Middleware\IsAdmin;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
