@@ -100,8 +100,7 @@ class UserDao implements UserDaoInterface
             $users->disable = 1;
         }
         return $users->save();
-<<<<<<< HEAD
-  }
+    }
 
   /**
    * Summary of changePassword
@@ -111,7 +110,4 @@ class UserDao implements UserDaoInterface
   {
       return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
   }
-=======
-    }
->>>>>>> de28a470a6af13ed5481b0fe57c7cd0d37c80736
 }
