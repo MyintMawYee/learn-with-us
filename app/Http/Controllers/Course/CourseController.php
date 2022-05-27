@@ -160,6 +160,14 @@ class CourseController extends Controller
         $data = $this->courseService->getCourseMayLike($id);
         return response()->json($data);
     }
-    
+
+    /**
+     * Summary of freeCourse
+     * @return void
+     */
+    public function getTopCourse() {
+        $free = $this->courseService->getTopCourse();
+        return response()->json($free);
+    }
 }
 
