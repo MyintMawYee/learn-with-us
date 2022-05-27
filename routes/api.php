@@ -34,6 +34,8 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware([IsAdmin::class])->group(function(){
     Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::get('/admin/show/{id}',[UserController::class, 'show']);
+    Route::post('/admin/change/password',[UserController::class, 'changePassword']);
+    Route::post('/user/change/password',[UserController::class, 'changePassword']);
     Route::get('/user/show/{id}',[UserController::class, 'show']);
     Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
     Route::get('/user/list',[UserController::class, ' getAllUser']);

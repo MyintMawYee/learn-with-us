@@ -53,4 +53,11 @@ interface UserDaoInterface {
      * @return \Illuminate\Http\JsonResponse
      */
     public function disableUser($id);
+
+    /**
+   * Summary of changepassword
+   * @param $request
+   * @return array
+   */
+  public function changePassword($request);
 }

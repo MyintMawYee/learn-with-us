@@ -6,6 +6,7 @@ use App\Contracts\Dao\User\UserDaoInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserDao implements UserDaoInterface
 {
@@ -100,4 +101,13 @@ class UserDao implements UserDaoInterface
         }
         return $users->save();
     }
+
+  /**
+   * Summary of changePassword
+   * @param $request
+   */
+  public function changePassword($request)
+  {
+      return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
+  }
 }
