@@ -56,5 +56,10 @@ interface CourseDaoInterface
      * @return Object
      */
     public function getCourseMayLike($id);
-    
+
+    /**
+     * Summary of freeCourse
+     * @return Object
+     */
+    public function getTopCourse();
 }

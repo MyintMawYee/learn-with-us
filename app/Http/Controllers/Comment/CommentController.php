@@ -27,10 +27,11 @@ class CommentController extends Controller
      * @param CommentRequest $request
      * @return mixed
      */
-    public function createComment(CommentRequest $request) {
+    public function createComment(CommentRequest $request)
+    {
         $validated = $request->validated();
         $data = $this->commentService->create($validated);
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
 
     /**
@@ -38,7 +39,8 @@ class CommentController extends Controller
      * @param mixed $id
      * @return mixed
      */
-    public function getcommentCourse($id) {
+    public function getcommentCourse($id)
+    {
         $data = $this->commentService->get($id);
         if ($data) {
             return response()->json([
@@ -51,7 +53,6 @@ class CommentController extends Controller
             "result" => 1,
             "message" => "Comment fetching failed."
         ]);
-        
     }
 
     /**
@@ -59,7 +60,8 @@ class CommentController extends Controller
      * @param mixed $id
      * @return mixed
      */
-    public function deleteCommentID($id) {
+    public function deleteCommentID($id)
+    {
         $data = $this->commentService->delete($id);
         return response()->json($data);
     }
@@ -69,7 +71,8 @@ class CommentController extends Controller
      * @param mixed $id
      * @return mixed
      */
-    public function getCommentID($id) {
+    public function getCommentID($id)
+    {
         $data = $this->commentService->getByID($id);
         return response()->json($data);
     }
@@ -80,12 +83,12 @@ class CommentController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function updateComment($id,Request $request) {
+    public function updateComment($id, Request $request)
+    {
         $validated = $request->validate(
-        ["content" => "required"],
+            ["content" => "required"]
         );
         $status = $this->commentService->update($id, $validated);
         return response()->json($status);
     }
-    
 }

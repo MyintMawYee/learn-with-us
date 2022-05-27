@@ -32,7 +32,7 @@ class CourseService implements CourseServiceInterface
         $courseImage = rand(0, 99) . $request->course_cover_path;
         Storage::disk('public')->move(
             "tmp_img/".$request->course_cover_path,
-            "courseimg/" . $courseImage,
+            "courseimg/" . $courseImage
         );
         $request->course_cover_path = $courseImage;
         $addedCourse = $this->courseService->create($request);
@@ -44,7 +44,7 @@ class CourseService implements CourseServiceInterface
             $path = rand(0, 99) . $courseVd;
             Storage::disk('public')->move(
                 "tmp_video/" . $courseVd,
-                "coursevideo/" . $path,
+                "coursevideo/" . $path
             );
             $this->courseVideoService->createVideo($addedCourse->id, $path);
         }
@@ -105,7 +105,7 @@ class CourseService implements CourseServiceInterface
                 $newCover = rand(0, 99) . $incomeCover;
                 Storage::disk('public')->move(
                     "tmp_img/" . $incomeCover,
-                    "courseimg/" . $newCover,
+                    "courseimg/" . $newCover
                 );
                 Storage::disk('public')->delete("courseimg/" . $currentCover);
                 $request->course_cover_path = $newCover;
@@ -128,7 +128,7 @@ class CourseService implements CourseServiceInterface
                         $newPath = rand(0, 99) . $nvPath;
                         Storage::disk('public')->move(
                             "tmp_video/" . $courseVd,
-                            "coursevideo/" . $newPath,
+                            "coursevideo/" . $newPath
                         );
                     }
                 }
@@ -289,6 +289,35 @@ class CourseService implements CourseServiceInterface
         return [
             "result" => 0,
             "message" => "Courses not found by this cateogry_id."
+        ];
+    }
+
+    public function getTopCourse()
+    {
+        $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
+        $fcourse = $this->courseService->getTopCourse();
+        if ($fcourse) {
+
+            foreach($fcourse as $course) {
+                $filter["id"] = $course->id;
+                $filter['course_cover_path'] = $course->course_cover_path;
+                $filter['course_cover_link'] = $imgPath . $course->course_cover_path;
+                $filter['category_id'] = $course->category_id;
+                $filter["short_descrip"] = $course->short_descrip;
+                $filter["description"] = $course->description;
+                $filter["instructor"] = $course->instructor;
+                $filter["price"] = $course->price;
+                $finalData[] = $filter;
+            }
+            return [
+                "result" => 1,
+                "message" => "",
+                "data" => $finalData,
+            ];
+        }
+        return [
+            "result" => 0,
+            "message" => "No free course found or something's wrong."
         ];
     }
 
