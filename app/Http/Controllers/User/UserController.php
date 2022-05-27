@@ -5,6 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Services\User\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\PasswordChangeRequest;
 use App\Models\User;
 use App\Services\Exports\UsersExport;
 use App\Services\Imports\UsersImport;
@@ -22,7 +25,7 @@ class UserController extends Controller
     {
         $this->userService = $userServiceInterface;
     }
-
+ 
     /**
      * Summary of show user lists
      * @param $request
@@ -38,7 +41,7 @@ class UserController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Summary of confirmRegister
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -52,7 +55,7 @@ class UserController extends Controller
         ]);
      }
 
-     /**
+    /**
      * Summary of disable users
      * @param $id
      * @return \Illuminate\Http\JsonResponse
@@ -63,7 +66,7 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-     /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -77,6 +80,28 @@ class UserController extends Controller
             'message' => 'User Details',
             'data' => $users
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param PasswordChangeRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(PasswordChangeRequest $request)
+    { 
+        $users = $this->userService->changePassword($request);
+        if (!$users) {
+            return response()->json([
+                'result' => 0,
+                'message' => 'Password cannot be changed',
+            ],401);
+        }
+        return response()->json([
+            'result' => 1,
+            'message' => 'Password can be changed successfully',
+            'data' => $users
+        ],200);
     }
 
     /**
