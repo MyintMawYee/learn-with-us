@@ -116,4 +116,13 @@ class CourseDao implements CourseDaoInterface
         ->get();
     }
 
+    public function getTopCourse()
+    {
+        $free = Course::where('price','!=',0)
+            ->orderBy('price','DESC')
+            ->limit(12)
+            ->get();
+        return $free;
+    }
+
 }

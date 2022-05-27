@@ -28,6 +28,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
     Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
+    Route::get('/course/top', [CourseController::class, 'getTopCourse']);
 });
 
 Route::middleware([IsAdmin::class])->group(function(){
@@ -41,6 +42,9 @@ Route::middleware([IsAdmin::class])->group(function(){
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
     Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
+    Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
+    Route::get('/user/export', [UserController::class, 'export']);
+    Route::post('/user/import', [UserController::class, 'import']);
     Route::post('/comment/create', [CommentController::class, 'createComment']);
     Route::get('/comment/course/{id}', [CommentController::class, 'getcommentCourse']);
     Route::delete('/comment/delete/{id}', [CommentController::class, 'deleteCommentID']);
