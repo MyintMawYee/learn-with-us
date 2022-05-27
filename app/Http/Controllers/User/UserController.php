@@ -5,10 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Services\User\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\UserLoginRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Exports\UsersExport;
+use App\Services\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -77,5 +77,31 @@ class UserController extends Controller
             'message' => 'User Details',
             'data' => $users
         ]);
+    }
+
+    /**
+     * export excel file
+     */
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     * import excel file
+     */
+    public function import(Request $request)
+    {
+        $file = $request->validate([
+            'file' => 'required|mimes:xlsx',
+        ]);
+
+        try {
+            Excel::import(new UsersImport, $request->file('file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return response()->json($failures);
+        }
     }
 }
