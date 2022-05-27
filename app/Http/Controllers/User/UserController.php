@@ -5,12 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Services\User\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\PasswordChangeRequest;
-=======
->>>>>>> de28a470a6af13ed5481b0fe57c7cd0d37c80736
 use App\Models\User;
 use App\Services\Exports\UsersExport;
 use App\Services\Imports\UsersImport;
@@ -28,7 +25,7 @@ class UserController extends Controller
     {
         $this->userService = $userServiceInterface;
     }
-
+ 
     /**
      * Summary of show user lists
      * @param $request
@@ -44,7 +41,7 @@ class UserController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Summary of confirmRegister
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -58,7 +55,7 @@ class UserController extends Controller
         ]);
      }
 
-     /**
+    /**
      * Summary of disable users
      * @param $id
      * @return \Illuminate\Http\JsonResponse
@@ -69,7 +66,7 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-     /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -85,8 +82,7 @@ class UserController extends Controller
         ]);
     }
 
-<<<<<<< HEAD
-     /**
+    /**
      * Display the specified resource.
      *
      * @param PasswordChangeRequest $request
@@ -106,7 +102,8 @@ class UserController extends Controller
             'message' => 'Password can be changed successfully',
             'data' => $users
         ],200);
-=======
+    }
+
     /**
      * export excel file
      */
@@ -131,6 +128,5 @@ class UserController extends Controller
             $failures = $e->failures();
             return response()->json($failures);
         }
->>>>>>> de28a470a6af13ed5481b0fe57c7cd0d37c80736
     }
 }
