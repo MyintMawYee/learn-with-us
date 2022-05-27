@@ -178,7 +178,11 @@ class CourseController extends Controller
     public function getMyCourse($id) 
     {
         $myCourse = $this->courseService->getMyCourse($id);
-        return response()->json($myCourse);
+        return response()->json([
+            'result' => 1,
+            'message' => 'Your Course',
+            'data' => $myCourse
+        ]);
     }
 }
 
