@@ -55,6 +55,12 @@ interface UserServiceInterface
     public function disableUser($id);
 
     /**
+     * Summary of counting users
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function countUser();
+
+    /**
      * Summary of changePassword
      * @param mixed $request
      * @return array

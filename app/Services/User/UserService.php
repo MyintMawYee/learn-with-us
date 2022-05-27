@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
@@ -92,9 +93,19 @@ class UserService implements UserServiceInterface
             ];
         }
         return [
-        'result' => 0,
-        'message' => 'failed'
+            'result' => 0,
+            'message' => 'failed'
         ];
+    }
+
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        return $this->userDao->countUser();
     }
 
     /**
