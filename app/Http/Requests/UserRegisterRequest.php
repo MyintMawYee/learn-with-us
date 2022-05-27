@@ -45,7 +45,7 @@ class UserRegisterRequest extends FormRequest
             'result' => 0,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ],));
+        ],401));
     }
     
     /**

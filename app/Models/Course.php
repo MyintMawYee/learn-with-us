@@ -20,4 +20,5 @@ class Course extends Model
     {
         return $this->belongsTo('App\Models\Category', 'category_id');
     }
+
 }

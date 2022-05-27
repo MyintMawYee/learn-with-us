@@ -71,5 +71,10 @@ interface CourseServiceInterface
      * @return void
      */
     public function getCourseMayLike($id);
-    
+
+    /**
+     * Summary of freeCourse
+     * @return array
+     */
+    public function getTopCourse();
 }

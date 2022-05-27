@@ -28,6 +28,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
     Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
+    Route::get('/course/top', [CourseController::class, 'getTopCourse']);
 });
 
 Route::middleware([IsAdmin::class])->group(function(){
