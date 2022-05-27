@@ -5,6 +5,7 @@ namespace App\Dao\Category;
 
 use App\Contracts\Dao\Category\CategoryDaoInterface;
 use App\Models\Category;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 /**
@@ -33,8 +34,7 @@ class CategoryDao implements CategoryDaoInterface
      */
     public function allCategory()
     {
-        $categories = Category::all();
-
+        $categories = Category::withCount(['course'])->get();
         return response()->json($categories, 200);
     }
 
