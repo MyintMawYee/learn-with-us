@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\PasswordChangeRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -77,5 +78,27 @@ class UserController extends Controller
             'message' => 'User Details',
             'data' => $users
         ]);
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param PasswordChangeRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(PasswordChangeRequest $request)
+    { 
+        $users = $this->userService->changePassword($request);
+        if (!$users) {
+            return response()->json([
+                'result' => 0,
+                'message' => 'Password cannot be changed',
+            ],401);
+        }
+        return response()->json([
+            'result' => 1,
+            'message' => 'Password can be changed successfully',
+            'data' => $users
+        ],200);
     }
 }

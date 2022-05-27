@@ -25,6 +25,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::get('/user/list',[UserController::class, ' getAllUser']);
     Route::get('/admin/show/{id}',[UserController::class, 'show']);
+    Route::post('/admin/change/password',[UserController::class, 'changePassword']);
+    Route::post('/user/change/password',[UserController::class, 'changePassword']);
     Route::get('/user/show/{id}',[UserController::class, 'show']);
     Route::get('/user/disable/{id}', [UserController::class, 'disableUser']);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
