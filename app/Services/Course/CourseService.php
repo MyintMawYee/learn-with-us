@@ -330,4 +330,15 @@ class CourseService implements CourseServiceInterface
         ];
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return $myCourse= $this->courseService->getMyCourse($id);
+    }
+
 }

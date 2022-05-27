@@ -6,6 +6,7 @@ use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\User;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -134,5 +135,19 @@ class CourseDao implements CourseDaoInterface
             ->limit(12)
             ->get();
         return $free;
+    }
+
+    /**
+     * Summary of show My course
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return User::select('courses.*')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->where('users.id', '=' ,$id)
+        ->get();
     }
 }
