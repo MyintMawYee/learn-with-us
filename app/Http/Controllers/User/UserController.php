@@ -5,14 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Services\User\UserServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\PasswordChangeRequest;
-use App\Models\User;
 use App\Services\Exports\UsersExportService;
 use App\Services\Imports\UsersImportService;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\UserImportRequest;
 
 class UserController extends Controller
 {
@@ -130,7 +126,7 @@ class UserController extends Controller
      * @return \Illuminate\Support\Collection
      * import excel file
      */
-    public function import(UserImportRequest $request)
+    public function import(Request $request)
     {
         try {
             Excel::import(new UsersImportService, $request->file('file'));

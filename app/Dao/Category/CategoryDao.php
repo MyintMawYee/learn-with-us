@@ -5,8 +5,6 @@ namespace App\Dao\Category;
 
 use App\Contracts\Dao\Category\CategoryDaoInterface;
 use App\Models\Category;
-use App\Models\Course;
-use Illuminate\Http\Request;
 
 /**
  * Data accessing object for category
@@ -16,10 +14,10 @@ class CategoryDao implements CategoryDaoInterface
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveCategory(Request $request)
+    public function saveCategory($request)
     {
         $category = Category::create([
             'name' => $request->name,
@@ -66,11 +64,11 @@ class CategoryDao implements CategoryDaoInterface
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCategory(Request $request, $id)
+    public function updateCategory($request, $id)
     {
         $category = Category::findOrFail($id);
         $category->update([
