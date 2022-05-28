@@ -135,4 +135,23 @@ class UserController extends Controller
             return response()->json($failures);
         }
     }
+
+    /**
+     * Summary of get data for singup confirm page
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRegisterConfirm(Request $request)
+    {
+        return response()->json([
+            "result" => 1,
+            "message" => 'Signup Comfirm Data',
+            "data" => [
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => $request['password'],
+                'confirm_password' => $request['confirm_password']
+            ]
+        ]);
+    }
 }
