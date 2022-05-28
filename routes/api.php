@@ -21,6 +21,7 @@ use App\Http\Middleware\IsAdmin;
 
 Route::post('/user/register', [UserAuthController::class, 'registerUser']);
 Route::post('/user/login', [UserAuthController::class, 'loginUser']);
+Route::get('/register/confirm', [UserController::class, 'getRegisterConfirm']);
 Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
 
 Route::middleware('auth:api')->group(function() {
