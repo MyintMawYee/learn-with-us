@@ -74,7 +74,7 @@ interface CourseDaoInterface
      * Summary of buyCourse
      * @return $request
      */
-    public function buyCourse(Request $request);
+    public function buyCourse($request);
     
     /** 
      * Display the specified resource.
