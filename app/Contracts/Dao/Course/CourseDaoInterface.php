@@ -76,4 +76,12 @@ interface CourseDaoInterface
      */
     public function buyCourse(Request $request);
     
+    /** 
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id);
+
 }

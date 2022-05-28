@@ -85,5 +85,16 @@ interface CourseServiceInterface
      */
     public function getTopCourse();
 
-    public function buyCourse(Request $request);
+    /**
+     * Summary of buy Course
+     * @param $request
+     */
+    public function buyCourse($request);
+
+     /**
+     * Summary of getMyCourse
+     * @param mixed $id
+     * @return void
+     */
+    public function getMyCourse($id);
 }

@@ -335,9 +335,20 @@ class CourseService implements CourseServiceInterface
      *
      * @return $request
      */
-    public function buyCourse(Request $request)
+    public function buyCourse($request)
     {
-        
+        return $this->courseService->buyCourse($request);
+    }
+
+    /** 
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return $myCourse= $this->courseService->getMyCourse($id);
     }
 
 }

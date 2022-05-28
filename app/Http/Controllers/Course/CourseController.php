@@ -175,6 +175,21 @@ class CourseController extends Controller
     }
 
     /**
+     * Summary of getCourse
+     * @param mixed $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id) 
+    {
+        $myCourse = $this->courseService->getMyCourse($id);
+        return response()->json([
+            'result' => 1,
+            'message' => 'Your Course',
+            'data' => $myCourse
+        ]);
+    }
+
+    /**
      * Count all Courses
      *
      * @return \Illuminate\Http\Response

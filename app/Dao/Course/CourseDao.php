@@ -6,6 +6,8 @@ use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Purchase;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -136,18 +138,30 @@ class CourseDao implements CourseDaoInterface
         return $free;
     }
 
-     /**
+    /**
      * Store a newly created resource in storage.
+     *
+     * @param $request
+     */
+    public function buyCourse($request)
+    {
+        return Purchase::insert([
+            'user_id' => $request['user_id'],
+            'course_id' => $request['course_id'],
+        ]);
+    }
+
+    /**
+     * Summary of show My course
      *
      * @return \Illuminate\Http\Response
      */
-    public function buyCourse(Request $request)
+    public function getMyCourse($id)
     {
-        $data = $request->$course_id;
-        $data = $request->$course_cover_path;
-        Course::insert($data);
-        $data = $request->$user_id;
-        User::insert($data);
-        return $data;
+        return User::select('courses.*')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->where('users.id', '=' ,$id)
+        ->get();
     }
 }

@@ -4,9 +4,6 @@ namespace App\Services\Category;
 
 use App\Contracts\Dao\Category\CategoryDaoInterface;
 use App\Contracts\Services\Category\CategoryServiceInterface;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Service class for category.
@@ -31,10 +28,10 @@ class CategoryService implements CategoryServiceInterface
 	/**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @return \Illuminate\Http\Response
      */
-	public function saveCategory(Request $request)
+	public function saveCategory($request)
 	{
 		return $this->categoryDao->saveCategory($request);
 	}
@@ -53,11 +50,11 @@ class CategoryService implements CategoryServiceInterface
 	/**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-	public function updateCategory(Request $request, $id)
+	public function updateCategory($request, $id)
 	{
 		return $this->categoryDao->updateCategory($request, $id);
 	}
