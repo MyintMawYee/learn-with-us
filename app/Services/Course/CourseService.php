@@ -330,4 +330,14 @@ class CourseService implements CourseServiceInterface
         ];
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return $request
+     */
+    public function buyCourse(Request $request)
+    {
+        
+    }
+
 }

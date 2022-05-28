@@ -84,4 +84,6 @@ interface CourseServiceInterface
      * @return array
      */
     public function getTopCourse();
+
+    public function buyCourse(Request $request);
 }

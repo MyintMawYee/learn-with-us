@@ -135,4 +135,19 @@ class CourseDao implements CourseDaoInterface
             ->get();
         return $free;
     }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function buyCourse(Request $request)
+    {
+        $data = $request->$course_id;
+        $data = $request->$course_cover_path;
+        Course::insert($data);
+        $data = $request->$user_id;
+        User::insert($data);
+        return $data;
+    }
 }

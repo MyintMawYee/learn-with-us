@@ -36,8 +36,12 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'host' => env('MAIL_HOST', 'gmail.com'),
             'port' => env('MAIL_PORT', 587),
+            'from' => [
+                'address' => env('MAIL_FROM_ADDRESS'), 
+                'name' => env('MAIL_FROM_NAME')
+            ],
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
@@ -84,8 +88,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'testbot907@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'SCM'),
     ],
 
     /*

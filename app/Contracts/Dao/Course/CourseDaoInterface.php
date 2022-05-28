@@ -69,4 +69,11 @@ interface CourseDaoInterface
      * @return Object
      */
     public function getTopCourse();
+
+    /**
+     * Summary of buyCourse
+     * @return $request
+     */
+    public function buyCourse(Request $request);
+    
 }
