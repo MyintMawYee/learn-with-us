@@ -7,6 +7,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Purchase;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -135,6 +136,19 @@ class CourseDao implements CourseDaoInterface
             ->limit(12)
             ->get();
         return $free;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param $request
+     */
+    public function buyCourse($request)
+    {
+        return Purchase::insert([
+            'user_id' => $request['user_id'],
+            'course_id' => $request['course_id'],
+        ]);
     }
 
     /**

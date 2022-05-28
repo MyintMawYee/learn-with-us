@@ -29,6 +29,7 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
     Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
     Route::get('/course/top', [CourseController::class, 'getTopCourse']);
+    Route::post('/course/buy', [CourseController::class, 'buyCourse']);
     Route::get('/course/show/{id}', [CourseController::class, 'getMyCourse']);
 });
 

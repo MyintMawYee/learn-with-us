@@ -71,6 +71,12 @@ interface CourseDaoInterface
     public function getTopCourse();
 
     /**
+     * Summary of buyCourse
+     * @return $request
+     */
+    public function buyCourse($request);
+    
+    /** 
      * Display the specified resource.
      *
      * @param  int  $id

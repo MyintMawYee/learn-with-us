@@ -8,6 +8,8 @@ use App\Http\Requests\CourseSubmitRequest;
 use App\Http\Requests\CourseUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class CourseController extends Controller
 {
@@ -199,5 +201,35 @@ class CourseController extends Controller
             'result' => 1,
             'data' => $courses
         ]);
+    }
+
+     /**
+     * Summary of buyCourse
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function buyCourse(Request $request)
+    {
+        $courses = $this->courseService->buyCourse($request);
+        $this->mailsend();
+        return response()->json([
+            'result' => 1,
+            'message' =>'success',
+            'data' => 'success'
+        ]);
+    }
+
+    /** 
+     * To send mail 
+     * @return boolean
+     */
+    public function mailsend()
+    {
+        $details = [
+            'title' => 'Title: Course',
+            'body' => 'Body: Your purchase is success'
+        ];
+        Mail::to('shwephue7889@gmail.com')->send(new SendMail($details));
+        return true;
     }
 }

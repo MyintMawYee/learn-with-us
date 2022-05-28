@@ -331,6 +331,16 @@ class CourseService implements CourseServiceInterface
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @return $request
+     */
+    public function buyCourse($request)
+    {
+        return $this->courseService->buyCourse($request);
+    }
+
+    /** 
      * Display the specified resource.
      *
      * @param  int  $id
