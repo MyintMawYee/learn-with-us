@@ -33,7 +33,7 @@ class UserRegisterRequest extends FormRequest
         ];
     }
 
-     /**
+    /**
       * Summary of failedValidation
       * @param Validator $validator
       * @return void

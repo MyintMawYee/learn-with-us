@@ -5,6 +5,8 @@ namespace App\Dao\User;
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserDao implements UserDaoInterface
 {
@@ -61,8 +63,10 @@ class UserDao implements UserDaoInterface
      */
     public function getAllUser()
     {
-        $users = User::all();
-        return $users;
+        return User::select('users.*', 'courses.*')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->get();
     }
 
     /**
@@ -91,5 +95,24 @@ class UserDao implements UserDaoInterface
         }
         return $users->save();
     }
-    
+
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        $users = User::all()->count();
+        return $users;
+    }
+
+    /**
+     * Summary of changePassword
+     * @param $request
+     */
+    public function changePassword($request)
+    {
+        return User::where('id', '=', $request['id'])->update(['password' => Hash::make($request['confirm_password'])]);
+    }
 }

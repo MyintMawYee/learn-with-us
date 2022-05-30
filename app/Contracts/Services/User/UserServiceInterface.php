@@ -4,11 +4,13 @@ namespace App\Contracts\Services\User;
 
 use Illuminate\Http\Request;
 
-interface UserServiceInterface
+interface UserServiceInterface 
 {
-
-    
-
+    /**
+     * Summary of login
+     * @param mixed $validated
+     * @return array|bool
+     */
     public function login($validated);
 
     /**
@@ -51,5 +53,17 @@ interface UserServiceInterface
      * @return \Illuminate\Http\JsonResponse
      */
     public function disableUser($id);
-    
+
+    /**
+     * Summary of counting users
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function countUser();
+
+    /**
+     * Summary of changePassword
+     * @param mixed $request
+     * @return array
+     */
+    public function changePassword($request);
 }

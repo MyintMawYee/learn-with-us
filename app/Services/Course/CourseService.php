@@ -318,6 +318,15 @@ class CourseService implements CourseServiceInterface
     }
 
     /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse(){
+        return $this->courseService->countCourse();
+    }
+
+    /**
      * Summary of getCourseMayLike
      * @param mixed $id
      * @return array
@@ -430,4 +439,26 @@ class CourseService implements CourseServiceInterface
             "message" => Lang::get("messages.coursedatacancel.notfound")
         ];
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return $request
+     */
+    public function buyCourse($request)
+    {
+        return $this->courseService->buyCourse($request);
+    }
+
+    /** 
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return $myCourse= $this->courseService->getMyCourse($id);
+    }
+
 }

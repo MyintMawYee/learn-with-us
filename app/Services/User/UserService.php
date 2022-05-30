@@ -89,7 +89,7 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->registerconfirm($validated);
     }
-
+  
     /**
      * Display a listing of the resource.
      *
@@ -108,17 +108,7 @@ class UserService implements UserServiceInterface
      */
     public function show($id)
     {
-        $users = $this->userDao->show($id);
-        if ($users) {
-            return [
-                'result' => 1,
-                'message' => 'User lists'
-            ];
-        }
-        return [
-            'result' => 0,
-            'message' => 'failed'
-        ];
+        return $users= $this->userDao->show($id);
     }
 
     /**
@@ -126,9 +116,9 @@ class UserService implements UserServiceInterface
      * @param $id
      * @return array
      */
-    public function disableUser($id)
+    public function disableUser($id) 
     {
-        $users = $this->userDao->disableUser($id);
+        $users= $this->userDao->disableUser($id);
         if ($users) {
             return [
                 'result' => 1,
@@ -141,4 +131,23 @@ class UserService implements UserServiceInterface
         ];
     }
 
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        return $this->userDao->countUser();
+    }
+
+    /**
+     * Summary of changePassword
+     * @param $request
+     * @return 
+     */
+    public function changePassword($request)
+    {
+        return $this->userDao->changePassword($request);
+    }
 }

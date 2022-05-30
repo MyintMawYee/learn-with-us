@@ -5,7 +5,6 @@ namespace App\Dao\Category;
 
 use App\Contracts\Dao\Category\CategoryDaoInterface;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 /**
  * Data accessing object for category
@@ -15,10 +14,10 @@ class CategoryDao implements CategoryDaoInterface
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @return \Illuminate\Http\Response
      */
-    public function saveCategory(Request $request)
+    public function saveCategory($request)
     {
         $category = Category::create([
             'name' => $request->name,
@@ -33,8 +32,7 @@ class CategoryDao implements CategoryDaoInterface
      */
     public function allCategory()
     {
-        $categories = Category::all();
-
+        $categories = Category::withCount(['course'])->get();
         return response()->json($categories, 200);
     }
 
@@ -66,16 +64,41 @@ class CategoryDao implements CategoryDaoInterface
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCategory(Request $request, $id)
+    public function updateCategory($request, $id)
     {
         $category = Category::findOrFail($id);
         $category->update([
             'name' => $request->name,
         ]);
         return response()->json(['message' => 'Category has been updated Successfully'], 200);
+    }
+
+    /**
+     * Count all Category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCategory()
+    {
+        $categories = Category::all()->count();
+        return response()->json([
+            'result' => 1,
+            'count' => $categories
+        ]);
+    }
+
+    /**
+     * Count category which buy users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countPurchaseCategory()
+    {
+        $categories = Category::withCount(['purchaseVideos'])->get();
+        return response()->json($categories, 200);
     }
 }

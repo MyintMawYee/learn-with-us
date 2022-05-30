@@ -69,6 +69,13 @@ interface CourseServiceInterface
      * @return void
      */
     public function getCourseMayLike($id);
+    
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse();
 
     /**
      * Summary of freeCourse
@@ -88,4 +95,16 @@ interface CourseServiceInterface
      */
     public function getCurrentData();
     
+    /**
+     * Summary of buy Course
+     * @param $request
+     */
+    public function buyCourse($request);
+
+     /**
+     * Summary of getMyCourse
+     * @param mixed $id
+     * @return void
+     */
+    public function getMyCourse($id);
 }

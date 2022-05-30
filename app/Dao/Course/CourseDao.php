@@ -5,6 +5,8 @@ namespace App\Dao\Course;
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Purchase;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -110,9 +112,20 @@ class CourseDao implements CourseDaoInterface
     public function getCourseMayLike($id)
     {
         return Course::where("category_id", $id)
-        ->inRandomOrder()
-        ->limit(4)
-        ->get();
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
+    }
+
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse()
+    {
+        $courses = Course::all()->count();
+        return $courses;
     }
 
     /**
@@ -121,11 +134,37 @@ class CourseDao implements CourseDaoInterface
      */
     public function getTopCourse()
     {
-        $free = Course::where('price','!=',0)
-            ->orderBy('price','DESC')
+        $free = Course::where('price', '!=', 0)
+            ->orderBy('price', 'DESC')
             ->limit(12)
             ->get();
         return $free;
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param $request
+     */
+    public function buyCourse($request)
+    {
+        return Purchase::insert([
+            'user_id' => $request['user_id'],
+            'course_id' => $request['course_id'],
+        ]);
+    }
+
+    /**
+     * Summary of show My course
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return User::select('courses.*')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->where('users.id', '=' ,$id)
+        ->get();
+    }
 }
