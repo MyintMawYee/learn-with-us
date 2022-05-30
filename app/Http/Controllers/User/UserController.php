@@ -78,4 +78,5 @@ class UserController extends Controller
             'data' => $users
         ]);
     }
+
 }

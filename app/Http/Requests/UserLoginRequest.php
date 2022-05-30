@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Lang;
 
 class UserLoginRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class UserLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
         ];
     }
@@ -56,11 +57,11 @@ class UserLoginRequest extends FormRequest
     {
         return [          
             'email.required' => 'Email is required',
+            'email.exists' => Lang::get("messages.loginsuccess.wrongemail"),
             'email.email' => 'Email must be valid.',
             'password.required' => 'Password is required.',
             'password.min' => 'Your password must be mininum 8 characters long.',
             'password.regex' => 'Your password should contain at-least 1 Uppercase, 1 Lowercase, 1 Numberic and 1 Special character',
-            'password.min'
         ];
     }
 

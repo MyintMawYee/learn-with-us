@@ -36,17 +36,7 @@ class UserAuthController extends Controller
     public function loginUser(UserLoginRequest $request) {
         $credentials = $request->validated();
         $data = $this->userService->login($credentials);
-        if (!$data) {
-            return response()->json([
-                'result' => 0,
-                'message' => 'Login failed'
-            ],401);
-        }
-        return response()->json([
-            'result' => 1,
-            'message' => 'Login successful',
-            'data' => $data
-        ],200);
+        return response()->json($data);
     }
     
     /**
@@ -70,16 +60,7 @@ class UserAuthController extends Controller
      */
     public function logoutUser(Request $request) {
         $status = $this->userService->logout($request);
-        if (!$status) {
-            return response()->json([
-                "result" => 0,
-                "message" => "Logout failed",
-            ]);
-        }
-        return response()->json([
-            "result" => 1,
-            "message" => "You have been logout successfully.",
-        ]);
+        return response()->json($status);
     }
 
 }

@@ -5,7 +5,6 @@ namespace App\Dao\User;
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserDao implements UserDaoInterface
 {
@@ -13,20 +12,12 @@ class UserDao implements UserDaoInterface
     /**
      * Summary of login
      * @param mixed $validated
-     * @return array|bool
+     * @return Object
      */
     public function login($validated)
     {
-        if (!Auth::attempt($validated)) {
-            return false;
-        }
         $user = User::where('email', $validated['email'])->first();
-        $data['token'] = $user->createToken('myToken')->accessToken;
-        $data["id"] = $user->id;
-        $data['name'] = $user->name;
-        $data['type'] = $user->type;
-        $data['disable'] = $user->disable;
-        return $data;
+        return $user;
     }
 
     /**
@@ -100,4 +91,5 @@ class UserDao implements UserDaoInterface
         }
         return $users->save();
     }
+    
 }
