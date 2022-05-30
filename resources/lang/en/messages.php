@@ -28,7 +28,7 @@ return [
         "notfound" => "ID not found",
         "success" => "Course has been updated successfully"
     ],
-    
+
     "courseedit" => [
         "notfound" => "Course not found.",
         "success" => "Course has been found."
@@ -42,6 +42,11 @@ return [
     "topcourse" => [
         "notfound" => "No top course found or something's wrong.",
         "found" => "Top Courses found"
+    ],
+
+    "searchdata" => [
+        "notfound" => "No search data found or something's wrong.",
+        "found" => "Search data are found"
     ],
 
     "coursecurrentdata" => [
