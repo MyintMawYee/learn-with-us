@@ -94,7 +94,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
-     *
+
      * @param PasswordChangeRequest $request
      * @return \Illuminate\Http\Response
      */

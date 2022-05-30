@@ -31,7 +31,7 @@ class CommentController extends Controller
     {
         $validated = $request->validated();
         $data = $this->commentService->create($validated);
-        return response()->json($data, 200);
+        return response()->json($data);
     }
 
     /**
@@ -42,17 +42,7 @@ class CommentController extends Controller
     public function getcommentCourse($id)
     {
         $data = $this->commentService->get($id);
-        if ($data) {
-            return response()->json([
-                "result" => 1,
-                "message" => "All comment for course_id (" . $id . ")",
-                "data" => $data
-            ]);
-        }
-        return response()->json([
-            "result" => 1,
-            "message" => "Comment fetching failed."
-        ]);
+        return response()->json($data);
     }
 
     /**

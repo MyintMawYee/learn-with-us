@@ -44,7 +44,7 @@ class PasswordChangeRequest extends FormRequest
               'result' => 0,
               'message'   => 'Validation errors',
               'data'      => $validator->errors()
-          ],));
+          ]));
       }
       
       /**

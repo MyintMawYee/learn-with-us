@@ -4,7 +4,6 @@ namespace App\Dao\Course;
 
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
-use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Purchase;
@@ -16,7 +15,7 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create(Request $request)
+    public function create($request)
     {
         $course = Course::create([
             'name' => $request->name,
@@ -47,7 +46,7 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object, Request $request)
+    public function update($object,$request)
     {
         $object->name = $request->name;
         $object->course_cover_path = $request->course_cover_path;
@@ -64,7 +63,7 @@ class CourseDao implements CourseDaoInterface
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function getAll()
     {
@@ -129,6 +128,10 @@ class CourseDao implements CourseDaoInterface
         return $courses;
     }
 
+    /**
+     * Summary of getTopCourse
+     * @return Object
+     */
     public function getTopCourse()
     {
         $free = Course::where('price', '!=', 0)

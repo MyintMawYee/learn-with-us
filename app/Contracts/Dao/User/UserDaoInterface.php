@@ -4,12 +4,13 @@ namespace App\Contracts\Dao\User;
 
 use Illuminate\Http\Request;
 
-interface UserDaoInterface 
+interface UserDaoInterface
 {
+
     /**
      * Summary of login
      * @param mixed $validated
-     * @return array|bool
+     * @return Object
      */
     public function login($validated);
 

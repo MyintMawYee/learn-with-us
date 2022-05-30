@@ -4,9 +4,10 @@ namespace App\Services\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Contracts\Services\User\UserServiceInterface;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
-class UserService implements UserServiceInterface 
+class UserService implements UserServiceInterface
 {
     private $userDao;
 
@@ -22,11 +23,33 @@ class UserService implements UserServiceInterface
     /**
      * Summary of login
      * @param mixed $validated
-     * @return array|bool
+     * @return array
      */
     public function login($validated)
     {
-        return $this->userDao->login($validated);
+        if (!Auth::attempt($validated)) {
+            return [
+                "result" => intval(Lang::get("messages.fail.result")),
+                "message" => Lang::get("messages.loginsuccess.wrongpass")
+            ];
+        }
+        $user = $this->userDao->login($validated);
+        if (!$user) {
+            return [
+                "result" => intval(Lang::get("messages.fail.result")),
+                "message" => Lang::get("messages.loginsuccess.fail")
+            ];
+        }
+        $data['token'] = $user->createToken('myToken')->accessToken;
+        $data["id"] = $user->id;
+        $data['name'] = $user->name;
+        $data['type'] = $user->type;
+        $data['disable'] = $user->disable;
+        return [
+            "result" => intval(Lang::get("messages.result.success")),
+            "message" => Lang::get("messages.loginsuccess.success"),
+            "data" => $data
+        ];
     }
 
     /**
@@ -40,14 +63,24 @@ class UserService implements UserServiceInterface
 
     /**
      * Summary of logout
-     * @param Request $request
-     * @return string
+     * @param mixed $request
+     * @return array
      */
-    public function logout(Request $request)
+    public function logout($request)
     {
-        return $this->userDao->logout($request);
+        $status = $this->userDao->logout($request);
+        if (!$status) {
+            return [
+                "result" => intval(Lang::get("messages.result.fail")),
+                "message" => Lang::get("messages.logout.fail"),
+            ];
+        }
+        return [
+            "result" => intval(Lang::get("messages.result.success")),
+            "message" => Lang::get("messages.logout.success")
+        ];
     }
-  
+
     /**
      * Summary of confirm register
      * @param mixed $validated
@@ -71,7 +104,7 @@ class UserService implements UserServiceInterface
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function show($id)
     {
@@ -81,7 +114,7 @@ class UserService implements UserServiceInterface
     /**
      * Summary of disable users
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
     public function disableUser($id) 
     {

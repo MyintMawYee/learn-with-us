@@ -2,8 +2,6 @@
 
 namespace App\Contracts\Dao\Course;
 
-use Illuminate\Http\Request;
-
 interface CourseDaoInterface
 {
     /**
@@ -11,7 +9,7 @@ interface CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create(Request $request);
+    public function create($request);
 
     /**
      * Summary of edit
@@ -25,7 +23,7 @@ interface CourseDaoInterface
      * @param mixed $id
      * @return void
      */
-    public function update($object, Request $request);
+    public function update($object, $request);
 
     /** 
      * Display a listing of the resource.

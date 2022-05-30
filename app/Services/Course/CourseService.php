@@ -2,10 +2,13 @@
 
 namespace App\Services\Course;
 
+session_start();
+
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Contracts\Dao\CourseVideo\CourseVideoDaoInterface;
 use App\Contracts\Services\Course\CourseServiceInterface;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 
 class CourseService implements CourseServiceInterface
@@ -23,22 +26,47 @@ class CourseService implements CourseServiceInterface
     }
 
     /**
+     * Summary of deleteCurrentSession
+     * @param mixed $session
+     * @return void
+     */
+    private function deleteCurrentSession($session) {
+        if (isset($session)) {
+            $data = $session;
+            if (Storage::disk('public')->exists("tmp_img/".$data['course_cover_path'])) {
+                Storage::disk('public')->delete("tmp_img/".$data['course_cover_path']);
+            }
+
+            foreach($data['video'] as $video) {
+                $videoPath = $video['video_path'];
+                if (Storage::disk('public')->exists("tmp_video/".$videoPath)) {
+                    Storage::disk('public')->delete("tmp_video/".$videoPath);
+                }
+            }
+        }
+        return;
+    }
+
+    /**
      * Summary of create
      * @param mixed $validated
      * @return string
      */
-    public function create(Request $request)
+    public function create($request)
     {
         $courseImage = rand(0, 99) . $request->course_cover_path;
         Storage::disk('public')->move(
-            "tmp_img/".$request->course_cover_path,
+            "tmp_img/" . $request->course_cover_path,
             "courseimg/" . $courseImage
         );
         $request->course_cover_path = $courseImage;
         $addedCourse = $this->courseService->create($request);
         if (!$addedCourse) {
             Storage::disk('public')->delete("courseimg/" . $courseImage);
-            return "Sorry, course couldn't add.";
+            return [
+                "result" => intval(Lang::get("messages.result.fail")),
+                "message" => Lang::get("messages.coursecreate.fail")
+            ];
         }
         foreach ($request->video_path as $courseVd) {
             $path = rand(0, 99) . $courseVd;
@@ -48,8 +76,10 @@ class CourseService implements CourseServiceInterface
             );
             $this->courseVideoService->createVideo($addedCourse->id, $path);
         }
-        return "Course has been created successfully.";
-        
+        return [
+            "result" => intval(Lang::get("messages.result.success")),
+            "message" => Lang::get("messages.coursecreate.success")
+        ];
     }
 
     /**
@@ -71,31 +101,41 @@ class CourseService implements CourseServiceInterface
                 $finalData[] = $data;
             }
             return [
-                "id" => $editData->id,
-                "name" => $editData->name,
-                "cover_name" => $editData->course_cover_path,
-                "cover_path" => $imgPath . $editData->course_cover_path,
-                "category_id" => $editData->category_id,
-                "short_descrip" => $editData->short_descrip,
-                "description" => $editData->description,
-                "instructor" => $editData->instructor,
-                "price" => $editData->price,
-                "video" => $finalData,
-                "created_date" => $editData->created_at,
-                "updated_date" => $editData->updated_at
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.courseedit.success"),
+                "data" => [
+                    "id" => $editData->id,
+                    "name" => $editData->name,
+                    "cover_name" => $editData->course_cover_path,
+                    "cover_path" => $imgPath . $editData->course_cover_path,
+                    "category" => [
+                        "id" => $editData->category->id,
+                        "name" => $editData->category->name
+                    ],
+                    "short_descrip" => $editData->short_descrip,
+                    "description" => $editData->description,
+                    "instructor" => $editData->instructor,
+                    "price" => $editData->price,
+                    "video" => $finalData,
+                    "created_date" => $editData->created_at,
+                    "updated_date" => $editData->updated_at
+                ]
             ];
         } else {
-            return false;
+            return [
+                "result" => intval(Lang::get("messages.result.fail")),
+                "message" => Lang::get("messages.courseedit.notfound")
+            ];
         }
     }
 
     /**
      * Summary of update
-     * @param mixed $validated
+     * @param mixed $request
      * @param mixed $id
      * @return string
      */
-    public function update(Request $request, $id)
+    public function update($request, $id)
     {
         $currentCourse = $this->courseService->edit($id);
         if ($currentCourse) {
@@ -132,11 +172,16 @@ class CourseService implements CourseServiceInterface
                         );
                     }
                 }
-                return "Course has been updated successfully.";
+                return [
+                    "result" => intval(Lang::get("messages.result.success")),
+                    "message" => Lang::get("messages.courseupdate.success")
+                ];
             }
-        } else {
-            return "ID." . $id . " is not found";
         }
+        return [
+            "result" => intval(Lang::get("messages.result.fail")),
+            "message" => Lang::get("messages.courseupdate.notfound")
+        ];
     }
 
     /**
@@ -163,7 +208,7 @@ class CourseService implements CourseServiceInterface
     /**
      * Summary of tmpFileStore
      * @param mixed $validated
-     * @return array
+     * @return string
      */
     public function createCheck($validated)
     {
@@ -181,16 +226,23 @@ class CourseService implements CourseServiceInterface
             $vData[] = $vPath;
             Storage::disk('public')->put('tmp_video/' . $videoPath, file_get_contents($video));
         }
-        return [
+        $courseData = [
             "name" => $validated['name'],
             "course_cover_path" => $imgPath,
-            "course_cover_link" => $tmpImg . $imgPath,
+            "course_cover_link" =>  $tmpImg . $imgPath,
             "video" => $vData,
             "category_id" => $validated['category_id'],
             "short_descrip" => $validated["short_descrip"],
             "description" => $validated['description'],
             "instructor" => $validated['instructor'],
-            "price" => $validated['price'],
+            "price" => $validated['price']
+        ];
+        $courseCreater = Auth::guard('api')->user()->id;
+        $this->deleteCurrentSession($_SESSION['course_data' . $courseCreater]);
+        $_SESSION['course_data' . $courseCreater] = $courseData;
+        return [
+            "result" => intval(Lang::get("messages.result.success")),
+            "message" => Lang::get("messages.validation.success")
         ];
     }
 
@@ -198,7 +250,7 @@ class CourseService implements CourseServiceInterface
      * Summary of updateCheck
      * @param mixed $validated
      * @param mixed $id
-     * @return array
+     * @return string
      */
     public function updateCheck($validated, $id)
     {
@@ -235,7 +287,7 @@ class CourseService implements CourseServiceInterface
                 $vData[] = $vPath;
             }
         }
-        return [
+        $courseData = [
             "name" => $validated['name'],
             "course_cover_path" => $imgPath,
             "course_cover_link" => $imgLink,
@@ -244,10 +296,17 @@ class CourseService implements CourseServiceInterface
             "short_descrip" => $validated["short_descrip"],
             "description" => $validated['description'],
             "instructor" => $validated['instructor'],
-            "price" => $validated['price'],
+            "price" => $validated['price']
+        ];
+        $courseCreater = Auth::guard('api')->user()->id;
+        $this->deleteCurrentSession($_SESSION['course_data' . $courseCreater]);
+        $_SESSION['course_data' . $courseCreater] = $courseData;
+        return [
+            "result" => intval(Lang::get("messages.validation.success")),
+            "message" => Lang::get("messages.validation.success")
         ];
     }
-    
+
     /** Search the specified resource from storage.
      *
      * @param  $param
@@ -277,11 +336,11 @@ class CourseService implements CourseServiceInterface
         $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
         $data = $this->courseService->getCourseMayLike($id);
         if ($data) {
-            foreach($data as $filter) {
+            foreach ($data as $filter) {
                 $finalData["id"] = $filter->id;
                 $finalData['name'] = $filter->name;
                 $finalData['course_cover_path'] = $filter->course_cover_path;
-                $finalData['course_cover_link'] = $imgPath.$filter->course_cover_path;
+                $finalData['course_cover_link'] = $imgPath . $filter->course_cover_path;
                 $finalData['category_id'] = $filter->category_id;
                 $finalData["short_descrip"] = $filter->short_descrip;
                 $finalData["decription"] = $filter->description;
@@ -290,14 +349,14 @@ class CourseService implements CourseServiceInterface
                 $filterData[] = $finalData;
             }
             return [
-                "result" => 1,
-                "message" => "Coursed found",
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.coursemaylike.found"),
                 "data" => $filterData
             ];
         }
         return [
-            "result" => 0,
-            "message" => "Courses not found by this cateogry_id."
+            "result" => intval(Lang::get("messages.result.fail")),
+            "message" => Lang::get("messages.coursemaylike.notfound")
         ];
     }
 
@@ -307,7 +366,7 @@ class CourseService implements CourseServiceInterface
         $fcourse = $this->courseService->getTopCourse();
         if ($fcourse) {
 
-            foreach($fcourse as $course) {
+            foreach ($fcourse as $course) {
                 $filter["id"] = $course->id;
                 $filter['course_cover_path'] = $course->course_cover_path;
                 $filter['course_cover_link'] = $imgPath . $course->course_cover_path;
@@ -319,14 +378,65 @@ class CourseService implements CourseServiceInterface
                 $finalData[] = $filter;
             }
             return [
-                "result" => 1,
-                "message" => "",
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.topcourse.found"),
                 "data" => $finalData,
             ];
         }
         return [
-            "result" => 0,
-            "message" => "No free course found or something's wrong."
+            "result" => intval(Lang::get("messages.result.fail")),
+            "message" => Lang::get("messages.topcourse.notfound")
+        ];
+    }
+
+    /**
+     * Summary of getCurrentData
+     * @return mixed
+     */
+    public function getCurrentData()
+    {
+        $requestID = Auth::guard('api')->user()->id;
+        if (isset($_SESSION['course_data' . $requestID])) {
+            return [
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.coursecurrentdata.exist"),
+                "data" => $_SESSION['course_data' . $requestID]
+            ];
+        }
+        return [
+            "result" => intval(Lang::get("messages.coursecurrentdata.notexist")),
+            "message" => Lang::get("messages.coursecurrentdata.notexist")
+        ];;
+    }
+
+    /**
+     * Summary of cancelCourse
+     * @return array
+     */
+    public function cancelCourse()
+    {
+        $currentUser = Auth::guard('api')->user()->id;
+        if (isset($_SESSION["course_data" . $currentUser])) {
+            $imgPath = $_SESSION['course_data' . $currentUser]["course_cover_path"];
+            if (Storage::disk('public')->exists('tmp_img/' . $imgPath)) {
+                Storage::disk('public')->delete('tmp_img/' . $imgPath);
+            }
+            $videoPath = $_SESSION['course_data' . $currentUser]['video'];
+            foreach ($videoPath as $video) {
+                $singlePath = $video['video_path'];
+                if (Storage::disk('public')->exists("tmp_video/" . $singlePath)) {
+                    Storage::disk('public')->delete("tmp_video/" . $singlePath);
+                }
+            }
+            unset($_SESSION["course_data" . $currentUser]);
+            return [
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.coursedatacancel.success")
+            ];
+        }
+        return [
+            "result" => intval(Lang::get("messages.result.fail")),
+            "message" => Lang::get("messages.coursedatacancel.notfound")
         ];
     }
 
