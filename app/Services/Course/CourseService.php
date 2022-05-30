@@ -30,17 +30,18 @@ class CourseService implements CourseServiceInterface
      * @param mixed $session
      * @return void
      */
-    private function deleteCurrentSession($session) {
+    private function deleteCurrentSession($session)
+    {
         if (isset($session)) {
             $data = $session;
-            if (Storage::disk('public')->exists("tmp_img/".$data['course_cover_path'])) {
-                Storage::disk('public')->delete("tmp_img/".$data['course_cover_path']);
+            if (Storage::disk('public')->exists("tmp_img/" . $data['course_cover_path'])) {
+                Storage::disk('public')->delete("tmp_img/" . $data['course_cover_path']);
             }
 
-            foreach($data['video'] as $video) {
+            foreach ($data['video'] as $video) {
                 $videoPath = $video['video_path'];
-                if (Storage::disk('public')->exists("tmp_video/".$videoPath)) {
-                    Storage::disk('public')->delete("tmp_video/".$videoPath);
+                if (Storage::disk('public')->exists("tmp_video/" . $videoPath)) {
+                    Storage::disk('public')->delete("tmp_video/" . $videoPath);
                 }
             }
         }
@@ -308,13 +309,37 @@ class CourseService implements CourseServiceInterface
     }
 
     /** Search the specified resource from storage.
-     *
      * @param  $param
      * @return \Illuminate\Http\Response
      */
     public function searchCourse($param)
     {
-        return $this->courseService->searchCourse($param);
+        $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
+        $fcourse = $this->courseService->searchCourse($param);
+        if ($fcourse) {
+
+            foreach ($fcourse as $course) {
+                $filter['id'] = $course->id;
+                $filter['name'] = $course->name;
+                $filter['course_cover_path'] = $course->course_cover_path;
+                $filter['course_cover_link'] = $imgPath . $course->course_cover_path;
+                $filter['category_id'] = $course->category_id;
+                $filter["short_descrip"] = $course->short_descrip;
+                $filter["description"] = $course->description;
+                $filter["instructor"] = $course->instructor;
+                $filter["price"] = $course->price;
+                $finalData[] = $filter;
+            }
+            return [
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.searchdata.found"),
+                "data" => $finalData,
+            ];
+        }
+        return [
+            "result" => intval(Lang::get("messages.result.fail")),
+            "message" => Lang::get("messages.topcourse.notfound")
+        ];
     }
 
     /**
@@ -322,7 +347,8 @@ class CourseService implements CourseServiceInterface
      *
      * @return \Illuminate\Http\Response
      */
-    public function countCourse(){
+    public function countCourse()
+    {
         return $this->courseService->countCourse();
     }
 
@@ -458,7 +484,6 @@ class CourseService implements CourseServiceInterface
      */
     public function getMyCourse($id)
     {
-        return $myCourse= $this->courseService->getMyCourse($id);
+        return $myCourse = $this->courseService->getMyCourse($id);
     }
-
 }
