@@ -84,4 +84,26 @@ class CategoryController extends Controller
         $category = $this->categoryInterface->delete($id);
         return $category;
     }
+
+    /**
+     * Count all Category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCategory()
+    {
+        $category = $this->categoryInterface->countCategory();
+        return $category;
+    }
+
+    /**
+     * Count category which buy users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countPurchaseCategory()
+    {
+        $category = $this->categoryInterface->countPurchaseCategory();
+        return $category;
+    }
 }

@@ -1,43 +1,45 @@
 <?php
+
 namespace App\Contracts\Dao\User;
 
 use Illuminate\Http\Request;
 
-interface UserDaoInterface {
+interface UserDaoInterface
+{
 
-  /**
-   * Summary of login
-   * @param mixed $validated
-   * @return array|bool
-   */
-  public function login($validated);
+    /**
+     * Summary of login
+     * @param mixed $validated
+     * @return Object
+     */
+    public function login($validated);
 
-  /**
-   * Summary of register
-   * @param mixed $validated
-   * @return void
-   */
-  public function register($validated);
+    /**
+     * Summary of register
+     * @param mixed $validated
+     * @return void
+     */
+    public function register($validated);
 
-  /**
-   * Summary of logout
-   * @param Request $request
-   * @return void
-   */
-  public function logout(Request $request);
+    /**
+     * Summary of logout
+     * @param Request $request
+     * @return void
+     */
+    public function logout(Request $request);
 
-   /**
-   * Summary of confirm register
-   * @param mixed $validated
-   */
-  public function registerconfirm($validated);
+    /**
+     * Summary of confirm register
+     * @param mixed $validated
+     */
+    public function registerconfirm($validated);
 
-  /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-  public function getAllUser();
+    public function getAllUser();
 
     /**
      * Display the specified resource.
@@ -55,9 +57,15 @@ interface UserDaoInterface {
     public function disableUser($id);
 
     /**
-   * Summary of changepassword
-   * @param $request
-   * @return array
-   */
-  public function changePassword($request);
+     * Summary of counting user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function countUser();
+
+    /**
+     * Summary of changepassword
+     * @param $request
+     * @return array
+     */
+    public function changePassword($request);
 }

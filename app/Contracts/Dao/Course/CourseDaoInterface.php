@@ -2,8 +2,6 @@
 
 namespace App\Contracts\Dao\Course;
 
-use Illuminate\Http\Request;
-
 interface CourseDaoInterface
 {
     /**
@@ -11,7 +9,7 @@ interface CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create(Request $request);
+    public function create($request);
 
     /**
      * Summary of edit
@@ -25,7 +23,7 @@ interface CourseDaoInterface
      * @param mixed $id
      * @return void
      */
-    public function update($object, Request $request);
+    public function update($object, $request);
 
     /** 
      * Display a listing of the resource.
@@ -58,8 +56,30 @@ interface CourseDaoInterface
     public function getCourseMayLike($id);
 
     /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse();
+
+    /**
      * Summary of freeCourse
      * @return Object
      */
     public function getTopCourse();
+
+    /**
+     * Summary of buyCourse
+     * @return $request
+     */
+    public function buyCourse($request);
+    
+    /** 
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id);
+
 }

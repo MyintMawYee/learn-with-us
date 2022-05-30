@@ -4,8 +4,9 @@ namespace App\Dao\Course;
 
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
-use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Purchase;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -14,7 +15,7 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create(Request $request)
+    public function create($request)
     {
         $course = Course::create([
             'name' => $request->name,
@@ -45,7 +46,7 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object,Request $request)
+    public function update($object,$request)
     {
         $object->name = $request->name;
         $object->course_cover_path = $request->course_cover_path;
@@ -62,7 +63,7 @@ class CourseDao implements CourseDaoInterface
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function getAll()
     {
@@ -111,18 +112,59 @@ class CourseDao implements CourseDaoInterface
     public function getCourseMayLike($id)
     {
         return Course::where("category_id", $id)
-        ->inRandomOrder()
-        ->limit(4)
-        ->get();
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
     }
 
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse()
+    {
+        $courses = Course::all()->count();
+        return $courses;
+    }
+
+    /**
+     * Summary of getTopCourse
+     * @return Object
+     */
     public function getTopCourse()
     {
-        $free = Course::where('price','!=',0)
-            ->orderBy('price','DESC')
+        $free = Course::where('price', '!=', 0)
+            ->orderBy('price', 'DESC')
             ->limit(12)
             ->get();
         return $free;
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param $request
+     */
+    public function buyCourse($request)
+    {
+        return Purchase::insert([
+            'user_id' => $request['user_id'],
+            'course_id' => $request['course_id'],
+        ]);
+    }
+
+    /**
+     * Summary of show My course
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return User::select('courses.*')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->where('users.id', '=' ,$id)
+        ->get();
+    }
 }

@@ -14,20 +14,12 @@ class UserDao implements UserDaoInterface
     /**
      * Summary of login
      * @param mixed $validated
-     * @return array|bool
+     * @return Object
      */
     public function login($validated)
     {
-        if (!Auth::attempt($validated)) {
-            return false;
-        }
         $user = User::where('email', $validated['email'])->first();
-        $data['token'] = $user->createToken('myToken')->accessToken;
-        $data["id"] = $user->id;
-        $data['name'] = $user->name;
-        $data['type'] = $user->type;
-        $data['disable'] = $user->disable;
-        return $data;
+        return $user;
     }
 
     /**
@@ -71,8 +63,10 @@ class UserDao implements UserDaoInterface
      */
     public function getAllUser()
     {
-        $users = User::all();
-        return $users;
+        return User::select('users.*', 'courses.*')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->get();
     }
 
     /**
@@ -102,12 +96,23 @@ class UserDao implements UserDaoInterface
         return $users->save();
     }
 
-  /**
-   * Summary of changePassword
-   * @param $request
-   */
-  public function changePassword($request)
-  {
-      return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
-  }
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        $users = User::all()->count();
+        return $users;
+    }
+
+    /**
+     * Summary of changePassword
+     * @param $request
+     */
+    public function changePassword($request)
+    {
+        return User::where('id', '=', $request['id'])->update(['password' => Hash::make($request['confirm_password'])]);
+    }
 }

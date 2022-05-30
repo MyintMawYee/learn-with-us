@@ -2,8 +2,6 @@
 
 namespace App\Contracts\Services\Course;
 
-use Illuminate\Http\Request;
-
 interface CourseServiceInterface
 {
     /**
@@ -11,7 +9,7 @@ interface CourseServiceInterface
      * @param mixed $validated
      * @return void
      */
-    public function create(Request $request);
+    public function create($request);
 
     /**
      * Summary of edit
@@ -26,7 +24,7 @@ interface CourseServiceInterface
      * @param mixed $id
      * @return void
      */
-    public function update(Request $request, $id);
+    public function update($request, $id);
 
     /**
      * Display a listing of the resource.
@@ -71,10 +69,42 @@ interface CourseServiceInterface
      * @return void
      */
     public function getCourseMayLike($id);
+    
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse();
 
     /**
      * Summary of freeCourse
      * @return array
      */
     public function getTopCourse();
+
+    /**
+     * Summary of cancelCourse
+     * @return void
+     */
+    public function cancelCourse();
+
+    /**
+     * Summary of getCurrentData
+     * @return void
+     */
+    public function getCurrentData();
+    
+    /**
+     * Summary of buy Course
+     * @param $request
+     */
+    public function buyCourse($request);
+
+     /**
+     * Summary of getMyCourse
+     * @param mixed $id
+     * @return void
+     */
+    public function getMyCourse($id);
 }
