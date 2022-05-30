@@ -128,8 +128,26 @@ class UserController extends Controller
      */
     public function import(Request $request)
     {
+        if ($request->hasFile('file')) {
+            $updateFile = $request->file('file');
+
+            $path = $updateFile->getRealPath();
+            $fileExtension = $updateFile->getClientOriginalExtension();
+
+            $formats = ['xls', 'xlsx', 'ods', 'csv'];
+            if (!in_array($fileExtension, $formats)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Only supports upload .xlsx, .xls files'
+                ]);
+            }
+        }
         try {
             Excel::import(new UsersImportService, $request->file('file'));
+            return response()->json([
+                'result' => 1,
+                'message' => 'Import successfully'
+            ]);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
             return response()->json($failures);
