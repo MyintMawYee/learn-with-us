@@ -20,8 +20,8 @@ return [
     ],
 
     "coursecreate" => [
-        "success" => "Sorry, course couldn't add",
-        "fail" => "Course has been created successfully."
+        "fail" => "Sorry, course couldn't add",
+        "success" => "Course has been created successfully."
     ],
 
     "courseupdate" => [
