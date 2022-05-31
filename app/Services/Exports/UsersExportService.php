@@ -23,9 +23,15 @@ class UsersExportService implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'ID',
             'Name',
             'Email',
+            'email_verified_at',
             'Password',
+            'Type',
+            'Disable',
+            'Updated_at',
+            'Created_at'
         ];
     }
 }

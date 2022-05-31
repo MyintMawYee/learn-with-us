@@ -23,13 +23,13 @@ Route::post('/user/register', [UserAuthController::class, 'registerUser']);
 Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 Route::get('/register/confirm', [UserController::class, 'getRegisterConfirm']);
 Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
+Route::get('/course/top', [CourseController::class, 'getTopCourse']);
 
 Route::middleware('auth:api')->group(function() {
     Route::post('/user/change/password', [UserController::class, 'changePassword']);
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
-    Route::get('/course/top', [CourseController::class, 'getTopCourse']);
     Route::post('/course/buy', [CourseController::class, 'buyCourse']);
     Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
     Route::get('/course/show/{id}', [CourseController::class, 'getMyCourse']);
@@ -66,5 +66,6 @@ Route::middleware([IsAdmin::class])->group(function() {
     Route::get('/course/get/data', [CourseController::class, 'getCurrentData']);
     Route::get('/course/cancel', [CourseController::class , 'cancelCourse']);
 });
+
 
 
