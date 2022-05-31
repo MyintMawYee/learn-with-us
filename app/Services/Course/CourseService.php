@@ -312,13 +312,37 @@ class CourseService implements CourseServiceInterface
     }
 
     /** Search the specified resource from storage.
-     *
      * @param  $param
      * @return \Illuminate\Http\Response
      */
     public function searchCourse($param)
     {
-        return $this->courseService->searchCourse($param);
+        $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
+        $fcourse = $this->courseService->searchCourse($param);
+        if ($fcourse) {
+
+            foreach ($fcourse as $course) {
+                $filter['id'] = $course->id;
+                $filter['name'] = $course->name;
+                $filter['course_cover_path'] = $course->course_cover_path;
+                $filter['course_cover_link'] = $imgPath . $course->course_cover_path;
+                $filter['category_id'] = $course->category_id;
+                $filter["short_descrip"] = $course->short_descrip;
+                $filter["description"] = $course->description;
+                $filter["instructor"] = $course->instructor;
+                $filter["price"] = $course->price;
+                $finalData[] = $filter;
+            }
+            return [
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.searchdata.found"),
+                "data" => $finalData,
+            ];
+        }
+        return [
+            "result" => intval(Lang::get("messages.result.fail")),
+            "message" => Lang::get("messages.topcourse.notfound")
+        ];
     }
 
     /**
