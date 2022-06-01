@@ -15,16 +15,16 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create($request)
+    public function create($validated)
     {
         $course = Course::create([
-            'name' => $request->name,
-            'course_cover_path' => $request->course_cover_path,
-            'category_id' => $request->category_id,
-            'short_descrip' => $request->short_descrip,
-            'description' => $request->description,
-            'instructor' => $request->instructor,
-            'price' => $request->price
+            'name' => $validated['name'],
+            'course_cover_path' => $validated['course_cover_path'],
+            'category_id' => $validated['category_id'],
+            'short_descrip' => $validated['short_descrip'],
+            'description' => $validated['description'],
+            'instructor' => $validated['instructor'],
+            'price' => $validated['price']
         ]);
         return $course;
     }
@@ -46,18 +46,21 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object,$request)
+    public function update($id,$validated,$vdStatus)
     {
-        $object->name = $request->name;
-        $object->course_cover_path = $request->course_cover_path;
-        $object->category_id = $request->category_id;
-        $object->short_descrip = $request->short_descrip;
-        $object->description = $request->description;
-        $object->instructor = $request->instructor;
-        $object->price = $request->price;
-        $object->video()->delete();
-        $object->save();
-        return $object;
+        $updateCourse = Course::find($id);
+        $updateCourse->name = $validated["name"];
+        $updateCourse->course_cover_path = $validated['course_cover_path'];
+        $updateCourse->category_id = $validated['category_id'];
+        $updateCourse->short_descrip = $validated['short_descrip'];
+        $updateCourse->description = $validated['description'];
+        $updateCourse->instructor = $validated['instructor'];
+        $updateCourse->price = $validated['price'];
+        if ($vdStatus == 1) {
+            $updateCourse->video()->delete();
+        }
+        $updateCourse->save();
+        return $updateCourse;
     }
 
     /**
@@ -88,14 +91,12 @@ class CourseDao implements CourseDaoInterface
      * Search the specified resource from storage.
      *
      * @param  $param
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function searchCourse($param)
     {
         $categories = Category::all();
-
         $search_data = "%" . $param . "%";
-
         $courses = Course::where('instructor', 'like', $search_data)
             ->orWhere('price', 'like', $search_data)
             ->orWhereHas('category', function ($category) use ($search_data) {

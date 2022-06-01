@@ -9,7 +9,7 @@ interface CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create($request);
+    public function create($validated);
 
     /**
      * Summary of edit
@@ -23,7 +23,7 @@ interface CourseDaoInterface
      * @param mixed $id
      * @return void
      */
-    public function update($object, $request);
+    public function update($id, $validated, $vdStatus);
 
     /** 
      * Display a listing of the resource.
@@ -44,7 +44,7 @@ interface CourseDaoInterface
      * Search the specified resource from storage.
      *
      * @param  $param
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function searchCourse($param);
 
