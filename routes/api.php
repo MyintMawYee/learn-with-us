@@ -45,7 +45,7 @@ Route::middleware([IsAdmin::class])->group(function() {
     Route::get('/admin/show/{id}', [UserController::class, 'show']);
     Route::post('/admin/change/password', [UserController::class, 'changePassword']);
     Route::get('/user/show/{id}', [UserController::class, 'show']);
-    Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
+    //Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
     Route::get('/user/list', [UserController::class, ' getAllUser']);
     Route::get('/user/count', [UserController::class, 'countUser']);
     Route::get('/user/disable/{id}', [UserController::class, 'disableUser']);
@@ -58,13 +58,13 @@ Route::middleware([IsAdmin::class])->group(function() {
     Route::get('/categories/{category}', [CategoryController::class, 'show']);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
-    Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
+    //Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
     Route::get('/course/count', [CourseController::class, 'countCourse']);
     Route::get('/user/export', [UserController::class, 'export']);
     Route::post('/user/import', [UserController::class, 'import']);
-    Route::get('/course/get/data', [CourseController::class, 'getCurrentData']);
-    Route::get('/course/cancel', [CourseController::class , 'cancelCourse']);
+    //Route::get('/course/get/data', [CourseController::class, 'getCurrentData']);
+    //Route::get('/course/cancel', [CourseController::class , 'cancelCourse']);
 });
 
 
