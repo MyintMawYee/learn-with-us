@@ -9,7 +9,7 @@ interface CourseServiceInterface
      * @param mixed $validated
      * @return void
      */
-    public function create($request);
+    public function create($validated);
 
     /**
      * Summary of edit
@@ -24,7 +24,7 @@ interface CourseServiceInterface
      * @param mixed $id
      * @return void
      */
-    public function update($request, $id);
+    public function update($validated, $id);
 
     /**
      * Display a listing of the resource.
@@ -41,20 +41,20 @@ interface CourseServiceInterface
      */
     public function deleteCourse($id);
 
-    /**
-     * Summary of tmpFileStore
-     * @param mixed $validated
-     * @return void
-     */
-    public function createCheck($validated);
+    ///**
+    // * Summary of tmpFileStore
+    // * @param mixed $validated
+    // * @return void
+    // */
+    //public function createCheck($validated);
 
-    /**
-     * Summary of updateCheck
-     * @param mixed $validated
-     * @param mixed $id
-     * @return void
-     */
-    public function updateCheck($validated,$id);
+    ///**
+    // * Summary of updateCheck
+    // * @param mixed $validated
+    // * @param mixed $id
+    // * @return void
+    // */
+    //public function updateCheck($validated,$id);
     
     /** Search the specified resource from storage.
      *
@@ -83,17 +83,17 @@ interface CourseServiceInterface
      */
     public function getTopCourse();
 
-    /**
-     * Summary of cancelCourse
-     * @return void
-     */
-    public function cancelCourse();
-
-    /**
-     * Summary of getCurrentData
-     * @return void
-     */
-    public function getCurrentData();
+//    /**
+//     * Summary of cancelCourse
+//     * @return void
+//     */
+//    public function cancelCourse();
+//
+//    /**
+//     * Summary of getCurrentData
+//     * @return void
+//     */
+//    public function getCurrentData();
     
     /**
      * Summary of buy Course

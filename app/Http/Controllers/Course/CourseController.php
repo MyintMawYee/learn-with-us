@@ -32,7 +32,7 @@ class CourseController extends Controller
     public function createCourse(CourseSubmitRequest $request)
     {
         $validated = $request->validated();
-        $data = $this->courseService->createCheck($validated);
+        $data = $this->courseService->create($validated);
         return response()->json($data);
     }
 
@@ -45,7 +45,7 @@ class CourseController extends Controller
     public function updateCourse(CourseUpdateRequest $request, $id)
     {
         $validated = $request->validated();
-        $data = $this->courseService->updateCheck($validated,$id);
+        $data = $this->courseService->update($validated,$id);
         return response()->json($data);
     }
 
@@ -60,28 +60,28 @@ class CourseController extends Controller
         return response()->json($editCourse);
     }
 
-    /**
-     * Summary of confirmCreate
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function createConfirm(Request $request)
-    {
-        $create = $this->courseService->create($request);
-        return response()->json($create);
-    }
+    ///**
+    // * Summary of confirmCreate
+    // * @param Request $request
+    // * @return \Illuminate\Http\JsonResponse
+    // */
+    //public function createConfirm(Request $request)
+    //{
+    //    $create = $this->courseService->create($request);
+    //    return response()->json($create);
+    //}
 
-    /**
-     * Summary of updateCourse
-     * @param CourseSubmitRequest $request
-     * @param mixed $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateConfirm(Request $request, $id)
-    {
-        $update = $this->courseService->update($request, $id);
-        return response()->json($update);
-    }
+    ///**
+    // * Summary of updateCourse
+    // * @param CourseSubmitRequest $request
+    // * @param mixed $id
+    // * @return \Illuminate\Http\JsonResponse
+    // */
+    //public function updateConfirm(Request $request, $id)
+    //{
+    //    $update = $this->courseService->update($request, $id);
+    //    return response()->json($update);
+    //}
 
     /**
      * Summary of getAllCourse
@@ -117,11 +117,7 @@ class CourseController extends Controller
     public function searchCourse($param)
     {
         $courses = $this->courseService->searchCourse($param);
-        return response()->json([
-            'result' => 1,
-            'message' => "Search is completely finished",
-            'data' => $courses
-        ]);
+        return response()->json($courses);
     }
 
     /**
@@ -144,20 +140,20 @@ class CourseController extends Controller
         return response()->json($free);
     }
 
-    /**
-     * Summary of cancelCourse
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function cancelCourse() {
-        $cancel = $this->courseService->cancelCourse();
-        return response()->json($cancel);
-    }
-
-    public function getCurrentData() {
-        $currentData = $this->courseService->getCurrentData();
-        return response()->json($currentData);
-    } 
+//    /**
+//     * Summary of cancelCourse
+//     * @param Request $request
+//     * @return \Illuminate\Http\JsonResponse
+//     */
+//    public function cancelCourse() {
+//        $cancel = $this->courseService->cancelCourse();
+//        return response()->json($cancel);
+//    }
+//
+//    public function getCurrentData() {
+//        $currentData = $this->courseService->getCurrentData();
+//        return response()->json($currentData);
+//    } 
 
     /**
      * Summary of getMyCourse
