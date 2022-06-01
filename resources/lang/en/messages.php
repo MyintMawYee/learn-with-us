@@ -19,6 +19,22 @@ return [
         "success" => "You have been login successfully"
     ],
 
+    "registersuccess" => [
+        "wrongemail" => "Your email is wrong.",
+        "wrongpass" => "Your password is wrong.",
+        "fail" => "Sorry, Register failed. Check your network and try again",
+        "success" => "Registerd successfully"
+    ],
+
+    "passwordchange" => [
+        "fail" => "Password can not be changed",
+        "success" => "Password can be changed successfully"
+    ],
+
+    "usershow" => [
+       "success" => "User lists"
+    ],
+
     "coursecreate" => [
         "success" => "Sorry, course couldn't add",
         "fail" => "Course has been created successfully."
@@ -39,6 +55,11 @@ return [
         "notfound" => "Courses not found according to this cateogory id."
     ],
 
+    "mycourse" => [
+        "notfound" => "No  course found or something's wrong.",
+        "found" => "My Courses"
+    ],
+
     "topcourse" => [
         "notfound" => "No top course found or something's wrong.",
         "found" => "Top Courses found"
@@ -57,6 +78,11 @@ return [
     "coursedatacancel" => [
         "success" => "Course data has been cancelled successfully",
         "notfound" => "Current data not found."
+    ],
+
+    "coursebuy" => [
+        "fail" => "Your purchase is fail",
+        "success" => "Your purchase is success"
     ],
 
     "commentcreate" => [
