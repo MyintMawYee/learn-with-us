@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CourseService implements CourseServiceInterface
 {
     private $courseService;
@@ -32,17 +34,13 @@ class CourseService implements CourseServiceInterface
      */
     private function deleteCurrentSession($session)
     {
-        if (isset($session)) {
-            $data = $session;
-            if (Storage::disk('public')->exists("tmp_img/" . $data['course_cover_path'])) {
-                Storage::disk('public')->delete("tmp_img/" . $data['course_cover_path']);
-            }
-
-            foreach ($data['video'] as $video) {
-                $videoPath = $video['video_path'];
-                if (Storage::disk('public')->exists("tmp_video/" . $videoPath)) {
-                    Storage::disk('public')->delete("tmp_video/" . $videoPath);
-                }
+        if (Storage::disk('public')->exists("tmp_img/" . $session['course_cover_path'] ?? "")) {
+            Storage::disk('public')->delete("tmp_img/" . $session['course_cover_path'] ?? "");
+        }
+        foreach ($session['video'] as $video) {
+            $videoPath = $video['video_path'];
+            if (Storage::disk('public')->exists("tmp_video/" . $videoPath)) {
+                Storage::disk('public')->delete("tmp_video/" . $videoPath);
             }
         }
         return;
@@ -168,9 +166,10 @@ class CourseService implements CourseServiceInterface
                     } else {
                         $newPath = rand(0, 99) . $nvPath;
                         Storage::disk('public')->move(
-                            "tmp_video/" . $courseVd,
+                            "tmp_video/" . $nvPath,
                             "coursevideo/" . $newPath
                         );
+                        $this->courseVideoService->createVideo($id, $newPath);
                     }
                 }
                 return [
@@ -239,7 +238,9 @@ class CourseService implements CourseServiceInterface
             "price" => $validated['price']
         ];
         $courseCreater = Auth::guard('api')->user()->id;
-        $this->deleteCurrentSession($_SESSION['course_data' . $courseCreater]);
+        if (isset($_SESSION['course_data' . $courseCreater])) {
+            $this->deleteCurrentSession($_SESSION['course_data' . $courseCreater]);
+        }
         $_SESSION['course_data' . $courseCreater] = $courseData;
         return [
             "result" => intval(Lang::get("messages.result.success")),
@@ -300,11 +301,13 @@ class CourseService implements CourseServiceInterface
             "price" => $validated['price']
         ];
         $courseCreater = Auth::guard('api')->user()->id;
-        $this->deleteCurrentSession($_SESSION['course_data' . $courseCreater]);
+        if (isset($_SESSION['course_data' . $courseCreater])) {
+            $this->deleteCurrentSession($_SESSION['course_data' . $courseCreater]);
+        }
         $_SESSION['course_data' . $courseCreater] = $courseData;
         return [
             "result" => intval(Lang::get("messages.validation.success")),
-            "message" => Lang::get("messages.validation.success")
+            "message" => Lang::get("messages.validation.success"),
         ];
     }
 
@@ -390,8 +393,7 @@ class CourseService implements CourseServiceInterface
     {
         $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
         $fcourse = $this->courseService->getTopCourse();
-        if ($fcourse) {
-
+        if (!isEmpty($fcourse)) {
             foreach ($fcourse as $course) {
                 $filter["id"] = $course->id;
                 $filter['course_cover_path'] = $course->course_cover_path;
@@ -406,7 +408,7 @@ class CourseService implements CourseServiceInterface
             return [
                 "result" => intval(Lang::get("messages.result.success")),
                 "message" => Lang::get("messages.topcourse.found"),
-                "data" => $finalData,
+                "data" => $finalData
             ];
         }
         return [
