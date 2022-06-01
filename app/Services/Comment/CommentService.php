@@ -48,7 +48,7 @@ class CommentService implements CommentServiceInterface
     public function get($course_id)
     {
         $comment = $this->commentDao->get($course_id);
-        if ($comment) {
+        if ($comment->count() > 0) {
             foreach ($comment as $one) {
                 $filter["id"] = $one->id;
                 $filter["content"] = $one->content;

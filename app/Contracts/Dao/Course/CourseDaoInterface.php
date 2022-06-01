@@ -44,7 +44,7 @@ interface CourseDaoInterface
      * Search the specified resource from storage.
      *
      * @param  $param
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function searchCourse($param);
 

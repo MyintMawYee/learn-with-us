@@ -117,11 +117,7 @@ class CourseController extends Controller
     public function searchCourse($param)
     {
         $courses = $this->courseService->searchCourse($param);
-        return response()->json([
-            'result' => 1,
-            'message' => "Search is completely finished",
-            'data' => $courses
-        ]);
+        return response()->json($courses);
     }
 
     /**

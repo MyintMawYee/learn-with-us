@@ -88,14 +88,12 @@ class CourseDao implements CourseDaoInterface
      * Search the specified resource from storage.
      *
      * @param  $param
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function searchCourse($param)
     {
         $categories = Category::all();
-
         $search_data = "%" . $param . "%";
-
         $courses = Course::where('instructor', 'like', $search_data)
             ->orWhere('price', 'like', $search_data)
             ->orWhereHas('category', function ($category) use ($search_data) {

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class CourseService implements CourseServiceInterface
 {
@@ -313,14 +314,13 @@ class CourseService implements CourseServiceInterface
 
     /** Search the specified resource from storage.
      * @param  $param
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function searchCourse($param)
     {
         $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
-        $fcourse = $this->courseService->searchCourse($param);
-        if ($fcourse) {
-
+        $fcourse =  $this->courseService->searchCourse($param);
+        if ($fcourse->count() > 0) {
             foreach ($fcourse as $course) {
                 $filter['id'] = $course->id;
                 $filter['name'] = $course->name;
@@ -341,7 +341,7 @@ class CourseService implements CourseServiceInterface
         }
         return [
             "result" => intval(Lang::get("messages.result.fail")),
-            "message" => Lang::get("messages.topcourse.notfound")
+            "message" => Lang::get("messages.searchdata.notfound")
         ];
     }
 
@@ -364,7 +364,7 @@ class CourseService implements CourseServiceInterface
     {
         $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
         $data = $this->courseService->getCourseMayLike($id);
-        if ($data) {
+        if ($data->count() > 0) {
             foreach ($data as $filter) {
                 $finalData["id"] = $filter->id;
                 $finalData['name'] = $filter->name;
@@ -389,11 +389,15 @@ class CourseService implements CourseServiceInterface
         ];
     }
 
+    /**
+     * Summary of getTopCourse
+     * @return array
+     */
     public function getTopCourse()
     {
         $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
         $fcourse = $this->courseService->getTopCourse();
-        if (!isEmpty($fcourse)) {
+        if ($fcourse->count() > 0) {
             foreach ($fcourse as $course) {
                 $filter["id"] = $course->id;
                 $filter['course_cover_path'] = $course->course_cover_path;
@@ -411,10 +415,12 @@ class CourseService implements CourseServiceInterface
                 "data" => $finalData
             ];
         }
-        return [
-            "result" => intval(Lang::get("messages.result.fail")),
-            "message" => Lang::get("messages.topcourse.notfound")
-        ];
+        else {
+            return [
+                "result" => intval(Lang::get("messages.result.fail")),
+                "message" => Lang::get("messages.topcourse.notfound")
+            ];
+        }
     }
 
     /**
