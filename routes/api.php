@@ -24,9 +24,11 @@ Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 Route::get('/register/confirm', [UserController::class, 'getRegisterConfirm']);
 Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
 Route::get('/course/top', [CourseController::class, 'getTopCourse']);
+Route::get('/categories/{category}', [CategoryController::class, 'show']);
 
-Route::middleware('auth:api')->group(function() {
+Route::middleware('auth:api')->group(function () {
     Route::post('/user/change/password', [UserController::class, 'changePassword']);
+    Route::get('/user/list', [UserController::class, 'getAllUser']);
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
@@ -41,12 +43,12 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/course/youmaylike/{id}', [CourseController::class, 'getCoureMayLike']);
 });
 
-Route::middleware([IsAdmin::class])->group(function() {
+Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/admin/show/{id}', [UserController::class, 'show']);
     Route::post('/admin/change/password', [UserController::class, 'changePassword']);
     Route::get('/user/show/{id}', [UserController::class, 'show']);
     //Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
-    Route::get('/user/list', [UserController::class, ' getAllUser']);
+
     Route::get('/user/count', [UserController::class, 'countUser']);
     Route::get('/user/disable/{id}', [UserController::class, 'disableUser']);
     Route::get('/categories', [CategoryController::class, 'index']);
@@ -55,7 +57,6 @@ Route::middleware([IsAdmin::class])->group(function() {
     Route::get('/categories/count_purchase', [CategoryController::class, 'countPurchaseCategory']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
     Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
     //Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
@@ -66,6 +67,3 @@ Route::middleware([IsAdmin::class])->group(function() {
     //Route::get('/course/get/data', [CourseController::class, 'getCurrentData']);
     //Route::get('/course/cancel', [CourseController::class , 'cancelCourse']);
 });
-
-
-
