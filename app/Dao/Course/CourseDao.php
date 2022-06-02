@@ -46,7 +46,7 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($id,$validated,$vdStatus)
+    public function update($id, $validated, $vdStatus)
     {
         $updateCourse = Course::find($id);
         $updateCourse->name = $validated["name"];
@@ -107,15 +107,20 @@ class CourseDao implements CourseDaoInterface
 
     /**
      * Summary of getCourseMayLike
-     * @param mixed $id
-     * @return Object
+     * @param mixed $course_id
+     * @return mixed
      */
-    public function getCourseMayLike($id)
+    public function getCourseMayLike($course_id)
     {
-        return Course::where("category_id", $id)
-            ->inRandomOrder()
-            ->limit(4)
-            ->get();
+        $currentCourse = Course::find($course_id);
+        if ($currentCourse) {
+            $currentCategory = $currentCourse->category->id;
+            return Course::where("id", "!=", $course_id)
+                ->where("category_id", $currentCategory)
+                ->inRandomOrder()
+                ->limit(4)
+                ->get();
+        }
     }
 
     /**
@@ -162,9 +167,10 @@ class CourseDao implements CourseDaoInterface
      */
     public function getMyCourse($id)
     {
-        return User::select('courses.*')
+        return User::select('courses.*', 'categories.name as category_name')
         ->join('purchases', 'purchases.user_id', 'users.id')
         ->join('courses', 'courses.id', 'purchases.course_id')
+        ->join('categories', 'categories.id', 'courses.category_id')
         ->where('users.id', '=' ,$id)
         ->get();
     }

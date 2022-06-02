@@ -53,7 +53,7 @@ interface CourseDaoInterface
      * @param mixed $id
      * @return Object
      */
-    public function getCourseMayLike($id);
+    public function getCourseMayLike($course_id);
 
     /**
      * Count all Courses

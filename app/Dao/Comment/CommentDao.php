@@ -29,7 +29,9 @@ class CommentDao implements CommentDaoInterface
      */
     public function get($course_id)
     {
-        return Comment::where("course_id", $course_id)->orderBy("id", "DESC")->get();
+        return Comment::where("course_id", $course_id)
+        ->orderBy("id", "DESC")->limit(7)
+        ->get();
     }
 
     /**

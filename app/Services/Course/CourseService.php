@@ -361,10 +361,10 @@ class CourseService implements CourseServiceInterface
      * @param mixed $id
      * @return array
      */
-    public function getCourseMayLike($id)
+    public function getCourseMayLike($course_id)
     {
         $imgPath = "http://127.0.0.1:8000/storage/courseimg/";
-        $data = $this->courseService->getCourseMayLike($id);
+        $data = $this->courseService->getCourseMayLike($course_id);
         if ($data->count() > 0) {
             foreach ($data as $filter) {
                 $finalData["id"] = $filter->id;
