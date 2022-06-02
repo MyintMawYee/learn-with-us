@@ -167,10 +167,11 @@ class CourseDao implements CourseDaoInterface
      */
     public function getMyCourse($id)
     {
-        return User::select('courses.*')
-            ->join('purchases', 'purchases.user_id', 'users.id')
-            ->join('courses', 'courses.id', 'purchases.course_id')
-            ->where('users.id', '=', $id)
-            ->get();
+        return User::select('courses.*', 'categories.name as category_name')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->join('categories', 'categories.id', 'courses.category_id')
+        ->where('users.id', '=' ,$id)
+        ->get();
     }
 }
