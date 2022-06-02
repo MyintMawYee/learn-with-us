@@ -24,14 +24,15 @@ Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 Route::get('/register/confirm', [UserController::class, 'getRegisterConfirm']);
 Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
 Route::get('/course/top', [CourseController::class, 'getTopCourse']);
+Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
 
 Route::middleware('auth:api')->group(function() {
     Route::post('/user/change/password', [UserController::class, 'changePassword']);
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
+    Route::get('/user/show/{id}', [UserController::class, 'show']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
     Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
     Route::post('/course/buy', [CourseController::class, 'buyCourse']);
-    Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
     Route::get('/course/show/{id}', [CourseController::class, 'getMyCourse']);
     Route::post('/comment/create', [CommentController::class, 'createComment']);
     Route::get('/comment/course/{id}', [CommentController::class, 'getcommentCourse']);
@@ -44,7 +45,6 @@ Route::middleware('auth:api')->group(function() {
 Route::middleware([IsAdmin::class])->group(function() {
     Route::get('/admin/show/{id}', [UserController::class, 'show']);
     Route::post('/admin/change/password', [UserController::class, 'changePassword']);
-    Route::get('/user/show/{id}', [UserController::class, 'show']);
     //Route::post('/course/create/confirm', [CourseController::class, 'createConfirm']);
     Route::get('/user/list', [UserController::class, ' getAllUser']);
     Route::get('/user/count', [UserController::class, 'countUser']);
