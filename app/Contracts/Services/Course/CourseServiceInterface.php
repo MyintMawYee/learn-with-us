@@ -68,7 +68,7 @@ interface CourseServiceInterface
      * @param mixed $id
      * @return void
      */
-    public function getCourseMayLike($id);
+    public function getCourseMayLike($course_id);
     
     /**
      * Count all Courses
