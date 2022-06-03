@@ -32,7 +32,7 @@ return [
     ],
 
     "usershow" => [
-       "success" => "User lists"
+        "success" => "User lists"
     ],
 
     "coursecreate" => [
@@ -68,6 +68,11 @@ return [
     "searchdata" => [
         "notfound" => "No search data found or something's wrong.",
         "found" => "Search data are found"
+    ],
+
+    "categorydata" => [
+        "notfound" => "No category data found or something's wrong.",
+        "found" => "Category data are found"
     ],
 
     "coursecurrentdata" => [
