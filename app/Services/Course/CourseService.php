@@ -5,6 +5,7 @@ namespace App\Services\Course;
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Contracts\Dao\CourseVideo\CourseVideoDaoInterface;
 use App\Contracts\Services\Course\CourseServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 
@@ -96,9 +97,11 @@ class CourseService implements CourseServiceInterface
      */
     public function edit($id)
     {
+        $user_id = Auth::guard('api')->user()->id;
         $imgPath = "http://" . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERVER_PORT'] . "/storage/courseimg/";
         $videoPath = "http://" . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERVER_PORT'] . "/storage/coursevideo/";
         $editData = $this->courseService->edit($id);
+        $purchase = false;
         $finalData = [];
         if ($editData) {
             foreach ($editData->video as $video) {
@@ -107,10 +110,19 @@ class CourseService implements CourseServiceInterface
                 $data["video_path"] = $videoPath . $video->path;
                 $finalData[] = $data;
             }
+            foreach ($editData->purchase as $purchase) {
+                if ($purchase->user_id == $user_id) {
+                    $purchase = true;
+                }
+                else {
+                    $purchase = false;
+                }
+            }
             return [
                 "result" => intval(Lang::get("messages.result.success")),
                 "message" => Lang::get("messages.courseedit.success"),
                 "data" => [
+                    "purchase" => $purchase,
                     "id" => $editData->id,
                     "name" => $editData->name,
                     "cover_name" => $editData->course_cover_path,
