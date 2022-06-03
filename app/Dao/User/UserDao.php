@@ -63,9 +63,10 @@ class UserDao implements UserDaoInterface
      */
     public function getAllUser()
     {
-        return User::select('users.name as user_name', 'courses.*')
-        ->join('purchases', 'purchases.user_id', 'users.id')
-        ->join('courses', 'courses.id', 'purchases.course_id')
+        return User::select('users.id as user_id','users.name as user_name', 'users.email as email','courses.name as name')
+        ->leftjoin('purchases', 'purchases.user_id', 'users.id')
+        ->leftjoin('courses', 'courses.id', 'purchases.course_id')
+        ->where('type','1')
         ->get();
     }
 
