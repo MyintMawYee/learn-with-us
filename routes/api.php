@@ -53,6 +53,7 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/user/disable/{id}', [UserController::class, 'disableUser']);
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories/show_name/{category}', [CategoryController::class, 'showCategoryName']);
     Route::get('/categories/count', [CategoryController::class, 'countCategory']);
     Route::get('/categories/count_purchase', [CategoryController::class, 'countPurchaseCategory']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);

@@ -60,6 +60,17 @@ class CategoryService implements CategoryServiceInterface
 		return $this->categoryDao->updateCategory($request, $id);
 	}
 
+	/**
+	 * Display the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function showCategoryName($id)
+	{
+		return $this->categoryDao->showCategoryName($id);
+	}
+
 	/** 
 	 * Display the specified resource from storage.
 	 * @param  $param

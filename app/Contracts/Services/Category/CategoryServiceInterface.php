@@ -45,6 +45,14 @@ interface CategoryServiceInterface
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function showCategoryName($id);
+
+    /**
+     * Display the specified resource related to courses.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function showCategory($id);
 
     /**
