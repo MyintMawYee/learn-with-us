@@ -139,13 +139,13 @@ class UserController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Only supports upload .xlsx, .xls files'
-                ]);
+                ], 401);
             }
         } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Excel file must be required!'
-            ]);
+            ], 401);
         }
         try {
             Excel::import(new UsersImportService, $request->file('file'));
@@ -155,7 +155,7 @@ class UserController extends Controller
             ]);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
-            return response()->json($failures);
+            return response()->json($failures, 401);
         }
     }
 

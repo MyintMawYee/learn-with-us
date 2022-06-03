@@ -42,6 +42,18 @@ class CategoryDao implements CategoryDaoInterface
      * @param  $param
      * @return Object
      */
+    public function showCategoryName($id)
+    {
+        $category = Category::findOrFail($id);
+        return $category;
+    }
+
+    /**
+     * Show the specified resource from storage.
+     *
+     * @param  $param
+     * @return Object
+     */
     public function showCategory($id)
     {
         $category = Category::with('course')->findOrFail($id);
@@ -74,7 +86,7 @@ class CategoryDao implements CategoryDaoInterface
         $category->update([
             'name' => $request->name,
         ]);
-        return response()->json(['message' => 'Category has been updated Successfully'], 200);
+        return response()->json([$category, 'message' => 'Category has been updated Successfully'], 200);
     }
 
     /**
