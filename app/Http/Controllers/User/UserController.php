@@ -9,6 +9,7 @@ use App\Http\Requests\PasswordChangeRequest;
 use App\Services\Exports\UsersExportService;
 use App\Services\Imports\UsersImportService;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\FileUploadRequest;
 
 class UserController extends Controller
 {
@@ -126,27 +127,9 @@ class UserController extends Controller
      * @return \Illuminate\Support\Collection
      * import excel file
      */
-    public function import(Request $request)
+    public function import(FileUploadRequest $request)
     {
-        if ($request->hasFile('file')) {
-            $updateFile = $request->file('file');
-
-            $path = $updateFile->getRealPath();
-            $fileExtension = $updateFile->getClientOriginalExtension();
-
-            $formats = ['xls', 'xlsx', 'ods', 'csv'];
-            if (!in_array($fileExtension, $formats)) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Only supports upload .xlsx, .xls files'
-                ], 401);
-            }
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Excel file must be required!'
-            ], 401);
-        }
+        $validated = $request->validated();
         try {
             Excel::import(new UsersImportService, $request->file('file'));
             return response()->json([
@@ -155,7 +138,7 @@ class UserController extends Controller
             ]);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
-            return response()->json($failures, 401);
+            return response()->json($failures, 400);
         }
     }
 
