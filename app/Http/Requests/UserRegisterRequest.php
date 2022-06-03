@@ -23,7 +23,6 @@ class UserRegisterRequest extends FormRequest
      *
      * @return array
      */
-
     public function rules()
     {
         return [
@@ -38,21 +37,19 @@ class UserRegisterRequest extends FormRequest
       * @param Validator $validator
       * @return void
       */
-
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
             'result' => 0,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ],401));
+        ],400));
     }
     
     /**
      * Summary of messages
      * @return array<string>
      */
-
     public function messages()
     {
         return [     
