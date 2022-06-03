@@ -88,7 +88,7 @@ class UserController extends Controller
         $users =  $this->userService->countUser();
         return response()->json([
             'result' => 1,
-            'data' => $users
+            'count' => $users
         ]);
     }
 
@@ -141,6 +141,11 @@ class UserController extends Controller
                     'message' => 'Only supports upload .xlsx, .xls files'
                 ]);
             }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Excel file must be required!'
+            ]);
         }
         try {
             Excel::import(new UsersImportService, $request->file('file'));

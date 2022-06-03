@@ -63,11 +63,11 @@ class UserDao implements UserDaoInterface
      */
     public function getAllUser()
     {
-        return User::select('users.id as user_id','users.name as user_name', 'users.email as email','courses.name as name')
-        ->leftjoin('purchases', 'purchases.user_id', 'users.id')
-        ->leftjoin('courses', 'courses.id', 'purchases.course_id')
-        ->where('type','1')
-        ->get();
+        return User::select('users.id as user_id', 'users.name as user_name', 'users.email as email', 'courses.name as name')
+            ->leftjoin('purchases', 'purchases.user_id', 'users.id')
+            ->leftjoin('courses', 'courses.id', 'purchases.course_id')
+            ->where('type', '1')
+            ->get();
     }
 
     /**
@@ -104,7 +104,7 @@ class UserDao implements UserDaoInterface
      */
     public function countUser()
     {
-        $users = User::all()->count();
+        $users = User::all()->where('type', '1')->count();
         return $users;
     }
 
