@@ -25,7 +25,6 @@ Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 //Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
 Route::get('/course/top', [CourseController::class, 'getTopCourse']);
 Route::get('/categories/show/{category}', [CategoryController::class, 'show']);
-Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
