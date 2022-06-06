@@ -27,7 +27,7 @@ class CourseSubmitRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'course_cover_path' => 'required|mimes:jpg,jpeg|max:2000',
+            'course_cover_path' => 'required|mimes:jpg,jpeg,png|max:2000',
             'video_path' => 'required',
             'video_path.*' => 'required|mimes:mp4|max:20000',
             'category_id' => 'required|numeric',
@@ -62,7 +62,7 @@ class CourseSubmitRequest extends FormRequest
             'name.required' => 'Name is required',
             'name.max' => 'Name must not be more than 50 characters.',
             'course_cover_path.required' => 'Your image is required',
-            'course_cover_path.mimes' => 'Your image must be JPG or JPEG format.',
+            'course_cover_path.mimes' => 'Your image must be JPG or JPEG or PNG format.',
             'course_cover_path.max' => 'Your image is more than 2MB.',
             'video_path.*.required' => 'Your videos is required',
             'video_path.*.mimes' => 'Your videos must be MP4 format.',
