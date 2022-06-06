@@ -59,7 +59,7 @@ Route::middleware([IsAdmin::class])->group(function() {
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::get('/categories/{category}', [CategoryController::class, 'show']);
     Route::post('/course/create', [CourseController::class, 'createCourse']);
-    Route::put('/course/update/{id}', [CourseController::class, 'updateCourse']);
+    Route::post('/course/update/{id}', [CourseController::class, 'updateCourse']);
     //Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
     Route::get('/course/count', [CourseController::class, 'countCourse']);
