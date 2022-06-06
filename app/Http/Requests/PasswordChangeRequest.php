@@ -37,14 +37,13 @@ class PasswordChangeRequest extends FormRequest
       * @param Validator $validator
       * @return void
       */
-
       public function failedValidation(Validator $validator)
       {
           throw new HttpResponseException(response()->json([
               'result' => 0,
               'message'   => 'Validation errors',
               'data'      => $validator->errors()
-          ]));
+          ],400));
       }
       
       /**
