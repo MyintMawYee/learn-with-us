@@ -211,25 +211,24 @@ class CourseController extends Controller
     public function buyCourse(Request $request)
     {
         $courses = $this->courseService->buyCourse($request);
-        $this->mailsend();
+        $this->mailsend($courses);
         return response()->json([
             'result' => 1,
             'message' =>'success',
-            'data' => 'success'
-        ]);
+            ]);
     }
 
     /** 
      * To send mail 
      * @return boolean
      */
-    public function mailsend()
+    public function mailsend($user)
     {
         $details = [
             'title' => 'Title: Course',
             'body' => 'Body: Your purchase is success'
         ];
-        Mail::to('shwephue7889@gmail.com')->send(new SendMail($details));
+        Mail::to($user)->send(new SendMail($details));
         return true;
     }
 }
