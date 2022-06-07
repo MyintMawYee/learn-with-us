@@ -36,7 +36,7 @@ class UserAuthController extends Controller
     public function loginUser(UserLoginRequest $request) {
         $credentials = $request->validated();
         $data = $this->userService->login($credentials);
-        return response()->json($data);
+        return response()->json($data["res"],$data["status"]);
     }
     
     /**
