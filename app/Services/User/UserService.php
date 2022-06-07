@@ -29,15 +29,21 @@ class UserService implements UserServiceInterface
     {
         if (!Auth::attempt($validated)) {
             return [
-                "result" => intval(Lang::get("messages.fail.result")),
-                "message" => Lang::get("messages.loginsuccess.wrongpass")
+                "res" => [
+                    "result" => intval(Lang::get("messages.fail.result")),
+                    "message" => Lang::get("messages.loginsuccess.wrongpass")
+                ],
+                "status" => 400
             ];
         }
         $user = $this->userDao->login($validated);
         if (!$user) {
             return [
-                "result" => intval(Lang::get("messages.fail.result")),
-                "message" => Lang::get("messages.loginsuccess.fail")
+                "res" => [
+                    "result" => intval(Lang::get("messages.fail.result")),
+                    "message" => Lang::get("messages.loginsuccess.fail")
+                ],
+                "status" => 599
             ];
         }
         $data['token'] = $user->createToken('myToken')->accessToken;
@@ -46,9 +52,12 @@ class UserService implements UserServiceInterface
         $data['type'] = $user->type;
         $data['disable'] = $user->disable;
         return [
-            "result" => intval(Lang::get("messages.result.success")),
-            "message" => Lang::get("messages.loginsuccess.success"),
-            "data" => $data
+            "res" => [
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.loginsuccess.success"),
+                "data" => $data
+            ],
+            "status" => 200
         ];
     }
 
@@ -89,7 +98,7 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->registerconfirm($validated);
     }
-  
+
     /**
      * Display a listing of the resource.
      *
@@ -108,7 +117,7 @@ class UserService implements UserServiceInterface
      */
     public function show($id)
     {
-        return $users= $this->userDao->show($id);
+        return $users = $this->userDao->show($id);
     }
 
     /**
@@ -116,9 +125,9 @@ class UserService implements UserServiceInterface
      * @param $id
      * @return array
      */
-    public function disableUser($id) 
+    public function disableUser($id)
     {
-        $users= $this->userDao->disableUser($id);
+        $users = $this->userDao->disableUser($id);
         if ($users) {
             return [
                 'result' => 1,
