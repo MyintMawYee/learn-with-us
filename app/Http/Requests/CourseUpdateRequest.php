@@ -27,7 +27,7 @@ class CourseUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'course_cover_path' => 'mimes:jpg,jpeg,png|max:2000',
+            'course_cover_path' => 'nullable|mimes:jpg,jpeg,png|max:2000',
             'video_path.*' => 'mimes:mp4|max:20000',
             'category_id' => 'required|numeric',
             'short_descrip' => 'required|max:100',

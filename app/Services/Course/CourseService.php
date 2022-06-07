@@ -413,6 +413,7 @@ class CourseService implements CourseServiceInterface
         if ($fcourse->count() > 0) {
             foreach ($fcourse as $course) {
                 $filter["id"] = $course->id;
+                $filter["name"] = $course->name;
                 $filter['course_cover_path'] = $course->course_cover_path;
                 $filter['course_cover_link'] = $imgPath . $course->course_cover_path;
                 $filter['category_id'] = $course->category_id;
