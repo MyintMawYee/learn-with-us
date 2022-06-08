@@ -25,6 +25,8 @@ Route::post('/user/login', [UserAuthController::class, 'loginUser']);
 //Route::post('/register/confirm', [UserController::class, 'registerConfirm']);
 Route::get('/course/top', [CourseController::class, 'getTopCourse']);
 Route::get('/categories/show/{category}', [CategoryController::class, 'show']);
+Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
+Route::get('/user/export', [UserController::class, 'export']);
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/course/detail/{id}', [CourseController::class, 'detailCourse']);
@@ -32,7 +34,6 @@ Route::middleware('auth:api')->group(function() {
     Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);
     Route::get('/user/show/{id}', [UserController::class, 'show']);
     Route::get('/course/get_all', [CourseController::class, 'getAllCourse']);
-    Route::get('/course/search/{keyword}', [CourseController::class, 'searchCourse']);
     Route::post('/course/buy', [CourseController::class, 'buyCourse']);
     Route::get('/course/show/{id}', [CourseController::class, 'getMyCourse']);
     Route::post('/comment/create', [CommentController::class, 'createComment']);
@@ -63,7 +64,6 @@ Route::middleware([IsAdmin::class])->group(function() {
     //Route::put('/course/update/confirm/{id}', [CourseController::class, 'updateConfirm']);
     Route::delete('/course/delete/{id}', [CourseController::class, 'deleteCourse']);
     Route::get('/course/count', [CourseController::class, 'countCourse']);
-    Route::get('/user/export', [UserController::class, 'export']);
     Route::post('/user/import', [UserController::class, 'import']);
     //Route::get('/course/get/data', [CourseController::class, 'getCurrentData']);
     //Route::get('/course/cancel', [CourseController::class , 'cancelCourse']);
