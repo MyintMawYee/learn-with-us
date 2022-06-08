@@ -37,14 +37,13 @@ class PasswordChangeRequest extends FormRequest
       * @param Validator $validator
       * @return void
       */
-
       public function failedValidation(Validator $validator)
       {
           throw new HttpResponseException(response()->json([
               'result' => 0,
               'message'   => 'Validation errors',
               'data'      => $validator->errors()
-          ],));
+          ],400));
       }
       
       /**
@@ -57,8 +56,8 @@ class PasswordChangeRequest extends FormRequest
           return [          
               'old_password.required' => 'Old Password is required',
               'new_password.required' => 'New Password is required',
-              'confirm_password.required' => 'Confirm Password is required',
               'new_password.min' => 'Password min length is 8 character',
+              'confirm_password.required' => 'Confirm Password is required',
               'confirm_password.min' => 'Password min length is 8 character',
               'confirm_password.same' => 'Password does not match',
             ];
