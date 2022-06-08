@@ -154,10 +154,11 @@ class CourseDao implements CourseDaoInterface
      */
     public function buyCourse($request)
     {
-        return Purchase::insert([
+        $user = Purchase::create([
             'user_id' => $request['user_id'],
             'course_id' => $request['course_id'],
         ]);
+        return $user->user->email;
     }
 
     /**
