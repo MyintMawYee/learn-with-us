@@ -105,8 +105,8 @@ class UserController extends Controller
         if (!$users) {
             return response()->json([
                 'result' => 0,
-                'message' => 'Password cannot be changed',
-            ], 401);
+                'message' => 'Old password is invalid',
+            ],400);
         }
         return response()->json([
             'result' => 1,
