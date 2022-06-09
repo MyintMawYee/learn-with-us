@@ -6,7 +6,7 @@ use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class UsersExport implements FromCollection, WithHeadings
+class UsersExportService implements FromCollection, WithHeadings
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -23,9 +23,15 @@ class UsersExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'ID',
             'Name',
             'Email',
+            'email_verified_at',
             'Password',
+            'Type',
+            'Disable',
+            'Updated_at',
+            'Created_at'
         ];
     }
 }

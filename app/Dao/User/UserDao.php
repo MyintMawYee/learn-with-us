@@ -14,20 +14,12 @@ class UserDao implements UserDaoInterface
     /**
      * Summary of login
      * @param mixed $validated
-     * @return array|bool
+     * @return Object
      */
     public function login($validated)
     {
-        if (!Auth::attempt($validated)) {
-            return false;
-        }
         $user = User::where('email', $validated['email'])->first();
-        $data['token'] = $user->createToken('myToken')->accessToken;
-        $data["id"] = $user->id;
-        $data['name'] = $user->name;
-        $data['type'] = $user->type;
-        $data['disable'] = $user->disable;
-        return $data;
+        return $user;
     }
 
     /**
@@ -71,8 +63,11 @@ class UserDao implements UserDaoInterface
      */
     public function getAllUser()
     {
-        $users = User::all();
-        return $users;
+        return User::select('users.id as user_id', 'users.name as user_name', 'users.email as email', 'courses.name as name')
+            ->leftjoin('purchases', 'purchases.user_id', 'users.id')
+            ->leftjoin('courses', 'courses.id', 'purchases.course_id')
+            ->where('type', '1')
+            ->get();
     }
 
     /**
@@ -102,18 +97,29 @@ class UserDao implements UserDaoInterface
         return $users->save();
     }
 
-  /**
-   * Summary of changePassword
-   * @param $request
-   */
-  public function changePassword($request)
-  {
-    $users = User::findorfail($request['id']);
-    //$user->password;
-    if(!Hash::check($request['old_password'],$users->password)){
-        return false;
-    }else{
-        return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
-  }
+    /**
+     * Summary of changePassword
+     * @param $request
+     */
+    public function changePassword($request)
+    {
+        $users = User::findorfail($request['id']);
+        //$user->password;
+        if(!Hash::check($request['old_password'],$users->password)){
+            return false;
+        }else{
+            return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
+        }
+    }
+
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        $users = User::all()->where('type', '1')->count();
+        return $users;
     }
 }

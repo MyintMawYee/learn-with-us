@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('api')->user() && Auth::guard('api')->user()->type == 1) {
+        if (Auth::guard('api')->user() && Auth::guard('api')->user()->type == 0) {
             return $next($request);
         }
         return response()->json([

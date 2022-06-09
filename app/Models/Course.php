@@ -11,14 +11,29 @@ class Course extends Model
         'short_descrip', 'description', 'instructor', 'price'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
+    /**
+     * Join course and course_videos tables 
+     */
     public function video()
     {
         return $this->hasMany(CourseVideo::class, "course_id", "id");
     }
 
+    /**
+     * Join course and category tables 
+     */
     public function category()
     {
         return $this->belongsTo('App\Models\Category', 'category_id');
     }
 
+    /**
+     * Summary of purchase
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchase() {
+        return $this->hasMany(Purchase::class, 'course_id','id');
+    }
 }

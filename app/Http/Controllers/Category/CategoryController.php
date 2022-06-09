@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Category;
+
 use App\Http\Controllers\Controller;
 use App\Contracts\Services\Category\CategoryServiceInterface;
 use Illuminate\Http\Request;
@@ -54,6 +55,18 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function showCategoryName($id)
+    {
+        $category = $this->categoryInterface->showCategoryName($id);
+        return $category;
+    }
+
+    /**
+     * Display the specified resource related to courses.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $category = $this->categoryInterface->showCategory($id);
@@ -82,6 +95,28 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = $this->categoryInterface->delete($id);
+        return $category;
+    }
+
+    /**
+     * Count all Category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCategory()
+    {
+        $category = $this->categoryInterface->countCategory();
+        return $category;
+    }
+
+    /**
+     * Count category which buy users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countPurchaseCategory()
+    {
+        $category = $this->categoryInterface->countPurchaseCategory();
         return $category;
     }
 }

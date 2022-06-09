@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class UsersImport implements ToModel, WithHeadingRow, WithValidation
+class UsersImportService implements ToModel, WithHeadingRow, WithValidation
 {
     /**
      * @param array $row
@@ -21,7 +21,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
         return new User([
             'name' => $row['name'],
             'email' => $row['email'],
-            'password' => Hash::make($row['password'])
+            'password' => Hash::make($row['password']),
+            'type' => $row['type']
         ]);
     }
 
@@ -45,6 +46,11 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
             // Above is alias for as it always validates in batches
             '*.password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+
+            'type' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.type' => 'required|numeric',
         ];
     }
 }

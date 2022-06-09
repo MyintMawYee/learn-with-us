@@ -1,103 +1,153 @@
 <?php
+
 namespace App\Services\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Contracts\Services\User\UserServiceInterface;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
-class UserService implements UserServiceInterface {
-  private $userDao;
+class UserService implements UserServiceInterface
+{
+    private $userDao;
 
-  /**
-   * Summary of __construct
-   * @param UserDaoInterface $userDaoInterface
-   */
-  
-  public function __construct(UserDaoInterface $userDaoInterface)
-  {
-    $this->userDao = $userDaoInterface;
-  }
+    /**
+     * Summary of __construct
+     * @param UserDaoInterface $userDaoInterface
+     */
+    public function __construct(UserDaoInterface $userDaoInterface)
+    {
+        $this->userDao = $userDaoInterface;
+    }
 
-  /**
-   * Summary of login
-   * @param mixed $validated
-   * @return array|bool
-   */
+    /**
+     * Summary of login
+     * @param mixed $validated
+     * @return array
+     */
+    public function login($validated)
+    {
+        if (!Auth::attempt($validated)) {
+            return [
+                "res" => [
+                    "result" => intval(Lang::get("messages.fail.result")),
+                    "message" => Lang::get("messages.loginsuccess.wrongpass")
+                ],
+                "status" => 400
+            ];
+        }
+        $user = $this->userDao->login($validated);
+        if (!$user) {
+            return [
+                "res" => [
+                    "result" => intval(Lang::get("messages.fail.result")),
+                    "message" => Lang::get("messages.loginsuccess.fail")
+                ],
+                "status" => 599
+            ];
+        }
+        $data['token'] = $user->createToken('myToken')->accessToken;
+        $data["id"] = $user->id;
+        $data['name'] = $user->name;
+        $data['type'] = $user->type;
+        $data['disable'] = $user->disable;
+        return [
+            "res" => [
+                "result" => intval(Lang::get("messages.result.success")),
+                "message" => Lang::get("messages.loginsuccess.success"),
+                "data" => $data
+            ],
+            "status" => 200
+        ];
+    }
 
-  public function login($validated)
-  {
-    return $this->userDao->login($validated);
-  }
+    /**
+     * Summary of register
+     * @param mixed $validated
+     */
+    public function register($validated)
+    {
+        return $this->userDao->register($validated);
+    }
 
-  /**
-   * Summary of register
-   * @param mixed $validated
-   */
+    /**
+     * Summary of logout
+     * @param mixed $request
+     * @return array
+     */
+    public function logout($request)
+    {
+        $status = $this->userDao->logout($request);
+        if (!$status) {
+            return [
+                "result" => intval(Lang::get("messages.result.fail")),
+                "message" => Lang::get("messages.logout.fail"),
+            ];
+        }
+        return [
+            "result" => intval(Lang::get("messages.result.success")),
+            "message" => Lang::get("messages.logout.success")
+        ];
+    }
 
-  public function register($validated)
-  {
-      return $this->userDao->register($validated);
-  }
+    /**
+     * Summary of confirm register
+     * @param mixed $validated
+     */
+    public function registerconfirm($validated)
+    {
+        return $this->userDao->registerconfirm($validated);
+    }
 
-   /**
-   * Summary of logout
-   * @param Request $request
-   * @return string
-   */
-  public function logout(Request $request)
-  {
-      return $this->userDao->logout($request);
-  }
-  
-   /**
-   * Summary of confirm register
-   * @param mixed $validated
-   */
-  public function registerconfirm($validated)
-  {
-      return $this->userDao->registerconfirm($validated);
-  }
-  
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-  public function getAllUser()
-  {
-      return $this->userDao->getAllUser();
-  }
+    public function getAllUser()
+    {
+        return $this->userDao->getAllUser();
+    }
 
-     /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-  public function show($id)
-  {
-    return $users= $this->userDao->show($id);
-  }
+    public function show($id)
+    {
+        return $users = $this->userDao->show($id);
+    }
 
     /**
      * Summary of disable users
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
-  public function disableUser($id) 
-  {
-     $users= $this->userDao->disableUser($id);
-     if ($users)
-     {
-      return [
-        'result' => 1,
-        'message' => 'success'
-      ];
-     }
-     return [
-      'result' => 0,
-      'message' => 'failed'
-    ];
+    public function disableUser($id)
+    {
+        $users = $this->userDao->disableUser($id);
+        if ($users) {
+            return [
+                'result' => 1,
+                'message' => 'success'
+            ];
+        }
+        return [
+            'result' => 0,
+            'message' => 'failed'
+        ];
+    }
+
+    /**
+     * Count all User
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countUser()
+    {
+        return $this->userDao->countUser();
     }
 
     /**
@@ -107,7 +157,6 @@ class UserService implements UserServiceInterface {
      */
     public function changePassword($request)
     {
-      return $this->userDao->changePassword($request);
+        return $this->userDao->changePassword($request);
     }
-
-  }
+}

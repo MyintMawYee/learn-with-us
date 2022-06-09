@@ -4,8 +4,9 @@ namespace App\Dao\Course;
 
 use App\Contracts\Dao\Course\CourseDaoInterface;
 use App\Models\Course;
-use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Purchase;
 
 class CourseDao implements CourseDaoInterface
 {
@@ -14,16 +15,16 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return Object
      */
-    public function create(Request $request)
+    public function create($validated)
     {
         $course = Course::create([
-            'name' => $request->name,
-            'course_cover_path' => $request->course_cover_path,
-            'category_id' => $request->category_id,
-            'short_descrip' => $request->short_descrip,
-            'description' => $request->description,
-            'instructor' => $request->instructor,
-            'price' => $request->price
+            'name' => $validated['name'],
+            'course_cover_path' => $validated['course_cover_path'],
+            'category_id' => $validated['category_id'],
+            'short_descrip' => $validated['short_descrip'],
+            'description' => $validated['description'],
+            'instructor' => $validated['instructor'],
+            'price' => $validated['price']
         ]);
         return $course;
     }
@@ -45,24 +46,27 @@ class CourseDao implements CourseDaoInterface
      * @param mixed $validated
      * @return mixed
      */
-    public function update($object,Request $request)
+    public function update($id, $validated, $vdStatus)
     {
-        $object->name = $request->name;
-        $object->course_cover_path = $request->course_cover_path;
-        $object->category_id = $request->category_id;
-        $object->short_descrip = $request->short_descrip;
-        $object->description = $request->description;
-        $object->instructor = $request->instructor;
-        $object->price = $request->price;
-        $object->video()->delete();
-        $object->save();
-        return $object;
+        $updateCourse = Course::find($id);
+        $updateCourse->name = $validated["name"];
+        $updateCourse->course_cover_path = $validated['course_cover_path'];
+        $updateCourse->category_id = $validated['category_id'];
+        $updateCourse->short_descrip = $validated['short_descrip'];
+        $updateCourse->description = $validated['description'];
+        $updateCourse->instructor = $validated['instructor'];
+        $updateCourse->price = $validated['price'];
+        if ($vdStatus == 1) {
+            $updateCourse->video()->delete();
+        }
+        $updateCourse->save();
+        return $updateCourse;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function getAll()
     {
@@ -87,14 +91,12 @@ class CourseDao implements CourseDaoInterface
      * Search the specified resource from storage.
      *
      * @param  $param
-     * @return \Illuminate\Http\Response
+     * @return Object
      */
     public function searchCourse($param)
     {
         $categories = Category::all();
-
         $search_data = "%" . $param . "%";
-
         $courses = Course::where('instructor', 'like', $search_data)
             ->orWhere('price', 'like', $search_data)
             ->orWhereHas('category', function ($category) use ($search_data) {
@@ -105,24 +107,72 @@ class CourseDao implements CourseDaoInterface
 
     /**
      * Summary of getCourseMayLike
-     * @param mixed $id
-     * @return Object
+     * @param mixed $course_id
+     * @return mixed
      */
-    public function getCourseMayLike($id)
+    public function getCourseMayLike($course_id)
     {
-        return Course::where("category_id", $id)
-        ->inRandomOrder()
-        ->limit(4)
-        ->get();
+        $currentCourse = Course::find($course_id);
+        if ($currentCourse) {
+            $currentCategory = $currentCourse->category->id;
+            return Course::where("id", "!=", $course_id)
+                ->where("category_id", $currentCategory)
+                ->inRandomOrder()
+                ->limit(4)
+                ->get();
+        }
     }
 
+    /**
+     * Count all Courses
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function countCourse()
+    {
+        $courses = Course::all()->count();
+        return $courses;
+    }
+
+    /**
+     * Summary of getTopCourse
+     * @return Object
+     */
     public function getTopCourse()
     {
-        $free = Course::where('price','!=',0)
-            ->orderBy('price','DESC')
+        $free = Course::where('price', '!=', 0)
+            ->orderBy('price', 'DESC')
             ->limit(12)
             ->get();
         return $free;
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param $request
+     */
+    public function buyCourse($request)
+    {
+        $user = Purchase::create([
+            'user_id' => $request['user_id'],
+            'course_id' => $request['course_id'],
+        ]);
+        return $user->user->email;
+    }
+
+    /**
+     * Summary of show My course
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMyCourse($id)
+    {
+        return User::select('courses.*', 'categories.name as category_name')
+        ->join('purchases', 'purchases.user_id', 'users.id')
+        ->join('courses', 'courses.id', 'purchases.course_id')
+        ->join('categories', 'categories.id', 'courses.category_id')
+        ->where('users.id', '=' ,$id)
+        ->get();
+    }
 }

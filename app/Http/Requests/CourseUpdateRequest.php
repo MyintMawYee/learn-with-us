@@ -27,7 +27,7 @@ class CourseUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'course_cover_path' => 'required|mimes:jpg,jpeg|max:2000',
+            'course_cover_path' => 'nullable|mimes:jpg,jpeg,png|max:2000',
             'video_path.*' => 'mimes:mp4|max:20000',
             'category_id' => 'required|numeric',
             'short_descrip' => 'required|max:100',
@@ -48,7 +48,7 @@ class CourseUpdateRequest extends FormRequest
             'result' => 0,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ], 401));
+        ], 400));
     }
 
     /**
@@ -60,7 +60,7 @@ class CourseUpdateRequest extends FormRequest
         return [
             'name.required' => 'Name is required',
             'name.max' => 'Name must not be more than 50 characters.',
-            'course_cover_path.mimes' => 'Your image must be JPG or JPEG format.',
+            'course_cover_path.mimes' => 'Your image must be JPG or JPEG or PNG format.',
             'course_cover_path.max' => 'Your image is more than 2MB.',
             'video_path.*.mimes' => 'Your videos must be MP4 format.',
             'video_path.*.max' => 'Your videos is more than 20MB.',

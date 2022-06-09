@@ -10,4 +10,9 @@ class Purchase extends Model
         'user_id', 'course_id', 
     ];
 
+    public function user()
+    {
+        return $this-> belongsTo('App\Models\User', 'user_id');
+    }
+
 }
