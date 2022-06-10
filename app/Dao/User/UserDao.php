@@ -98,6 +98,21 @@ class UserDao implements UserDaoInterface
     }
 
     /**
+     * Summary of changePassword
+     * @param $request
+     */
+    public function changePassword($request)
+    {
+        $users = User::findorfail($request['id']);
+        //$user->password;
+        if(!Hash::check($request['old_password'],$users->password)){
+            return false;
+        }else{
+            return User::where('id', '=', $request['id'] )->update(['password' => Hash::make($request['confirm_password'])]);
+        }
+    }
+
+    /**
      * Count all User
      *
      * @return \Illuminate\Http\Response
@@ -106,14 +121,5 @@ class UserDao implements UserDaoInterface
     {
         $users = User::all()->where('type', '1')->count();
         return $users;
-    }
-
-    /**
-     * Summary of changePassword
-     * @param $request
-     */
-    public function changePassword($request)
-    {
-        return User::where('id', '=', $request['id'])->update(['password' => Hash::make($request['confirm_password'])]);
     }
 }
